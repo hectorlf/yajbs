@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PageDao;
+import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
 
 public class PageServiceImpl implements PageService {
@@ -15,13 +18,16 @@ public class PageServiceImpl implements PageService {
 	private final static Logger logger = LoggerFactory.getLogger(PageServiceImpl.class);
 
 	private final PageDao pageDao;
+	private final BlogDao blogDao;
 	
 	/* Constructores */
 	
 	@Inject
-	public PageServiceImpl(PageDao pageDao) {
+	public PageServiceImpl(PageDao pageDao, BlogDao blogDao) {
 		if (pageDao == null) throw new IllegalArgumentException("El parametro pageDao no puede ser nulo.");
+		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
 		this.pageDao = pageDao;
+		this.blogDao = blogDao;
 	}
 	
 	/* Metodos */
@@ -47,6 +53,34 @@ public class PageServiceImpl implements PageService {
 		logger.debug("Recuperando todas las páginas del sistema");
 		List<Page> pages = pageDao.getAllPages();
 		return pages;
+	}
+
+	
+	@Override
+	public void savePage(Page page, Long ownerHostId) {
+		if (page == null) throw new IllegalArgumentException("La página a guardar no puede ser nula.");
+		if (page.getId() != null) throw new IllegalArgumentException("El id de una página nueva debe ser nulo, y este no lo es: " + page.getId().toString());
+		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado a la página no puede ser nulo.");
+		logger.debug("Guardando nueva página con título: {}", page.getTitle());
+		DateTime now = new DateTime();
+		page.setLastModificationDate(now);
+		page.setPublicationDate(now);
+		Host ownerHost = blogDao.getHost(ownerHostId);
+		page.setHost(ownerHost);
+		pageDao.savePage(page);
+	}
+
+	@Override
+	public void modifyPage(Page page, Long ownerHostId) {
+		if (page == null) throw new IllegalArgumentException("La página a guardar no puede ser nula.");
+		if (page.getId() == null) throw new IllegalArgumentException("El id de una página modificada no puede ser nulo.");
+		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado a la página no puede ser nulo.");
+		logger.debug("Modificando página con título: {}", page.getTitle());
+		DateTime now = new DateTime();
+		page.setLastModificationDate(now);
+		Host ownerHost = blogDao.getHost(ownerHostId);
+		page.setHost(ownerHost);
+		pageDao.modifyPage(page);
 	}
 
 }

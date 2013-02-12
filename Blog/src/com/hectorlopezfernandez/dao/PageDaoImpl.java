@@ -68,4 +68,19 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		save(page);
 	}
 
+	// modifica una página en la base de datos
+	@Override
+	public void modifyPage(Page page) {
+		if (page == null) throw new IllegalArgumentException("El objeto page a persistir no puede ser nulo.");
+		logger.debug("Modificando page con titulo '{}' en base de datos", page.getTitle());
+		Page p = getPage(page.getId());
+		p.setContent(page.getContent());
+		if (!p.getHost().getId().equals(page.getHost().getId())) p.setHost(page.getHost());
+		p.setLastModificationDate(page.getLastModificationDate());
+		p.setMetaDescription(page.getMetaDescription());
+		p.setTitle(page.getTitle());
+		p.setTitleUrl(page.getTitleUrl());
+//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+	}
+
 }

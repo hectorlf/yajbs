@@ -7,15 +7,12 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.hectorlopezfernandez.dao.PageDao;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
-import com.hectorlopezfernandez.service.BlogService;
+import com.hectorlopezfernandez.service.PageService;
 import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
 @UrlBinding("/admin/savePage.action")
@@ -25,8 +22,7 @@ public class SavePageAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	
-	@Inject private BlogService blogService;
-	@Inject private PageDao pageDao;
+	@Inject private PageService pageService;
 
 	// campos que guarda el actionbean
 	
@@ -34,25 +30,21 @@ public class SavePageAction implements ActionBean {
 	private String title;
 	private String titleUrl;
 	private String metaDescription;
-	private String content; 
+	private String content;
 	private Long hostId;
 
 	
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a SavePageAction.execute");
-		Host h = blogService.getHost(hostId);
-		DateTime now = new DateTime();
 		Page p = new Page();
 		p.setContent(content);
-		p.setHost(h);
 		p.setId(id);
-		p.setLastModificationDate(now);
 		p.setMetaDescription(metaDescription);
-		p.setPublicationDate(now);
 		p.setTitle(title);
 		p.setTitleUrl(titleUrl);
-		pageDao.savePage(p);
+		if (id == null) pageService.savePage(p, hostId);
+		else pageService.modifyPage(p, hostId);
 		return new RedirectResolution(IndexAction.class);
 	}
 	

@@ -19,4 +19,7 @@ public interface PageDao {
 	// persiste una página
 	public void savePage(Page p);
 
+	// modifica una página
+	public void modifyPage(Page p);
+
 }

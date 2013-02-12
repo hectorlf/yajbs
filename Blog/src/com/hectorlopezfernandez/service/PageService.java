@@ -15,4 +15,11 @@ public interface PageService {
 	// recupera todas las paginas del sistema
 	public List<Page> getAllPages();
 
+	
+	// guarda una nueva pagina
+	public void savePage(Page p, Long ownerHostId);
+
+	// modifica una pagina existente
+	public void modifyPage(Page p, Long ownerHostId);
+
 }

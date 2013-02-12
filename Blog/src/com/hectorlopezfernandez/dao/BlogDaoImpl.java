@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Host;
-import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.model.Theme;
 
 public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
