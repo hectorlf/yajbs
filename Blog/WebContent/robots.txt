@@ -1,0 +1,32 @@
+Sitemap: http://www.hectorlopezfernandez.com/sitemap.xml
+
+User-agent: *
+# disallow all files in these directories
+Disallow: /tags/
+Disallow: /admin/
+Disallow: /authors/
+# disallow all files ending with these extensions
+Disallow: /*.php$
+Disallow: /*.js$
+Disallow: /*.inc$
+Disallow: /*.css$
+Disallow: /*.gz$
+Disallow: /*.wmv$
+Disallow: /*.cgi$
+Disallow: /*.xhtml$
+# disallow all files with ? in url
+Disallow: /*?*
+ 
+# disable duggmirror
+User-agent: duggmirror
+Disallow: /
+ 
+# allow google image bot to search all images
+User-agent: Googlebot-Image
+Disallow:
+Allow: /*
+ 
+# allow adsense bot on entire site
+User-agent: Mediapartners-Google*
+Disallow:
+Allow: /*

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+  <tlib-version>1.0</tlib-version>
+  <short-name>h</short-name>
+  <uri>http://www.hectorlopezfernandez.com/jsp/tags</uri>
+  <function>
+    <name>escape</name>
+    <function-class>com.hectorlopezfernandez.utils.StringEscaperTag</function-class>
+    <function-signature>java.lang.String escape(java.lang.String)</function-signature>
+  </function>
+  <function>
+    <name>toTitleCase</name>
+    <function-class>com.hectorlopezfernandez.utils.StringTitleCaserTag</function-class>
+    <function-signature>java.lang.String toTitleCase(java.lang.String)</function-signature>
+  </function>
+</taglib>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+	
+	<display-name>Blog</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	
+	<session-config>
+		<cookie-config><http-only>true</http-only></cookie-config>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+	<listener>
+		<display-name>AppInitializerContextListener</display-name>
+		<listener-class>com.hectorlopezfernandez.utils.AppInitializerContextListener</listener-class>
+	</listener>
+	
+	<listener>
+		<display-name>ShiroInitializerContextListener</display-name>
+		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+		<display-name>Persistence Session Filter</display-name>
+		<filter-name>PersistenceSessionFilter</filter-name>
+		<filter-class>com.hectorlopezfernandez.utils.PersistenceSessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PersistenceSessionFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<url-pattern>/sitemap.xml</url-pattern>
+		<url-pattern>/archive/*</url-pattern>
+		<url-pattern>/authors/*</url-pattern>
+		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/tags/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	<filter>
+		<display-name>Transaction Manager Filter</display-name>
+		<filter-name>TransactionManagerFilter</filter-name>
+		<filter-class>com.hectorlopezfernandez.utils.TransactionManagerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>TransactionManagerFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<url-pattern>/sitemap.xml</url-pattern>
+		<url-pattern>/archive/*</url-pattern>
+		<url-pattern>/authors/*</url-pattern>
+		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/tags/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+	<filter>
+		<display-name>Host Resolver Filter</display-name>
+		<filter-name>HostResolverFilter</filter-name>
+		<filter-class>com.hectorlopezfernandez.utils.HostResolverFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HostResolverFilter</filter-name>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>ShiroFilter</filter-name>
+		<filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ShiroFilter</filter-name>
+		<servlet-name>StripesDispatcher</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>UserSessionFilter</filter-name>
+		<filter-class>com.hectorlopezfernandez.utils.UserSessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserSessionFilter</filter-name>
+		<servlet-name>StripesDispatcher</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<display-name>Stripes Filter</display-name>
+		<filter-name>StripesFilter</filter-name>
+		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+		<init-param>
+			<param-name>Configuration.Class</param-name>
+			<param-value>com.hectorlopezfernandez.integration.GuiceRuntimeConfiguration</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionBeanContextFactory.Class</param-name>
+			<param-value>com.hectorlopezfernandez.integration.GuiceActionBeanContextFactory</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionResolver.Class</param-name>
+			<param-value>com.hectorlopezfernandez.integration.GuiceActionResolver</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionResolver.Packages</param-name>
+			<param-value>com.hectorlopezfernandez.action</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ActionBeanContext.Class</param-name>
+			<param-value>com.hectorlopezfernandez.utils.BlogActionBeanContext</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ExceptionHandler.Class</param-name>
+			<param-value>com.hectorlopezfernandez.utils.StripesExceptionHandler</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>*.action</url-pattern>
+		<url-pattern>/sitemap.xml</url-pattern>
+		<url-pattern>/archive/*</url-pattern>
+		<url-pattern>/authors/*</url-pattern>
+		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/tags/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>*.action</url-pattern>
+		<url-pattern>/sitemap.xml</url-pattern>
+		<url-pattern>/archive/*</url-pattern>
+		<url-pattern>/authors/*</url-pattern>
+		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/tags/*</url-pattern>
+	</servlet-mapping>
+
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/BlogDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.hectorlopezfernandez.com/jsp/tags</taglib-uri>
+			<taglib-location>/WEB-INF/h.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+	<!-- error-code related error pages -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/jsp/500.jsp</location>
+	</error-page>
+
+</web-app>

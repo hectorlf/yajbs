@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jpa_enhance_builder">
+	<path id="enhance.cp">
+		<pathelement location="${basedir}${file.separator}${build.dir}${file.separator}classes"/>
+		<fileset dir="${basedir}${file.separator}WebContent${file.separator}WEB-INF${file.separator}lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	<property name="cp" refid="enhance.cp"/>
+	<target name="build.dir.check" unless="build.dir">
+		<fail message="Please set -Dbuild.dir in your builder configuration!"/>
+	</target>
+	<target name="enhance" depends="build.dir.check">
+		<echo message="${cp}"/>
+		<taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
+			<classpath refid="enhance.cp"/>
+		</taskdef>
+		<openjpac>
+			<classpath refid="enhance.cp"/>
+			<config propertiesFile = "${basedir}${file.separator}WebContent${file.separator}META-INF${file.separator}persistence.xml"/>
+		</openjpac>
+	</target>
+</project>

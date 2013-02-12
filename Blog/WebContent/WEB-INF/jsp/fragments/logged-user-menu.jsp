@@ -1,0 +1,1 @@
+<%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><div style="float:right;margin-top:5px;">Hola, ${actionBean.context.loggedUser.username} | <stripes:link beanclass="com.hectorlopezfernandez.action.admin.IndexAction">Administraci&oacute;n</stripes:link> | <stripes:link beanclass="com.hectorlopezfernandez.action.LogoutAction">Logout</stripes:link></div>

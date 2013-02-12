@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="copy_persistence_xml">
+	<target name="copy">
+		<copy file="${basedir}${file.separator}WebContent${file.separator}META-INF${file.separator}persistence.xml" todir="${basedir}${file.separator}${build.dir}${file.separator}classes${file.separator}META-INF"/>
+	</target>
+</project>
