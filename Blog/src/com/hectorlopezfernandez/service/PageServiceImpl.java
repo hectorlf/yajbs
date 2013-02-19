@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PageDao;
+import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
 
@@ -48,6 +49,21 @@ public class PageServiceImpl implements PageService {
 		return id;
 	}
 
+	@Override
+	public PaginationInfo computePaginationOfPages(Integer page) {
+		Long pageCount = pageDao.countAllPages();
+		int total = pageCount == null ? 0 : pageCount.intValue();
+		int currentPage = page == null ? 0 : page.intValue();
+		int itemsPerPage = 10; // TODO esto quizás debería salir de alguna preferencia global
+		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
+		return pi;
+	}
+	@Override
+	public List<Page> getAllPages(PaginationInfo pi) {
+		logger.debug("Recuperando todas las páginas del sistema, con paginación. Página solicitada: {}", pi.getCurrentPage());
+		List<Page> pages = pageDao.getAllPages(pi.getFirstItem(), pi.getItemsPerPage());
+		return pages;
+	}
 	@Override
 	public List<Page> getAllPages() {
 		logger.debug("Recuperando todas las páginas del sistema");

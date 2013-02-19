@@ -38,7 +38,7 @@ public final class PaginationInfo {
 	public PaginationInfo(int page, int numItems, int total) {
 		this.itemsPerPage = numItems;
 		this.totalItemCount = total;
-		this.lastPage = 1 + (totalItemCount / itemsPerPage);
+		this.lastPage = (totalItemCount / itemsPerPage) + (totalItemCount % itemsPerPage > 0 ? 1 : 0);
 		this.currentPage = page;
 		this.currentPage = currentPage < firstPage ? firstPage : currentPage;
 		this.currentPage = currentPage > lastPage ? lastPage : currentPage;
@@ -48,6 +48,14 @@ public final class PaginationInfo {
 		this.paginationNeeded = true;
 	}
 
+	// getters sintéticos
+	
+	public boolean isOnFirstPage() {
+		return firstPage >= currentPage;
+	}
+	public boolean isOnLastPage() {
+		return lastPage <= currentPage;
+	}
 
 	// getters
 	

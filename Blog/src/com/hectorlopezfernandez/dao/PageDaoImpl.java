@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.Page;
+import com.hectorlopezfernandez.model.Post;
 
 public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 
@@ -50,6 +51,21 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		return id;
 	}
 
+	// cuenta el número total de páginas del sistema
+	@Override
+	public Long countAllPages() {
+		String q = "select count(p.id) from Page p";
+		Long count = count(q, null);
+		return count;
+	}
+	// recupera todas las páginas del sistema con paginación, ordenadas por id descendentemente
+	@Override
+	public List<Page> getAllPages(int firstResult, int maxResults) {
+		logger.debug("Recuperando {} elementos de todas las páginas del sistema. Primer elemento: {}", maxResults, firstResult);
+		List<Page> pages = find("select p from Page p order by p.id desc", null, Page.class, firstResult, maxResults);
+		if (pages.size() == 0) return Collections.emptyList();
+		return pages;
+	}
 	// recupera todas las páginas del sistema
 	@Override
 	public List<Page> getAllPages() {

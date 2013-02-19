@@ -1,11 +1,16 @@
 <%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>	<aside id="sidebar" class="column">
-		<h3>Content</h3>
+		<h3>Entradas</h3>
 		<ul class="toggle">
+			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPostsAction">Listado de entradas</stripes:link></li>
 			<li class="icn_new_article"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewPostAction">Nueva entrada</stripes:link></li>
 			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-			<li class="icn_categories"><a href="#">Categories</a></li>
 			<li class="icn_tags"><a href="#">Tags</a></li>
+		</ul>
+		<h3>P&aacute;ginas</h3>
+		<ul class="toggle">
+			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction">Listado de p&aacute;ginas</stripes:link></li>
 			<li class="icn_new_article"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewPageAction">Nueva p&aacute;gina</stripes:link></li>
+			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
 		</ul>
 		<h3>Users</h3>
 		<ul class="toggle">

@@ -57,7 +57,7 @@ public class SavePostAction implements ActionBean {
 		p.setTitleUrl(titleUrl);
 		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
 		else postService.modifyPost(p, hostId, authorId, tagIds);
-		return new RedirectResolution(IndexAction.class);
+		return new RedirectResolution(ListPostsAction.class);
 	}
 	
 	// Getters y setters

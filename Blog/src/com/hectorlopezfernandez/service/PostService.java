@@ -46,7 +46,11 @@ public interface PostService {
 	// recupera el id de un post por el título adaptado a url, filtrando además por la fecha de archivo
 	public Long findPostId(String titleUrl, int year, int month, int day);
 
-	// recupera todos los posts del sistema
+	// calcula los valores de paginacion para todos los posts del sistema
+	public PaginationInfo computePaginationOfPosts(Integer page);
+	// recupera todos los posts del sistema, usando paginación
+	public List<Post> getAllPosts(PaginationInfo pi);
+	// recupera todos los posts del sistema ordenados por id descendentemente
 	public List<Post> getAllPosts();
 	
 	

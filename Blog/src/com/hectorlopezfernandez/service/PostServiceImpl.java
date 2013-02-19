@@ -138,7 +138,23 @@ public class PostServiceImpl implements PostService {
 		Long id = postDao.findPostId(year, month, day, titleUrl);
 		return id;
 	}
-	
+
+	@Override
+	public PaginationInfo computePaginationOfPosts(Integer page) {
+		Long postCount = postDao.countAllPosts();
+		int total = postCount == null ? 0 : postCount.intValue();
+		int currentPage = page == null ? 0 : page.intValue();
+		int itemsPerPage = 10; // TODO esto quizás debería salir de alguna preferencia global
+		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
+		return pi;
+	}
+	@Override
+	public List<Post> getAllPosts(PaginationInfo pi) {
+		if (pi == null) throw new IllegalArgumentException("El objeto de paginación no puede ser nulo.");
+		logger.debug("Recuperando todos los posts del sistema, con paginación. Página solicitada: {}", pi.getCurrentPage());
+		List<Post> posts = postDao.getAllPosts(pi.getFirstItem(), pi.getItemsPerPage());
+		return posts;
+	}
 	@Override
 	public List<Post> getAllPosts() {
 		logger.debug("Recuperando todos los posts del sistema");

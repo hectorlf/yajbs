@@ -46,6 +46,10 @@ public interface PostDao {
 	// recupera el id de un post por el título adaptado a url y la fecha de publicacion
 	public Long findPostId(int year, int month, int day, String titleUrl);
 
+	// cuenta el número total de posts en el sistema
+	public Long countAllPosts();
+	// recupera todos los posts del sistema con paginación, sin ningún eager fecth y ordenados por id descendente
+	public List<Post> getAllPosts(int firstResult, int maxResults);
 	// recupera todos los posts del sistema, sin ningún eager fecth
 	public List<Post> getAllPosts();
 

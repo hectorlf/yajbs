@@ -12,6 +12,10 @@ public interface PageDao {
 	// recupera el id de una página por el título adaptado a url
 	public Long findPageId(String titleUrl);
 
+	// cuenta el número total de páginas en el sistema
+	public Long countAllPages();
+	// recupera todas las páginas del sistema con paginación, sin ningún eager fecth y ordenadas por id descendente
+	public List<Page> getAllPages(int firstResult, int maxResults);
 	// recupera todas las páginas del sistema
 	public List<Page> getAllPages();
 	

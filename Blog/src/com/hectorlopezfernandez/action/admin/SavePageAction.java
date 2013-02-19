@@ -45,7 +45,7 @@ public class SavePageAction implements ActionBean {
 		p.setTitleUrl(titleUrl);
 		if (id == null) pageService.savePage(p, hostId);
 		else pageService.modifyPage(p, hostId);
-		return new RedirectResolution(IndexAction.class);
+		return new RedirectResolution(ListPagesAction.class);
 	}
 	
 	// Getters y setters

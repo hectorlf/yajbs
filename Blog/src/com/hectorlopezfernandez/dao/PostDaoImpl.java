@@ -232,8 +232,23 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		Long id = ids.get(0);
 		return id;
 	}
-	
-	// recupera todas las páginas del sistema
+
+	// cuenta el número total de posts del sistema
+	@Override
+	public Long countAllPosts() {
+		String q = "select count(p.id) from Post p";
+		Long count = count(q, null);
+		return count;
+	}
+	// recupera todos los posts del sistema con paginación, ordenados por id descendentemente
+	@Override
+	public List<Post> getAllPosts(int firstResult, int maxResults) {
+		logger.debug("Recuperando {} elementos de todos los posts del sistema. Primer elemento: {}", maxResults, firstResult);
+		List<Post> posts = find("select p from Post p order by p.id desc", null, Post.class, firstResult, maxResults);
+		if (posts.size() == 0) return Collections.emptyList();
+		return posts;
+	}
+	// recupera todos los posts del sistema
 	@Override
 	public List<Post> getAllPosts() {
 		logger.debug("Recuperando todos los posts del sistema");
