@@ -3,6 +3,7 @@ package com.hectorlopezfernandez.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -10,7 +11,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PostDao;
+import com.hectorlopezfernandez.dao.UserDao;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Comment;
@@ -24,13 +27,19 @@ public class PostServiceImpl implements PostService {
 	private final static Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
 	private final PostDao postDao;
+	private final BlogDao blogDao;
+	private final UserDao userDao;
 	
 	/* Constructores */
 	
 	@Inject
-	public PostServiceImpl(PostDao postDao) {
+	public PostServiceImpl(PostDao postDao, BlogDao blogDao, UserDao userDao) {
 		if (postDao == null) throw new IllegalArgumentException("El parametro postDao no puede ser nulo.");
+		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
+		if (userDao == null) throw new IllegalArgumentException("El parametro userDao no puede ser nulo.");
 		this.postDao = postDao;
+		this.blogDao = blogDao;
+		this.userDao = userDao;
 	}
 	
 	/* Metodos */
@@ -138,6 +147,56 @@ public class PostServiceImpl implements PostService {
 	}
 
 
+	@Override
+	public void savePost(Post post, Long ownerHostId, Long authorId, Set<Long> tagIds) {
+		if (post == null) throw new IllegalArgumentException("El post a guardar no puede ser nulo.");
+		if (post.getId() != null) throw new IllegalArgumentException("El id de un post nuevo debe ser nulo, y este no lo es: " + post.getId().toString());
+		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado al post no puede ser nulo.");
+		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
+		logger.debug("Guardando nuevo post con título: {}", post.getTitle());
+		DateTime now = new DateTime();
+		post.setLastModificationDate(now);
+		post.setPublicationDate(now);
+		ArchiveEntry ae = postDao.findArchiveEntryCreateIfNotExists(now.getYear(), now.getMonthOfYear());
+		post.setArchiveEntry(ae);
+		Host ownerHost = blogDao.getHost(ownerHostId);
+		post.setHost(ownerHost);
+		Author author = userDao.getAuthorById(authorId);
+		post.setAuthor(author);
+		if (tagIds != null && tagIds.size() > 0) {
+			List<Tag> tags = new ArrayList<Tag>(tagIds.size());
+			for (Long tagId : tagIds) {
+				tags.add(postDao.getTag(tagId));
+			}
+			post.setTags(tags);
+		}
+		postDao.savePost(post);
+	}
+
+	@Override
+	public void modifyPost(Post post, Long ownerHostId, Long authorId, Set<Long> tagIds) {
+		if (post == null) throw new IllegalArgumentException("El post a modificar no puede ser nulo.");
+		if (post.getId() == null) throw new IllegalArgumentException("El id de un post modificado no puede ser nulo.");
+		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado al post no puede ser nulo.");
+		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
+		logger.debug("Modificando post con título: {}", post.getTitle());
+		DateTime now = new DateTime();
+		post.setLastModificationDate(now);
+		Host ownerHost = blogDao.getHost(ownerHostId);
+		post.setHost(ownerHost);
+		Author author = userDao.getAuthorById(authorId);
+		post.setAuthor(author);
+		if (tagIds != null && tagIds.size() > 0) {
+			List<Tag> tags = new ArrayList<Tag>(tagIds.size());
+			for (Long tagId : tagIds) {
+				tags.add(postDao.getTag(tagId));
+			}
+			post.setTags(tags);
+		}
+		postDao.modifyPost(post);
+	}
+
+	
 	/** COMMENTS **/
 	
 	@Override

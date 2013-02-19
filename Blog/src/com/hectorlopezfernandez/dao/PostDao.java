@@ -48,9 +48,13 @@ public interface PostDao {
 
 	// recupera todos los posts del sistema, sin ningún eager fecth
 	public List<Post> getAllPosts();
+
 	
 	// persiste un post
-	public void savePost(Post p);
+	public void savePost(Post post);
+
+	// modifica un post
+	public void modifyPost(Post post);
 
 	
 	/** COMMENTS **/

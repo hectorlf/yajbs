@@ -2,8 +2,11 @@ package com.hectorlopezfernandez.dao;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -238,6 +241,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		if (posts.size() == 0) return Collections.emptyList();
 		return posts;
 	}
+
 	
 	// inserta un post en la base de datos
 	@Override
@@ -245,6 +249,50 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		if (post == null) throw new IllegalArgumentException("El objeto post a persistir no puede ser nulo.");
 		logger.debug("Insertando post con titulo '{}' en base de datos", post.getTitle());
 		save(post);
+	}
+
+	// modifica un post en la base de datos
+	@Override
+	public void modifyPost(Post post) {
+		if (post == null) throw new IllegalArgumentException("El objeto post a persistir no puede ser nulo.");
+		logger.debug("Modificando post con titulo '{}' en base de datos", post.getTitle());
+		Post dbp = getPost(post.getId());
+		if (!dbp.getAuthor().getId().equals(post.getAuthor().getId())) dbp.setAuthor(post.getAuthor());
+		dbp.setCommentsClosed(post.isCommentsClosed());
+		dbp.setContent(post.getContent());
+		dbp.setExcerpt(post.getExcerpt());
+		dbp.setHeaderImageUrl(post.getHeaderImageUrl());
+		if (!dbp.getHost().getId().equals(post.getHost().getId())) dbp.setHost(post.getHost());
+		dbp.setLastModificationDate(post.getLastModificationDate());
+		dbp.setMetaDescription(post.getMetaDescription());
+		dbp.setSideImageUrl(post.getSideImageUrl());
+		dbp.setTitle(post.getTitle());
+		dbp.setTitleUrl(post.getTitleUrl());
+		// los tags tienen un procesado especial, ya que hay que eliminar e insertar en la coleccion segun el caso
+		List<Tag> emptyList = Collections.emptyList();
+		if (post.getTags() == null) post.setTags(emptyList);
+		if (dbp.getTags() == null) dbp.setTags(emptyList);
+		Set<Long> newTagsIds = new HashSet<Long>(post.getTags().size());
+		for (Tag tag : post.getTags()) {
+			newTagsIds.add(tag.getId());
+		}
+		Set<Long> oldTagsIds = new HashSet<Long>(dbp.getTags().size());
+		for (Tag tag : dbp.getTags()) {
+			oldTagsIds.add(tag.getId());
+		}
+		// primero se eliminan los que ya no van a estar
+		Iterator<Tag> oldTagsIterator = dbp.getTags().iterator();
+		while (oldTagsIterator.hasNext()) {
+			Tag t = oldTagsIterator.next();
+			if (!newTagsIds.contains(t.getId())) oldTagsIterator.remove();
+		}
+		// por último se añaden los nuevos tags
+		Iterator<Tag> newTagsIterator = post.getTags().iterator();
+		while (newTagsIterator.hasNext()) {
+			Tag t = newTagsIterator.next();
+			if (!oldTagsIds.contains(t.getId())) dbp.getTags().add(t);
+		}
+//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
 	}
 
 

@@ -1,6 +1,7 @@
 package com.hectorlopezfernandez.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Comment;
@@ -47,6 +48,13 @@ public interface PostService {
 
 	// recupera todos los posts del sistema
 	public List<Post> getAllPosts();
+	
+	
+	// persiste un nuevo post
+	public void savePost(Post p, Long hostId, Long authorId, Set<Long> tagIds);
+	
+	// modifica un post existente
+	public void modifyPost(Post p, Long hostId, Long authorId, Set<Long> tagIds);
 
 	
 	/** COMMENTS **/

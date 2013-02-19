@@ -66,4 +66,10 @@ public class NewPageAction implements ActionBean {
 		return editing;
 	}
 
+	// HACK! getters necesarios para evitar un null pointer en el EL de JSP
+	public String getTitle() { return null;	}
+	public String getTitleUrl() { return null; }
+	public String getMetaDescription() { return null; }
+	public String getContent() { return null; }
+
 }
