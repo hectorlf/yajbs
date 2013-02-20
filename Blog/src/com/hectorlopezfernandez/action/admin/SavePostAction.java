@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.utils.BlogActionBeanContext;
@@ -25,6 +26,7 @@ public class SavePostAction implements ActionBean {
 	private BlogActionBeanContext ctx;
 	
 	@Inject private PostService postService;
+	@Inject private PostDao postDao;
 
 	// campos que guarda el actionbean
 	
@@ -57,6 +59,8 @@ public class SavePostAction implements ActionBean {
 		p.setTitleUrl(titleUrl);
 		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
 		else postService.modifyPost(p, hostId, authorId, tagIds);
+		// TODO encontrar otra forma de actualizar la cuenta de posts etiquetados en un tag
+		postDao.updateTagRefCounts();
 		return new RedirectResolution(ListPostsAction.class);
 	}
 	
@@ -69,6 +73,10 @@ public class SavePostAction implements ActionBean {
 	@Override
 	public void setContext(ActionBeanContext ctx) {
 		this.ctx = (BlogActionBeanContext)ctx;
+	}
+
+	public void setPostDao(PostDao postDao) {
+		this.postDao = postDao;
 	}
 
 	public void setPostService(PostService postService) {

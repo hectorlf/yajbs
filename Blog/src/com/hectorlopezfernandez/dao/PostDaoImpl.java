@@ -421,4 +421,22 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return id;
 	}
 
+	
+	
+	
+	// actualiza el contador de referencias de cada Tag
+	public void updateTagRefCounts() {
+		logger.debug("Actualizando los campos count de cada objeto Tag.");
+		List<Tag> tags = find("select t from Tag t", null, Tag.class);
+		for (Tag tag : tags) {
+//			String q = "select count(p.id) from Post p join p.tags t where t.id = :id";
+			String q = "select count(p.id) from Post p where :tag member of p.tags";
+			Map<String,Object> params = new HashMap<String,Object>(1);
+//			params.put("id", tag.getId());
+			params.put("tag", tag);
+			Long count = count(q, params);
+			tag.setCount(count.intValue());
+		}
+	}
+
 }

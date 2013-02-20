@@ -96,5 +96,9 @@ public interface PostDao {
 
 	// recupera el id de un tag por el nombre adaptado a url
 	public Long findTagId(String nameUrl);
+	
+	// FIXME vomitivo
+	// actualiza el contador de referencias de cada Tag
+	public void updateTagRefCounts();
 
 }
