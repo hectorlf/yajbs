@@ -48,7 +48,7 @@
 	    				<td><c:choose><c:when test="${post.commentsClosed}">Cerrados</c:when><c:otherwise>Abiertos</c:otherwise></c:choose> | ${fn:length(post.comments)} comentarios</td>
 	    				<td>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPostAction"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_edit.png" title="Editar entrada"></stripes:link>
-	    					<img type="image" src="images/icn_trash.png" title="Trash">
+	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePostAction"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_trash.png" title="Borrar entrada"></stripes:link>
 	    				</td>
 					</tr>
 </c:forEach>

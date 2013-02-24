@@ -60,6 +60,9 @@ public interface PostService {
 	// modifica un post existente
 	public void modifyPost(Post p, Long hostId, Long authorId, Set<Long> tagIds);
 
+	// borra un post
+	public void deletePost(Long id);
+
 	
 	/** COMMENTS **/
 	

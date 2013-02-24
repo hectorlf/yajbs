@@ -99,4 +99,11 @@ public class PageServiceImpl implements PageService {
 		pageDao.modifyPage(page);
 	}
 
+	@Override
+	public void deletePage(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id de la página a borrar no puede ser nulo.");
+		logger.debug("Borrando página con id: {}", id);
+		pageDao.deletePage(id);
+	}
+
 }

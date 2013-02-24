@@ -34,6 +34,13 @@ public abstract class BaseDaoImpl {
 		T obj = em.find(cls, id);
 		return obj;
 	}
+	final protected <T extends PersistentObject> T getReference(Serializable id, Class<T> cls) {
+		assert(id != null);
+		assert(cls != null);
+		logger.debug("Recuperando referencia a entidad {} con id: {}", cls.getSimpleName(), id);
+		T obj = em.getReference(cls, id);
+		return obj;
+	}
 
 	final protected <T extends PersistentObject> List<T> find(String query, Map<String,Object> namedParams, Class<T> cls) {
 		assert(query != null && query.length() > 0);
@@ -120,6 +127,12 @@ public abstract class BaseDaoImpl {
 		assert(obj != null);
 		logger.debug("Persistiendo entidad {} en base de datos", obj.getClass().getSimpleName());
 		em.persist(obj);
+	}
+
+	final protected <T extends PersistentObject> void delete(T obj) {
+		assert(obj != null);
+		logger.debug("Borrando entidad {} de la base de datos", obj.getClass().getSimpleName());
+		em.remove(obj);
 	}
 
 

@@ -26,4 +26,7 @@ public interface PageDao {
 	// modifica una página
 	public void modifyPage(Page p);
 
+	// borra una página
+	public void deletePage(Long id);
+
 }

@@ -76,7 +76,7 @@ public class Post extends PersistentObject {
 	@Column(name="comments_closed")
 	private boolean commentsClosed;
 
-	@OneToMany(mappedBy="post")
+	@OneToMany(mappedBy="post",orphanRemoval=true)
 	private List<Comment> comments;
 
 	@ManyToOne(fetch=FetchType.LAZY,optional=false)

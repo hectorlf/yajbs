@@ -310,6 +310,15 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 //		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
 	}
 
+	// borra un post de la base de datos
+	@Override
+	public void deletePost(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id del post a borrar no puede ser nulo.");
+		logger.debug("Borrando post con id {} de la base de datos", id);
+		Post p = getReference(id, Post.class);
+		delete(p);
+	}
+
 
 	/** COMMENTS **/
 
@@ -377,6 +386,27 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		ae.setYear(year);
 		save(ae);
 		return ae;
+	}
+
+	// cuenta el número de posts asociados a una entrada de archivo
+	@Override
+	public int countPostsForArchiveEntry(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id de la entrada de archivo a contar no puede ser nulo.");
+		String q = "select count(p.id) from Post p where p.archiveEntry.id = :archiveEntryId";
+		Map<String,Object> params = new HashMap<String,Object>(1);
+		params.put("archiveEntryId", id);
+		Long count = count(q, params);
+		if (count == null) return 0;
+		return count.intValue();
+	}
+
+	// borra una entrada de archivo de la base de datos
+	@Override
+	public void deleteArchiveEntry(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id de la entrada de archivo a borrar no puede ser nulo.");
+		logger.debug("Borrando archiveentry con id {} de la base de datos", id);
+		ArchiveEntry ae = getReference(id, ArchiveEntry.class);
+		delete(ae);
 	}
 
 

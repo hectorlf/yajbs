@@ -27,4 +27,7 @@ public interface PageService {
 	// modifica una pagina existente
 	public void modifyPage(Page p, Long ownerHostId);
 
+	// borra una pagina
+	public void deletePage(Long id);
+
 }

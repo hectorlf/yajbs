@@ -60,6 +60,9 @@ public interface PostDao {
 	// modifica un post
 	public void modifyPost(Post post);
 
+	// borra un post
+	public void deletePost(Long id);
+
 	
 	/** COMMENTS **/
 	
@@ -81,6 +84,12 @@ public interface PostDao {
 
 	// busca una entrada de archivo por su fecha y la devuelve. si no existe, la crea
 	public ArchiveEntry findArchiveEntryCreateIfNotExists(int year, int month);
+
+	// cuenta el número de posts que tiene asociados una entrada de archivo
+	public int countPostsForArchiveEntry(Long archiveEntryId);
+
+	// borra una entrada de archivo
+	public void deleteArchiveEntry(Long id);
 
 
 	/** TAGS **/

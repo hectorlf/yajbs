@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.Page;
-import com.hectorlopezfernandez.model.Post;
 
 public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 
@@ -97,6 +96,15 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		p.setTitle(page.getTitle());
 		p.setTitleUrl(page.getTitleUrl());
 //		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+	}
+
+	// borra una página de la base de datos
+	@Override
+	public void deletePage(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id de la pagina a borrar no puede ser nulo.");
+		logger.debug("Borrando page con id {} de la base de datos", id);
+		Page p = getReference(id, Page.class);
+		delete(p);
 	}
 
 }

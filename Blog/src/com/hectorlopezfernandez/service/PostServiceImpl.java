@@ -14,13 +14,13 @@ import org.slf4j.LoggerFactory;
 import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dao.UserDao;
+import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Comment;
-import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.dto.PaginationInfo;
 
 public class PostServiceImpl implements PostService {
 
@@ -212,7 +212,19 @@ public class PostServiceImpl implements PostService {
 		postDao.modifyPost(post);
 	}
 
-	
+	@Override
+	public void deletePost(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id del post a borrar no puede ser nulo.");
+		logger.debug("Borrando post con id: {}", id);
+		Post p = postDao.getPost(id);
+		// se recupera la entrada de archivo para borrarla si ya no es necesaria
+		ArchiveEntry ae = p.getArchiveEntry();
+		postDao.deletePost(id);
+		int remainingPostCount = postDao.countPostsForArchiveEntry(ae.getId());
+		if (remainingPostCount < 1) postDao.deleteArchiveEntry(ae.getId());
+	}
+
+
 	/** COMMENTS **/
 	
 	@Override

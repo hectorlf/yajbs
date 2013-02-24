@@ -42,7 +42,7 @@
 	    				<td><joda:format value="${page.publicationDate}" style="SS" locale="es_ES"/></td>
 	    				<td>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPageAction"><stripes:param name="id" value="${page.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_edit.png" title="Editar p&aacute;gina"></stripes:link>
-	    					<img type="image" src="images/icn_trash.png" title="Trash">
+	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePageAction"><stripes:param name="id" value="${page.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_trash.png" title="Borrar p&aacute;gina"></stripes:link>
 	    				</td>
 					</tr>
 </c:forEach>
