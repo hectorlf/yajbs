@@ -412,14 +412,6 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	/** TAGS **/
 
-	// recupera la lista de todas las etiquetas de la base de datos
-	@Override
-	public List<Tag> listTags() {
-		logger.debug("Recuperando todas las entradas de archivo.");
-		List<Tag> tags = find("select t from Tag t order by t.name asc", null, Tag.class);
-		return tags;
-	}
-
 	// recupera una lista de tags populares, para presentar en el footer
 	@Override
 	public List<Tag> findMostPopularTagsForFooter(int numTags) {
@@ -451,9 +443,61 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return id;
 	}
 
-	
-	
-	
+	// cuenta el número total de tags del sistema
+	@Override
+	public Long countAllTags() {
+		String q = "select count(t.id) from Tag t";
+		Long count = count(q, null);
+		return count;
+	}
+	// recupera todos los tags del sistema con paginación, ordenados por id descendentemente
+	@Override
+	public List<Tag> getAllTags(int firstResult, int maxResults) {
+		logger.debug("Recuperando {} elementos de todos los tags del sistema. Primer elemento: {}", maxResults, firstResult);
+		List<Tag> tags = find("select t from Tag t order by t.id desc", null, Tag.class, firstResult, maxResults);
+		if (tags.size() == 0) return Collections.emptyList();
+		return tags;
+	}
+	// recupera todos los tags del sistema
+	@Override
+	public List<Tag> getAllTags() {
+		logger.debug("Recuperando todos los tags del sistema");
+		List<Tag> tags = find("select t from Tag t order by t.id desc", null, Tag.class);
+		if (tags.size() == 0) return Collections.emptyList();
+		return tags;
+	}
+
+
+	// inserta un tag en la base de datos
+	@Override
+	public void saveTag(Tag tag) {
+		if (tag == null) throw new IllegalArgumentException("El objeto tag a persistir no puede ser nulo.");
+		logger.debug("Insertando tag con nombre '{}' en base de datos", tag.getName());
+		save(tag);
+	}
+
+	// modifica un tag en la base de datos
+	@Override
+	public void modifyTag(Tag tag) {
+		if (tag == null) throw new IllegalArgumentException("El objeto tag a persistir no puede ser nulo.");
+		logger.debug("Modificando tag con nombre '{}' en base de datos", tag.getName());
+		Tag dbt = getTag(tag.getId());
+		dbt.setName(tag.getName());
+		dbt.setNameUrl(tag.getNameUrl());
+//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+	}
+
+	// borra un tag de la base de datos
+	@Override
+	public void deleteTag(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id del tag a borrar no puede ser nulo.");
+		logger.debug("Borrando tag con id {} de la base de datos", id);
+		Tag t = getReference(id, Tag.class);
+		delete(t);
+	}
+
+
+
 	// actualiza el contador de referencias de cada Tag
 	public void updateTagRefCounts() {
 		logger.debug("Actualizando los campos count de cada objeto Tag.");

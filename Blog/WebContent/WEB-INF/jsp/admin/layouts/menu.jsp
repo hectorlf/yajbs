@@ -4,7 +4,11 @@
 			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPostsAction">Listado de entradas</stripes:link></li>
 			<li class="icn_new_article"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewPostAction">Nueva entrada</stripes:link></li>
 			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
-			<li class="icn_tags"><a href="#">Tags</a></li>
+		</ul>
+		<h3>Etiquetas</h3>
+		<ul class="toggle">
+			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListTagsAction">Listado de etiquetas</stripes:link></li>
+			<li class="icn_tags"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewTagAction">Nueva etiqueta</stripes:link></li>
 		</ul>
 		<h3>P&aacute;ginas</h3>
 		<ul class="toggle">

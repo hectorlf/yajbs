@@ -1,8 +1,12 @@
 package com.hectorlopezfernandez.model;
 
+import java.util.Collection;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +24,9 @@ public class Tag extends PersistentObject {
 	@Basic(optional=false)
 	@Column(name="ref_count")
 	private int count;
+
+	@ManyToMany(mappedBy="tags",fetch=FetchType.LAZY)
+	private Collection<Post> posts;
 
 
 	// utility methods

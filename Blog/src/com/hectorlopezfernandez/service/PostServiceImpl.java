@@ -295,11 +295,27 @@ public class PostServiceImpl implements PostService {
 		if (results.size() == 0) return Collections.emptyList();
 		return results;
 	}
-	
+
+	@Override
+	public PaginationInfo computePaginationOfTags(Integer page) {
+		Long tagCount = postDao.countAllTags();
+		int total = tagCount == null ? 0 : tagCount.intValue();
+		int currentPage = page == null ? 0 : page.intValue();
+		int itemsPerPage = 10; // TODO esto quizás debería salir de alguna preferencia global
+		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
+		return pi;
+	}
+	@Override
+	public List<Tag> getAllTags(PaginationInfo pi) {
+		if (pi == null) throw new IllegalArgumentException("El objeto de paginación no puede ser nulo.");
+		logger.debug("Recuperando todos los tags del sistema, con paginación. Página solicitada: {}", pi.getCurrentPage());
+		List<Tag> tags = postDao.getAllTags(pi.getFirstItem(), pi.getItemsPerPage());
+		return tags;
+	}
 	@Override
 	public List<Tag> getAllTags() {
 		logger.debug("Recuperando todas las etiquetas.");
-		List<Tag> results = postDao.findMostPopularTagsForFooter(100);
+		List<Tag> results = postDao.getAllTags();
 		if (results.size() == 0) return Collections.emptyList();
 		return results;
 	}
@@ -318,6 +334,30 @@ public class PostServiceImpl implements PostService {
 		logger.debug("Buscando id de tag por nombre url: {}", nameUrl);
 		Long id = postDao.findTagId(nameUrl);
 		return id;
+	}
+
+
+	@Override
+	public void saveTag(Tag tag) {
+		if (tag == null) throw new IllegalArgumentException("El tag a guardar no puede ser nulo.");
+		if (tag.getId() != null) throw new IllegalArgumentException("El id de un tag nuevo debe ser nulo, y este no lo es: " + tag.getId().toString());
+		logger.debug("Guardando nuevo tag con nombre: {}", tag.getName());
+		postDao.saveTag(tag);
+	}
+
+	@Override
+	public void modifyTag(Tag tag) {
+		if (tag == null) throw new IllegalArgumentException("El tag a modificar no puede ser nulo.");
+		if (tag.getId() == null) throw new IllegalArgumentException("El id de un tag modificado no puede ser nulo.");
+		logger.debug("Modificando tag con nombre: {}", tag.getName());
+		postDao.modifyTag(tag);
+	}
+
+	@Override
+	public void deleteTag(Long id) {
+		if (id == null) throw new IllegalArgumentException("El id del tag a borrar no puede ser nulo.");
+		logger.debug("Borrando tag con id: {}", id);
+		postDao.deleteTag(id);
 	}
 
 }
