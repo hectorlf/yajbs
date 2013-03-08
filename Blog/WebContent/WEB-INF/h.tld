@@ -15,4 +15,9 @@
     <function-class>com.hectorlopezfernandez.utils.StringTitleCaserTag</function-class>
     <function-signature>java.lang.String toTitleCase(java.lang.String)</function-signature>
   </function>
+  <function>
+    <name>limitLength</name>
+    <function-class>com.hectorlopezfernandez.utils.StringLengthLimiterTag</function-class>
+    <function-signature>java.lang.String limitLength(java.lang.String,int)</function-signature>
+  </function>
 </taglib>

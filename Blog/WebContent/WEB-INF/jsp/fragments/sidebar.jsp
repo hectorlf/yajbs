@@ -1,10 +1,5 @@
 		<li id="firstsidebar" role="complementary" class="el2"> <!-- begin firstsidebar -->
-			<aside id="search-3" class="side-widget widget_search">
-				<form role="search" method="get" id="searchform" action="">
-					<label class="assistive-text" for="s">Search for:</label>
-					<input type="search" placeholder="Search..." value="" name="s" id="s">
-				</form>
-			</aside>
+<%@include file="/WEB-INF/jsp/fragments/small-search-bar.jsp"%>
 			<aside id="who" class="side-widget">
 				<header><h3>¿Qui&eacute;n?</h3></header>
 				<article id="who" class="post side-featured odd">
@@ -24,7 +19,7 @@
 				<article id="how" class="post side-featured odd">
 				    <div class="storycontent">
 						<p class="excerpt">Este blog es el resultado de unos cuantos ratos de trasteo y tiene su hogar en una aplicaci&oacute;n de cosecha propia. Es, pr&aacute;cticamente, mi &quot;portafolio tecnol&oacute;gico&quot; y mi banco de pruebas.</p><br>
-						<p class="excerpt">Sobre <a href="http://tomcat.apache.org/">Apache Tomcat</a>, y servido desde una instancia de <a href="http://aws.amazon.com">Amazon Web Services</a>, este clon venido a menos de <a href="http://wordpress.org">Wordpress</a> combina <a href="http://www.mysql.com">MySQL</a>, <a href="http://openjpa.apache.org">OpenJPA</a>, <a href="http://code.google.com/p/google-guice/">Google Guice</a> y <a href="http://www.stripesframework.org">Stripes Framework</a> con otras cuantas librer&iacute;as opensource para ofrecer lo que est&aacute;s viendo.</p>
+						<p class="excerpt">Sobre <a href="http://tomcat.apache.org/">Apache Tomcat</a>, y servido desde una instancia de <a href="http://aws.amazon.com">Amazon Web Services</a>, este clon venido a menos de <a href="http://wordpress.org">Wordpress</a> combina <a href="http://www.mysql.com">MySQL</a>, <a href="http://openjpa.apache.org">OpenJPA</a>, <a href="http://lucene.apache.org">Lucene</a>, <a href="http://code.google.com/p/google-guice/">Google Guice</a> y <a href="http://www.stripesframework.org">Stripes Framework</a> con otras cuantas librer&iacute;as opensource para ofrecer lo que est&aacute;s viendo.</p>
 					</div>
 				</article>
 			</aside>

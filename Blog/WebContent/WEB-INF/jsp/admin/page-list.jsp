@@ -10,13 +10,13 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="es-ES">
 
-<%@include file="/WEB-INF/jsp/admin/layouts/head.jsp"%>
+<%@include file="/WEB-INF/jsp/admin/fragments/head.jsp"%>
 
 <body>
 
-<%@include file="/WEB-INF/jsp/admin/layouts/header.jsp"%>
+<%@include file="/WEB-INF/jsp/admin/fragments/header.jsp"%>
 
-<%@include file="/WEB-INF/jsp/admin/layouts/menu.jsp"%>
+<%@include file="/WEB-INF/jsp/admin/fragments/menu.jsp"%>
 
 	<section id="main" class="column">
 		<article class="module width_full">

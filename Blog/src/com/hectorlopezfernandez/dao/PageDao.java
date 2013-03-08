@@ -20,8 +20,8 @@ public interface PageDao {
 	public List<Page> getAllPages();
 	
 	
-	// persiste una página
-	public void savePage(Page p);
+	// persiste una página y devuelve el id generado
+	public Long savePage(Page p);
 
 	// modifica una página
 	public void modifyPage(Page p);

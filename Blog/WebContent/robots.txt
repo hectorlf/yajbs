@@ -16,6 +16,8 @@ Disallow: /*.cgi$
 Disallow: /*.xhtml$
 # disallow all files with ? in url
 Disallow: /*?*
+# disallow onsite search
+Disallow: /search*
  
 # disable duggmirror
 User-agent: duggmirror

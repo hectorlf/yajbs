@@ -20,15 +20,18 @@ public class PageServiceImpl implements PageService {
 
 	private final PageDao pageDao;
 	private final BlogDao blogDao;
+	private final SearchService searchService;
 	
 	/* Constructores */
 	
 	@Inject
-	public PageServiceImpl(PageDao pageDao, BlogDao blogDao) {
+	public PageServiceImpl(PageDao pageDao, BlogDao blogDao, SearchService searchService) {
 		if (pageDao == null) throw new IllegalArgumentException("El parametro pageDao no puede ser nulo.");
 		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
+		if (searchService == null) throw new IllegalArgumentException("El parametro searchService no puede ser nulo.");
 		this.pageDao = pageDao;
 		this.blogDao = blogDao;
+		this.searchService = searchService;
 	}
 	
 	/* Metodos */
@@ -83,7 +86,10 @@ public class PageServiceImpl implements PageService {
 		page.setPublicationDate(now);
 		Host ownerHost = blogDao.getHost(ownerHostId);
 		page.setHost(ownerHost);
-		pageDao.savePage(page);
+		Long nId = pageDao.savePage(page);
+		// se indexa la pagina creada
+		Page np = pageDao.getPage(nId);
+		searchService.addPageToIndex(np);
 	}
 
 	@Override
@@ -97,6 +103,9 @@ public class PageServiceImpl implements PageService {
 		Host ownerHost = blogDao.getHost(ownerHostId);
 		page.setHost(ownerHost);
 		pageDao.modifyPage(page);
+		// se indexa la pagina modificada
+		Page mp = pageDao.getPage(page.getId());
+		searchService.addPageToIndex(mp);
 	}
 
 	@Override
@@ -104,6 +113,8 @@ public class PageServiceImpl implements PageService {
 		if (id == null) throw new IllegalArgumentException("El id de la página a borrar no puede ser nulo.");
 		logger.debug("Borrando página con id: {}", id);
 		pageDao.deletePage(id);
+		// se borra del índice la pagina
+		searchService.removePageFromIndex(id);
 	}
 
 }

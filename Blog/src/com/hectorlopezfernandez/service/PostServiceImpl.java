@@ -29,17 +29,20 @@ public class PostServiceImpl implements PostService {
 	private final PostDao postDao;
 	private final BlogDao blogDao;
 	private final UserDao userDao;
+	private final SearchService searchService;
 	
 	/* Constructores */
 	
 	@Inject
-	public PostServiceImpl(PostDao postDao, BlogDao blogDao, UserDao userDao) {
+	public PostServiceImpl(PostDao postDao, BlogDao blogDao, UserDao userDao, SearchService searchService) {
 		if (postDao == null) throw new IllegalArgumentException("El parametro postDao no puede ser nulo.");
 		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
 		if (userDao == null) throw new IllegalArgumentException("El parametro userDao no puede ser nulo.");
+		if (searchService == null) throw new IllegalArgumentException("El parametro searchService no puede ser nulo.");
 		this.postDao = postDao;
 		this.blogDao = blogDao;
 		this.userDao = userDao;
+		this.searchService = searchService;
 	}
 	
 	/* Metodos */
@@ -186,7 +189,10 @@ public class PostServiceImpl implements PostService {
 			}
 			post.setTags(tags);
 		}
-		postDao.savePost(post);
+		Long nId = postDao.savePost(post);
+		// se indexa el post creado
+		Post np = postDao.getPost(nId);
+		searchService.addPostToIndex(np);
 	}
 
 	@Override
@@ -210,6 +216,9 @@ public class PostServiceImpl implements PostService {
 			post.setTags(tags);
 		}
 		postDao.modifyPost(post);
+		// se indexa el post modificado
+		Post np = postDao.getPost(post.getId());
+		searchService.addPostToIndex(np);
 	}
 
 	@Override
@@ -222,6 +231,8 @@ public class PostServiceImpl implements PostService {
 		postDao.deletePost(id);
 		int remainingPostCount = postDao.countPostsForArchiveEntry(ae.getId());
 		if (remainingPostCount < 1) postDao.deleteArchiveEntry(ae.getId());
+		// se borra del índice el post
+		searchService.removePostFromIndex(id);
 	}
 
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+	
+<!-- 
+W3C rules retrieved from:
+http://www.w3.org/TR/html401/struct/global.html
+-->
+	
+<!--
+No tags allowed
+-->
+
+<anti-samy-rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="antisamy.xsd">
+	
+	<directives>
+		<directive name="omitDoctypeDeclaration" value="true"/>
+		<directive name="formatOutput" value="false"/>
+		<directive name="embedStyleSheets" value="false"/>
+		<directive name="onUnknownTag" value="filter"/>
+	</directives>
+	
+	<common-regexps>
+	</common-regexps>
+	
+
+	<!-- 
+	Some attributes are common to all (or most) HTML tags. There aren't many that qualify for this. You have to make sure there's no
+	collisions between any of these attribute names with attribute names of other tags that are for different purposes.
+	-->
+
+	<common-attributes>
+	</common-attributes>
+
+
+	<!--
+	This requires normal updates as browsers continue to diverge from the W3C and each other. As long as the browser wars continue
+	this is going to continue. I'm not sure war is the right word for what's going on. Doesn't somebody have to win a war after 
+	a while?
+	 -->
+	
+	<global-tag-attributes>
+	</global-tag-attributes>
+
+	<tags-to-encode>
+	</tags-to-encode>
+	
+	<tag-rules>
+	</tag-rules>
+
+
+	<!--  No CSS on Slashdot posts -->
+
+	<css-rules>
+	</css-rules>
+
+</anti-samy-rules>

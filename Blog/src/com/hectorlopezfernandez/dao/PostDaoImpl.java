@@ -260,10 +260,11 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	
 	// inserta un post en la base de datos
 	@Override
-	public void savePost(Post post) {
+	public Long savePost(Post post) {
 		if (post == null) throw new IllegalArgumentException("El objeto post a persistir no puede ser nulo.");
 		logger.debug("Insertando post con titulo '{}' en base de datos", post.getTitle());
-		save(post);
+		Long id = save(post);
+		return id;
 	}
 
 	// modifica un post en la base de datos

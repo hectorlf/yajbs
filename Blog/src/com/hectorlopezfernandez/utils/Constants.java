@@ -8,13 +8,14 @@ public final class Constants {
 	public static final String JPA_ENTITY_MANAGER_FACTORY_CONTEXT_ATTRIBUTE_NAME = "servlet_context_jpa_entity_manager_factory";
 	public static final String JPA_ENTITY_MANAGER_REQUEST_ATTRIBUTE_NAME = "request_context_jpa_entity_manager";
 	public static final String JPA_TRANSACTION_MANAGER_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_jpa_transaction_manager_filter";
+	public static final String LUCENE_DIRECTORY_CONTEXT_ATTRIBUTE_NAME = "servlet_context_lucene_directory";
 	public static final String ALIAS_REQUEST_ATTRIBUTE_NAME = "request_context_current_host";
 	public static final String USER_SESSION_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_user_session_filter_toker";
 	public static final String LOGGED_USER_REQUEST_ATTRIBUTE_NAME = "request_context_logged_user";
 	
 	// constantes sobre la aplicacion
 	public static final String APP_NAME = "YAJBS";
-	public static final String APP_VERSION = "0.1Beta";
+	public static final String APP_VERSION = "0.2Beta";
 
 	// objetos de base de datos prefijados
 	public static final Long ADMIN_USER_ID = Long.valueOf(1);

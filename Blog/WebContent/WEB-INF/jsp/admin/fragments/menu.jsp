@@ -29,12 +29,11 @@
 			<li class="icn_audio"><a href="#">Audio</a></li>
 			<li class="icn_video"><a href="#">Video</a></li>
 		</ul>
-		<h3>Admin</h3>
+		<h3>Administraci&oacute;n</h3>
 		<ul class="toggle">
-			<li class="icn_settings"><a href="#">Options</a></li>
+			<li class="icn_settings"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ConfigAction">Configuraci&oacute;n y cach&eacute;</stripes:link></li>
 			<li class="icn_security"><a href="#">Security</a></li>
 			<li class="icn_jump_back"><stripes:link beanclass="com.hectorlopezfernandez.action.LogoutAction">Logout</stripes:link></li>
 		</ul>
-		
-<%@include file="/WEB-INF/jsp/admin/layouts/footer.jsp"%>
+<%@include file="/WEB-INF/jsp/admin/fragments/footer.jsp"%>
 	</aside><!-- end of sidebar -->

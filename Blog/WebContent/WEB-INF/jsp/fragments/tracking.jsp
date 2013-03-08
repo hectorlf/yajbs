@@ -12,4 +12,4 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script>
 <noscript><p><img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1" style="border:0" alt="" width="0" height="0"/></p></noscript>
-<!-- End Piwik Tracking Code --><%-- --%>
+<!-- End Piwik Tracking Code --><%----%>

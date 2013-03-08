@@ -123,10 +123,11 @@ public abstract class BaseDaoImpl {
 		return result;
 	}
 
-	final protected <T extends PersistentObject> void save(T obj) {
+	final protected <T extends PersistentObject> Long save(T obj) {
 		assert(obj != null);
 		logger.debug("Persistiendo entidad {} en base de datos", obj.getClass().getSimpleName());
 		em.persist(obj);
+		return obj.getId();
 	}
 
 	final protected <T extends PersistentObject> void delete(T obj) {

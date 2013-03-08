@@ -1,10 +1,5 @@
 		<li id="firstsidebar" role="complementary" class="el2"> <!-- begin firstsidebar -->
-			<aside id="search-3" class="side-widget widget_search">
-				<form role="search" method="get" id="searchform" action="">
-					<label class="assistive-text" for="s">Search for:</label>
-					<input type="search" placeholder="Search..." value="" name="s" id="s">
-				</form>
-			</aside>
+<%@include file="/WEB-INF/jsp/fragments/small-search-bar.jsp"%>
 			<aside id="who" class="side-widget">
 				<header><h3>¿Qui&eacute;n?</h3></header>
 				<article id="who" class="post side-featured odd">

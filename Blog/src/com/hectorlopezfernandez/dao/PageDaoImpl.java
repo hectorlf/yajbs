@@ -75,12 +75,13 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 	}
 	
 	
-	// inserta una página en la base de datos
+	// inserta una página en la base de datos y devuelve el id generado
 	@Override
-	public void savePage(Page page) {
+	public Long savePage(Page page) {
 		if (page == null) throw new IllegalArgumentException("El objeto page a persistir no puede ser nulo.");
 		logger.debug("Insertando page con titulo '{}' en base de datos", page.getTitle());
-		save(page);
+		Long id = save(page);
+		return id;
 	}
 
 	// modifica una página en la base de datos

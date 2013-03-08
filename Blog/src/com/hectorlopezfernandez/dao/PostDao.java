@@ -54,8 +54,8 @@ public interface PostDao {
 	public List<Post> getAllPosts();
 
 	
-	// persiste un post
-	public void savePost(Post post);
+	// persiste un post y devuelve el id generado
+	public Long savePost(Post post);
 
 	// modifica un post
 	public void modifyPost(Post post);
