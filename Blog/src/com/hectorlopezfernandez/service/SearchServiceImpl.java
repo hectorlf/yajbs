@@ -41,8 +41,8 @@ public class SearchServiceImpl implements SearchService {
 
 	private final static Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
 
-	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_41);
-	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_41, analyzer);
+	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_42);
+	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_42, analyzer);
 
 	private final static String ID_FIELD_NAME = "id";
 	private final static String TYPE_FIELD_NAME = "type";
@@ -79,7 +79,7 @@ public class SearchServiceImpl implements SearchService {
 			reader = DirectoryReader.open(directory);
 			// se construyen los objetos de lucene
 	        IndexSearcher searcher = new IndexSearcher(reader);
-	        QueryParser parser = new QueryParser(Version.LUCENE_41, INDEXED_FIELD_NAME, analyzer);
+	        QueryParser parser = new QueryParser(Version.LUCENE_42, INDEXED_FIELD_NAME, analyzer);
 	        Query query = parser.parse(queryString);
 	        // se buscan los mejores 50 resultados
 	        TopDocs searchResults = searcher.search(query, 50);
