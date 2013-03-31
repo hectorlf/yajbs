@@ -50,6 +50,10 @@ public class Host extends PersistentObject {
 	@Column(name="recent_comments_per_index_page")
 	private Integer recentCommentsPerIndexPage;
 
+	@Basic
+	@Column(name="feeds_max_post_age_in_days")
+	private Integer maxPostAgeInDaysForFeeds;
+
 	// getters & setters
 	
 	public Set<Alias> getAliases() {
@@ -113,6 +117,13 @@ public class Host extends PersistentObject {
 	}
 	public void setRecentCommentsPerIndexPage(Integer recentCommentsPerIndexPage) {
 		this.recentCommentsPerIndexPage = recentCommentsPerIndexPage;
+	}
+
+	public Integer getMaxPostAgeInDaysForFeeds() {
+		return maxPostAgeInDaysForFeeds;
+	}
+	public void setMaxPostAgeInDaysForFeeds(Integer maxPostAgeInDaysForFeeds) {
+		this.maxPostAgeInDaysForFeeds = maxPostAgeInDaysForFeeds;
 	}
 
 }
