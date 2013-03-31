@@ -15,6 +15,7 @@ import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dao.UserDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Comment;
@@ -55,6 +56,25 @@ public class PostServiceImpl implements PostService {
 		logger.debug("Recuperando los últimos {} posts", count);
 		List<Post> posts = postDao.listPosts(0, count);
 		return posts;
+	}
+
+	@Override
+	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays) {
+		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antigüedad en días de los posts a recuperar no puede ser menor que 0.");
+		logger.debug("Recuperando los posts publicados hace menos de {} días", maxPostAgeInDays);
+		long maxAge = System.currentTimeMillis() - (24 * 60 * 60 * 1000 * maxPostAgeInDays);
+		List<Post> posts = postDao.listPostsPublishedAfter(maxAge);
+		if (posts.size() == 0) return Collections.emptyList();
+		List<SimplifiedPost> results = new ArrayList<SimplifiedPost>(posts.size());
+		for (Post p : posts) {
+			//TODO deshtmlizar esto
+			String title = p.getTitle();
+			String excerpt = p.getExcerpt();
+			String content = p.getContent();
+			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, content, p.getPublicationDate());
+			results.add(sp);
+		}
+		return results;
 	}
 
 	@Override

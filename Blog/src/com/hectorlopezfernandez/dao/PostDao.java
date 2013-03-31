@@ -52,6 +52,10 @@ public interface PostDao {
 	public List<Post> getAllPosts(int firstResult, int maxResults);
 	// recupera todos los posts del sistema, sin ningún eager fecth
 	public List<Post> getAllPosts();
+	
+	
+	// recupera el listado de posts cuya fecha de publicación sea igual o mayor que el parámetro (es decir, que sean posts más nuevos)
+	public List<Post> listPostsPublishedAfter(long millisecondsFrom1970);
 
 	
 	// persiste un post y devuelve el id generado

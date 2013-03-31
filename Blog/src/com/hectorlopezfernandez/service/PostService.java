@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Comment;
 import com.hectorlopezfernandez.model.Host;
@@ -16,6 +17,10 @@ public interface PostService {
 	
 	// recupera una lista de los post más nuevos, limitando en número por el parámetro de entrada
 	public List<Post> getNewestPosts(int count);
+
+	// recupera una lista de los post últimos posts hasta una fecha determinada, para presentar en los feeds
+	// IMPORTANTE: al ser específico para feeds, el contenido de cada post viene sin html (sólo texto plano)
+	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays);
 
 	// calcula los valores de paginacion para una lista de posts, filtrando por fecha
 	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer day, Integer page, Host preferences);

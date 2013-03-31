@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Host;
-import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
@@ -29,7 +29,7 @@ public class FeedAction implements ActionBean {
 	
 	// campos que guarda el actionbean
 	
-	private List<Post> posts;
+	private List<SimplifiedPost> posts;
 	
 	@DefaultHandler
 	public Resolution execute() {
@@ -38,13 +38,14 @@ public class FeedAction implements ActionBean {
 		ctx.setAttribute("alias", alias);
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
-		posts = postService.getNewestPostsForFeed(prefs.getMaxPostAgeInDaysForFeeds());
+		int maxPostAge = prefs.getMaxPostAgeInDaysForFeeds() == null ? 0 : prefs.getMaxPostAgeInDaysForFeeds().intValue();
+		posts = postService.getNewestPostsForFeed(maxPostAge);
 		return new ForwardResolution("/WEB-INF/jsp/feed.jsp");
 	}
 	
 	// Getters y setters
 
-	public List<Post> getPosts() {
+	public List<SimplifiedPost> getPosts() {
 		return posts;
 	}
 
