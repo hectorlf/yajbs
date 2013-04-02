@@ -192,7 +192,21 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		}
 		return posts;
 	}
-	
+
+
+	// recupera el listado de posts cuya fecha de publicación sea igual o mayor que el parámetro (es decir, que sean posts más nuevos)
+	@Override
+	public List<Post> listPostsPublishedAfter(long milliseconds) {
+		logger.debug("Recuperando lista de todos los posts con fecha de publicación en milisegundos mayor que {}", milliseconds);
+		// nunca se va a encontrar nada si el número es negativo, no merece la pena lanzar excepciones
+		if (milliseconds < 0) return Collections.emptyList();
+		String q = "select p from Post p where p.publicationDateAsLong >= :minPublicationDate order by p.id desc";
+		Map<String,Object> params = new HashMap<String,Object>(1);
+		params.put("minPublicationDate", milliseconds);
+		List<Post> posts = find(q, params, Post.class);
+		if (posts.size() == 0) return Collections.emptyList();
+		return posts;
+	}
 	
 
 	// recupera un post por id

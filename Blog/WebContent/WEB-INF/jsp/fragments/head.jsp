@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Simonetta" type="text/css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400" type="text/css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quattrocento" type="text/css">
-<%--	<link rel="alternate" href="/feed/" title="Feed" type="application/rss+xml">--%>
+	<link rel="alternate" href="<stripes:url beanclass="com.hectorlopezfernandez.action.FeedAction"/>" type="application/atom+xml" title="Feed de entradas en formato ATOM">
 <%--	<link rel="pingback" href="/pingback.php">--%>
 	<link rel="index" title="Home" href="<stripes:url beanclass="com.hectorlopezfernandez.action.IndexAction"/>">
 	<title>${pageName} - ${blogTitle}</title>

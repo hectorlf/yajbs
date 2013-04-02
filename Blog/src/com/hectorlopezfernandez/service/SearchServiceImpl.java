@@ -35,7 +35,7 @@ import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dto.SearchResult;
 import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.model.Post;
-import com.hectorlopezfernandez.utils.OWASPUtils;
+import com.hectorlopezfernandez.utils.HTMLUtils;
 
 public class SearchServiceImpl implements SearchService {
 
@@ -114,14 +114,14 @@ public class SearchServiceImpl implements SearchService {
 		if (SearchResult.PAGE_TYPE.equals(type)) {
 			// el documento es de un objeto Page, se recupera y se construye el SearchResult
 			Page p = pageDao.getPage(id);
-			String content = OWASPUtils.parseTextNoTag(p.getContent()).getCleanHTML(); /* al contenido se le quita el html para presentarlo */
+			String content = HTMLUtils.parseTextForLucene(p.getContent()); /* al contenido se le quita el html para presentarlo */
 			SearchResult sr = new SearchResult(SearchResult.PAGE_TYPE, p.getTitle(), p.getTitleUrl(), content, p.getPublicationDate());
 			return sr;
 		} else if (SearchResult.POST_TYPE.equals(type)) {
 			// el documento es de un objeto Post, se recupera y se construye el SearchResult
 			Post p = postDao.getPost(id);
-			String excerpt = OWASPUtils.parseTextNoTag(p.getExcerpt()).getCleanHTML(); /* al resumen se le quita el html para presentarlo */
-			String content = OWASPUtils.parseTextNoTag(p.getContent()).getCleanHTML(); /* al contenido se le quita el html para presentarlo */
+			String excerpt = HTMLUtils.parseTextForLucene(p.getExcerpt()); /* al resumen se le quita el html para presentarlo */
+			String content = HTMLUtils.parseTextForLucene(p.getContent()); /* al contenido se le quita el html para presentarlo */
 			StringBuilder sb = new StringBuilder(1 + excerpt.length() + content.length()); sb.append(excerpt).append(" ").append(content);
 			SearchResult sr = new SearchResult(SearchResult.POST_TYPE, p.getTitle(), p.getTitleUrl(), sb.toString(), p.getPublicationDate());
 			return sr;
@@ -267,8 +267,8 @@ public class SearchServiceImpl implements SearchService {
 		((StringField)document.getField(ID_FIELD_NAME)).setStringValue(post.getId().toString());
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.POST_TYPE);
 		String title = StringEscapeUtils.unescapeHtml4(post.getTitle());
-		String excerpt = StringEscapeUtils.unescapeHtml4(OWASPUtils.parseTextNoTag(post.getExcerpt()).getCleanHTML());
-		String content = StringEscapeUtils.unescapeHtml4(OWASPUtils.parseTextNoTag(post.getContent()).getCleanHTML());
+		String excerpt = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getExcerpt()));
+		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getContent()));
 		StringBuilder completeText = new StringBuilder(2 + title.length() + excerpt.length() + content.length());
     	completeText.append(title).append(" ").append(excerpt).append(" ").append(content);
     	((TextField)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
@@ -281,7 +281,7 @@ public class SearchServiceImpl implements SearchService {
 		((StringField)document.getField(ID_FIELD_NAME)).setStringValue(page.getId().toString());
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.PAGE_TYPE);
 		String title = StringEscapeUtils.unescapeHtml4(page.getTitle());
-		String content = StringEscapeUtils.unescapeHtml4(OWASPUtils.parseTextNoTag(page.getContent()).getCleanHTML());
+		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(page.getContent()));
 		StringBuilder completeText = new StringBuilder(1 + title.length() + content.length());
     	completeText.append(title).append(" ").append(content);
     	((TextField)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());

@@ -22,6 +22,7 @@ import com.hectorlopezfernandez.model.Comment;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.utils.HTMLUtils;
 
 public class PostServiceImpl implements PostService {
 
@@ -62,16 +63,16 @@ public class PostServiceImpl implements PostService {
 	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays) {
 		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antigüedad en días de los posts a recuperar no puede ser menor que 0.");
 		logger.debug("Recuperando los posts publicados hace menos de {} días", maxPostAgeInDays);
-		long maxAge = System.currentTimeMillis() - (24 * 60 * 60 * 1000 * maxPostAgeInDays);
+		long maxAge = System.currentTimeMillis() - ((long)maxPostAgeInDays * 24 * 60 * 60 * 1000);
 		List<Post> posts = postDao.listPostsPublishedAfter(maxAge);
 		if (posts.size() == 0) return Collections.emptyList();
 		List<SimplifiedPost> results = new ArrayList<SimplifiedPost>(posts.size());
 		for (Post p : posts) {
-			//TODO deshtmlizar esto
-			String title = p.getTitle();
-			String excerpt = p.getExcerpt();
-			String content = p.getContent();
-			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, content, p.getPublicationDate());
+			String title = p.getTitle(); // el título debería venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			String excerpt = HTMLUtils.parseTextForFeeds(p.getExcerpt());
+			String content = ""; // no se usa el contenido en la construcción del feed
+			String authorName = p.getAuthor().getDisplayName(); // el autor debería venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, content, p.getPublicationDate(), authorName);
 			results.add(sp);
 		}
 		return results;

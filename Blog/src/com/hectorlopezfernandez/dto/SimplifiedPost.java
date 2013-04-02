@@ -13,17 +13,19 @@ public final class SimplifiedPost {
 	private String excerpt;
 	private String content;
 	private DateTime publicationDate;
+	private String authorName;
 
 
 	// constructores
 
-	public SimplifiedPost(Long id, String title, String titleUrl, String excerpt, String content, DateTime publicationDate) {
+	public SimplifiedPost(Long id, String title, String titleUrl, String excerpt, String content, DateTime publicationDate, String authorName) {
 		this.id = id;
 		this.title = title;
 		this.titleUrl = titleUrl;
 		this.excerpt = excerpt;
 		this.content = content;
 		this.publicationDate = publicationDate;
+		this.authorName = authorName;
 	}
 
 	// getters sintéticos
@@ -62,6 +64,10 @@ public final class SimplifiedPost {
 
 	public String getExcerpt() {
 		return excerpt;
+	}
+
+	public String getAuthorName() {
+		return authorName;
 	}
 
 }
