@@ -1,5 +1,6 @@
 package com.hectorlopezfernandez.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -200,11 +201,17 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		logger.debug("Recuperando lista de todos los posts con fecha de publicación en milisegundos mayor que {}", milliseconds);
 		// nunca se va a encontrar nada si el número es negativo, no merece la pena lanzar excepciones
 		if (milliseconds < 0) return Collections.emptyList();
-		String q = "select p from Post p where p.publicationDateAsLong >= :minPublicationDate order by p.id desc";
+		// se recuperan sólo los ids para intentar ganar velocidad con la caché (los post que aparezcan en el feed serán los más recientes)
+		String q = "select p.id from Post p where p.publicationDateAsLong >= :minPublicationDate";
 		Map<String,Object> params = new HashMap<String,Object>(1);
 		params.put("minPublicationDate", milliseconds);
-		List<Post> posts = find(q, params, Post.class);
-		if (posts.size() == 0) return Collections.emptyList();
+		List<Long> ids = listIds(q, params);
+		if (ids.size() == 0) return Collections.emptyList();
+		List<Post> posts = new ArrayList<Post>(ids.size());
+		for (Long id : ids) {
+			Post p = get(id, Post.class);
+			posts.add(p);
+		}
 		return posts;
 	}
 	
