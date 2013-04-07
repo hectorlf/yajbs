@@ -42,8 +42,13 @@ public class FeedAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		int maxPostAge = prefs.getMaxPostAgeInDaysForFeeds() == null ? 0 : prefs.getMaxPostAgeInDaysForFeeds().intValue();
 		posts = postService.getNewestPostsForFeed(maxPostAge);
-		// se recuperan ordenados, así que se presume que la fecha de publicación del primer post de la lista es la fecha de última modificación del feed
-		lastModificationDate = posts.size() == 0 ? new DateTime(0) : posts.get(0).getPublicationDate();
+		// se comparan las fechas para obtener la más reciente y mostrarla como fecha de última actualización
+		lastModificationDate = new DateTime(0);
+		if (posts.size() > 0) {
+			for (SimplifiedPost sp : posts) {
+				if (lastModificationDate.isBefore(sp.getPublicationDate())) lastModificationDate = sp.getPublicationDate();
+			}
+		}
 		return new ForwardResolution("/WEB-INF/jsp/feed.jsp");
 	}
 	
