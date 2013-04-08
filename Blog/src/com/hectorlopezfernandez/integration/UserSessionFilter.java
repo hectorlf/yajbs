@@ -1,4 +1,4 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import java.io.IOException;
 
@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Injector;
 import com.hectorlopezfernandez.model.User;
 import com.hectorlopezfernandez.service.UserService;
+import com.hectorlopezfernandez.utils.Constants;
 
 public class UserSessionFilter implements Filter {
 

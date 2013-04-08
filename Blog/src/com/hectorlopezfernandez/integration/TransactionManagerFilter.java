@@ -1,4 +1,4 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import java.io.IOException;
 
@@ -14,6 +14,8 @@ import javax.servlet.ServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.hectorlopezfernandez.utils.Constants;
 
 // Filtro que se encarga de abrir transacciones, hacer commit y rollback según el
 // caso. Equivale al patrón opensessioninview, a falta de implementar cosas más

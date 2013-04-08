@@ -14,7 +14,7 @@
 
 	<listener>
 		<display-name>AppInitializerContextListener</display-name>
-		<listener-class>com.hectorlopezfernandez.utils.AppInitializerContextListener</listener-class>
+		<listener-class>com.hectorlopezfernandez.integration.AppInitializerContextListener</listener-class>
 	</listener>
 	
 	<listener>
@@ -25,7 +25,7 @@
 	<filter>
 		<display-name>Persistence Session Filter</display-name>
 		<filter-name>PersistenceSessionFilter</filter-name>
-		<filter-class>com.hectorlopezfernandez.utils.PersistenceSessionFilter</filter-class>
+		<filter-class>com.hectorlopezfernandez.integration.PersistenceSessionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>PersistenceSessionFilter</filter-name>
@@ -42,7 +42,7 @@
 	<filter>
 		<display-name>Transaction Manager Filter</display-name>
 		<filter-name>TransactionManagerFilter</filter-name>
-		<filter-class>com.hectorlopezfernandez.utils.TransactionManagerFilter</filter-class>
+		<filter-class>com.hectorlopezfernandez.integration.TransactionManagerFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>TransactionManagerFilter</filter-name>
@@ -59,7 +59,7 @@
 	<filter>
 		<display-name>Host Resolver Filter</display-name>
 		<filter-name>HostResolverFilter</filter-name>
-		<filter-class>com.hectorlopezfernandez.utils.HostResolverFilter</filter-class>
+		<filter-class>com.hectorlopezfernandez.integration.HostResolverFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>HostResolverFilter</filter-name>
@@ -78,7 +78,7 @@
 
 	<filter>
 		<filter-name>UserSessionFilter</filter-name>
-		<filter-class>com.hectorlopezfernandez.utils.UserSessionFilter</filter-class>
+		<filter-class>com.hectorlopezfernandez.integration.UserSessionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>UserSessionFilter</filter-name>
@@ -107,11 +107,11 @@
 		</init-param>
 		<init-param>
 			<param-name>ActionBeanContext.Class</param-name>
-			<param-value>com.hectorlopezfernandez.utils.BlogActionBeanContext</param-value>
+			<param-value>com.hectorlopezfernandez.integration.BlogActionBeanContext</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ExceptionHandler.Class</param-name>
-			<param-value>com.hectorlopezfernandez.utils.StripesExceptionHandler</param-value>
+			<param-value>com.hectorlopezfernandez.integration.StripesExceptionHandler</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

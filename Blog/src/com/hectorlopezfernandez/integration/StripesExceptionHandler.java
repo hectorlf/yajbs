@@ -1,4 +1,4 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

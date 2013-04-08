@@ -10,7 +10,7 @@ import net.sourceforge.stripes.action.UrlBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 
 @UrlBinding("/admin/config.action")
 public class ConfigAction implements ActionBean {

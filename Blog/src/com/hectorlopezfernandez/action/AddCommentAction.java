@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.service.PostService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 import com.hectorlopezfernandez.utils.OWASPUtils;
 
 @UrlBinding("/addComment.action")
@@ -37,6 +37,7 @@ public class AddCommentAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a AddCommentAction.execute");
 		try {
+			commentText = commentText + captchaText + url + email + name + registeredUserId + postId;
 			commentText = OWASPUtils.parsePostComment(commentText).getCleanHTML();
 		} catch(Exception e) {
 			logger.error("Ocurrió un error parseando el comentario de entrada: {} - {}", e.getClass().getName(),e.getMessage());
@@ -46,11 +47,32 @@ public class AddCommentAction implements ActionBean {
 	
 	// Getters y setters
 
+	public void setPostId(Integer postId) {
+		this.postId = postId;
+	}
+
+	public void setRegisteredUserId(Integer registeredUserId) {
+		this.registeredUserId = registeredUserId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public void setCaptchaText(String captchaText) {
+		this.captchaText = captchaText;
+	}
+
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
-	}
-	public String getCommentText() {
-		return commentText;
 	}
 
 	@Override

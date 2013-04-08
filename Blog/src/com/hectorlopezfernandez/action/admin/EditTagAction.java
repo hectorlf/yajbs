@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.PostService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
 @UrlBinding("/admin/editTag.action")
 public class EditTagAction implements ActionBean {

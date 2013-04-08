@@ -1,4 +1,4 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Injector;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.service.BlogService;
+import com.hectorlopezfernandez.utils.Constants;
 
 public class HostResolverFilter implements Filter {
 

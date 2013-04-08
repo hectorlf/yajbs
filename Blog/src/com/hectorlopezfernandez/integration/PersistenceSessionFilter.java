@@ -1,4 +1,4 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import java.io.IOException;
 
@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.hectorlopezfernandez.utils.Constants;
 
 public class PersistenceSessionFilter implements Filter {
 

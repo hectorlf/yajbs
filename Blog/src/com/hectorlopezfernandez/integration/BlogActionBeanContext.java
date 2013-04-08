@@ -1,9 +1,10 @@
-package com.hectorlopezfernandez.utils;
+package com.hectorlopezfernandez.integration;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
 
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.User;
+import com.hectorlopezfernandez.utils.Constants;
 
 public class BlogActionBeanContext extends ActionBeanContext {
 

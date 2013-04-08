@@ -9,7 +9,7 @@ import net.sourceforge.stripes.action.Resolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 
 public class Error404Action implements ActionBean {
 

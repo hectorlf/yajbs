@@ -2,12 +2,15 @@ package com.hectorlopezfernandez.service;
 
 import java.util.List;
 
+import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SearchResult;
 import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.model.Post;
 
 public interface SearchService {
 
+	// calcula los valores de paginacion para una búsqueda
+	public PaginationInfo computePagination(Integer page);
 	// realiza una busqueda según un texto de entrada y devuelve una lista de resultados
 	public List<SearchResult> search(String query);
 

@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SearchResult;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.service.SearchService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 import com.hectorlopezfernandez.utils.StringLengthLimiterTag;
 
 @UrlBinding("/search.action")
@@ -46,6 +46,7 @@ public class SearchAction implements ActionBean {
 		Alias alias = ctx.getAlias();
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
+		paginationInfo = searchService.computePagination(page);
 		// si el texto de búsqueda es vacio, no llamamos al servicio de búsqueda
 		if (q == null || q.trim().length() == 0) {
 			results = Collections.emptyList();

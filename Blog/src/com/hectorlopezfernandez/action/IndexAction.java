@@ -13,11 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.service.PostService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
 @UrlBinding("/index.action")
 public class IndexAction implements ActionBean {

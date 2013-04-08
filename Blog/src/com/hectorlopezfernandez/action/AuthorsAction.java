@@ -12,8 +12,8 @@ import net.sourceforge.stripes.action.UrlBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.service.UserService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
 @UrlBinding("/authors/{name}/{overhead}")
 public class AuthorsAction implements ActionBean {

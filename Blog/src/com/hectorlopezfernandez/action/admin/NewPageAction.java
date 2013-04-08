@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
+import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.service.BlogService;
-import com.hectorlopezfernandez.utils.BlogActionBeanContext;
 
 @UrlBinding("/admin/newPage.action")
 public class NewPageAction implements ActionBean {

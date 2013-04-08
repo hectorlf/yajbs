@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.dao.PageDao;
 import com.hectorlopezfernandez.dao.PostDao;
+import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SearchResult;
 import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.model.Post;
@@ -65,6 +66,12 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	/* Metodos */
+
+	@Override
+	public PaginationInfo computePagination(Integer page) {
+		PaginationInfo pi = new PaginationInfo();
+		return pi;
+	}
 
 	@Override
 	public List<SearchResult> search(String queryString) {
