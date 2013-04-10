@@ -1,5 +1,7 @@
 package com.hectorlopezfernandez.model;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,10 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
 @Entity
+@Access(AccessType.FIELD)
 @Table(name="comments")
 public class Comment extends PersistentObject {
 
@@ -22,9 +26,10 @@ public class Comment extends PersistentObject {
 	@Column(name="visible")
 	private boolean visible;
 	
-	@Basic(optional=false)
-	@Column(name="publication_date")
+	// la configuracion de jpa va en el get
 	private long publicationDateAsLong;
+	@Transient
+	private DateTime publicationDate;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id",unique=true,nullable=false)
@@ -36,13 +41,13 @@ public class Comment extends PersistentObject {
 
 	// getters y setters sinteticos
 	
-	public DateTime getPublicationDate() {
-		DateTime pd = new DateTime(publicationDateAsLong);
-		return pd;
+	public void setPublicationDateAsLong(long publicationDateAsLong) {
+		this.publicationDateAsLong = publicationDateAsLong;
+		this.publicationDate = new DateTime(publicationDateAsLong);
 	}
 	public void setPublicationDate(DateTime publicationDate) {
-		if (publicationDate == null) return;
-		this.publicationDateAsLong = publicationDate.getMillis();
+		if (publicationDate == null) setPublicationDateAsLong(0);
+		else setPublicationDateAsLong(publicationDate.getMillis());
 	}
 
 	// getters & setters
@@ -73,6 +78,17 @@ public class Comment extends PersistentObject {
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
+	@Column(name="publication_date")
+	public long getPublicationDateAsLong() {
+		return publicationDateAsLong;
+	}
+
+	public DateTime getPublicationDate() {
+		return publicationDate;
 	}
 
 }

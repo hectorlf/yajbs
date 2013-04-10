@@ -18,12 +18,12 @@ public interface PostDao {
 	public List<Post> listPosts(int firstResult, int maxResults);
 
 	// cuenta el número de posts, filtrados por fecha
-	public Long countPosts(Integer year, Integer month, Integer day);
+	public Long countPosts(Integer year, Integer month);
 	// recupera un listado de posts filtrados por fecha, ordenados por id de forma descendente
-	public List<Post> listPosts(Integer year, Integer month, Integer day);
+	public List<Post> listPosts(Integer year, Integer month);
 	// recupera un listado de posts filtrados por fecha y usando paginación, ordenados por id de forma descendente
 	// IMPORTANTE: si maxResults es menor que 1, se desactiva la paginacion
-	public List<Post> listPosts(Integer year, Integer month, Integer day, int firstResult, int maxResults);
+	public List<Post> listPosts(Integer year, Integer month, int firstResult, int maxResults);
 
 	// cuenta el número de posts, filtrados por tag
 	public Long countPostsByTag(Long id);
@@ -44,7 +44,7 @@ public interface PostDao {
 	public Post getDetailedPost(Long id);
 
 	// recupera el id de un post por el título adaptado a url y la fecha de publicacion
-	public Long findPostId(int year, int month, int day, String titleUrl);
+	public Long findPostId(int year, int month, String titleUrl);
 
 	// cuenta el número total de posts en el sistema
 	public Long countAllPosts();

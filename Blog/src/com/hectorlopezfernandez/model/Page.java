@@ -1,5 +1,7 @@
 package com.hectorlopezfernandez.model;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,10 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
+/**
+ * IMPORTANTE: JPA accede directamente a todos los campos excepto a las fechas, que se establecen por setter para rellenar los DateTime
+ */
+
 @Entity
+@Access(AccessType.FIELD)
 @Table(name="pages")
 public class Page extends PersistentObject {
 
@@ -30,18 +38,40 @@ public class Page extends PersistentObject {
 	@Column(name="content",length=3000)
 	private String content;
 
-	@Basic(optional=false)
-	@Column(name="publication_date")
+	// la configuracion de jpa va en el get
 	private long publicationDateAsLong;
+	@Transient
+	private DateTime publicationDate;
 
-	@Basic(optional=false)
-	@Column(name="last_modification_date")
+	// la configuracion de jpa va en el get
 	private long lastModificationDateAsLong;
+	@Transient
+	private DateTime lastModificationDate;
 
 	@ManyToOne(fetch=FetchType.LAZY,optional=false)
 	@JoinColumn(name="host_id",nullable=false)
 	private Host host;
 
+
+	// getters & setters sintéticos
+
+	public void setPublicationDateAsLong(long publicationDateAsLong) {
+		this.publicationDateAsLong = publicationDateAsLong;
+		this.publicationDate = new DateTime(publicationDateAsLong);
+	}
+	public void setPublicationDate(DateTime publicationDate) {
+		if (publicationDate == null) setPublicationDateAsLong(0);
+		else setPublicationDateAsLong(publicationDate.getMillis());
+	}
+	
+	public void setLastModificationDateAsLong(long lastModificationDateAsLong) {
+		this.lastModificationDateAsLong = lastModificationDateAsLong;
+		this.lastModificationDate = new DateTime(lastModificationDateAsLong);
+	}
+	public void setLastModificationDate(DateTime lastModificationDate) {
+		if (lastModificationDate == null) setLastModificationDateAsLong(0);
+		else setLastModificationDateAsLong(lastModificationDate.getMillis());
+	}
 	
 	// getters & setters
 	
@@ -67,25 +97,23 @@ public class Page extends PersistentObject {
 	}
 
 	public DateTime getPublicationDate() {
-		DateTime pd = new DateTime(publicationDateAsLong);
-		return pd;
+		return publicationDate;
 	}
-	public void setPublicationDate(DateTime publicationDate) {
-		if (publicationDate == null) this.publicationDateAsLong = 0;
-		else this.publicationDateAsLong = publicationDate.getMillis();
+
+	public DateTime getLastModificationDate() {
+		return lastModificationDate;
 	}
+
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
+	@Column(name="publication_date")
 	public long getPublicationDateAsLong() {
 		return publicationDateAsLong;
 	}
 
-	public DateTime getLastModificationDate() {
-		DateTime pd = new DateTime(lastModificationDateAsLong);
-		return pd;
-	}
-	public void setLastModificationDate(DateTime lastModificationDate) {
-		if (lastModificationDate == null) this.lastModificationDateAsLong = 0;
-		else this.lastModificationDateAsLong = lastModificationDate.getMillis();
-	}
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
+	@Column(name="last_modification_date")
 	public long getLastModificationDateAsLong() {
 		return lastModificationDateAsLong;
 	}

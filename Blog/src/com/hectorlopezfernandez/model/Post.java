@@ -3,6 +3,8 @@ package com.hectorlopezfernandez.model;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,10 +15,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
+/**
+ * IMPORTANTE: JPA accede directamente a todos los campos excepto a las fechas, que se establecen por setter para rellenar los DateTime
+ */
+
 @Entity
+@Access(AccessType.FIELD)
 @Table(name="posts")
 public class Post extends PersistentObject {
 
@@ -44,25 +52,15 @@ public class Post extends PersistentObject {
 	@Column(name="content",length=3000)
 	private String content;
 
-	@Basic(optional=false)
-	@Column(name="publication_date")
+	// la configuracion de jpa va en el get
 	private long publicationDateAsLong;
-	
-	@Basic(optional=false)
-	@Column(name="year")
-	private int year;
+	@Transient
+	private DateTime publicationDate;
 
-	@Basic(optional=false)
-	@Column(name="month")
-	private int month;
-
-	@Basic(optional=false)
-	@Column(name="day")
-	private int day;
-	
-	@Basic(optional=false)
-	@Column(name="last_modification_date")
+	// la configuracion de jpa va en el get
 	private long lastModificationDateAsLong;
+	@Transient
+	private DateTime lastModificationDate;
 
 	@Basic(optional=true)
 	@Column(name="header_image_url",length=100)
@@ -97,31 +95,29 @@ public class Post extends PersistentObject {
 
 	// getters y setters sinteticos
 	
-	public DateTime getPublicationDate() {
-		DateTime pd = new DateTime(publicationDateAsLong);
-		return pd;
+	public void setPublicationDateAsLong(long publicationDateAsLong) {
+		this.publicationDateAsLong = publicationDateAsLong;
+		this.publicationDate = new DateTime(publicationDateAsLong);
 	}
 	public void setPublicationDate(DateTime publicationDate) {
-		if (publicationDate == null) {
-			this.publicationDateAsLong = 0;
-			this.year = 0;
-			this.month = 1;
-			this.day = 1;
-		} else {
-			this.publicationDateAsLong = publicationDate.getMillis();
-			this.year = publicationDate.getYear();
-			this.month = publicationDate.getMonthOfYear();
-			this.day = publicationDate.getDayOfMonth();
-		}
+		if (publicationDate == null) setPublicationDateAsLong(0);
+		else setPublicationDateAsLong(publicationDate.getMillis());
 	}
 	
-	public DateTime getLastModificationDate() {
-		DateTime pd = new DateTime(lastModificationDateAsLong);
-		return pd;
+	public void setLastModificationDateAsLong(long lastModificationDateAsLong) {
+		this.lastModificationDateAsLong = lastModificationDateAsLong;
+		this.lastModificationDate = new DateTime(lastModificationDateAsLong);
 	}
 	public void setLastModificationDate(DateTime lastModificationDate) {
-		if (lastModificationDate == null) this.lastModificationDateAsLong = 0;
-		else this.lastModificationDateAsLong = lastModificationDate.getMillis();
+		if (lastModificationDate == null) setLastModificationDateAsLong(0);
+		else setLastModificationDateAsLong(lastModificationDate.getMillis());
+	}
+
+	public int getYear() {
+		return (publicationDate == null ? 0 : publicationDate.getYear());
+	}
+	public int getMonth() {
+		return (publicationDate == null ? 1 : publicationDate.getMonthOfYear());
 	}
 
 	// getters & setters
@@ -168,20 +164,24 @@ public class Post extends PersistentObject {
 		this.comments = comments;
 	}
 
+	public DateTime getPublicationDate() {
+		return publicationDate;
+	}
+
+	public DateTime getLastModificationDate() {
+		return lastModificationDate;
+	}
+
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
+	@Column(name="publication_date")
 	public long getPublicationDateAsLong() {
 		return publicationDateAsLong;
 	}
 
-	public int getYear() {
-		return year;
-	}
-	public int getMonth() {
-		return month;
-	}
-	public int getDay() {
-		return day;
-	}
-	
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
+	@Column(name="last_modification_date")
 	public long getLastModificationDateAsLong() {
 		return lastModificationDateAsLong;
 	}

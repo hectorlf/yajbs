@@ -1,6 +1,6 @@
 <%@page session="false"%><%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><!DOCTYPE html>
 <html dir="ltr" lang="es-ES">
-<c:choose><c:when test="${!empty actionBean.day}"><c:set var="date">el <joda:format value="${actionBean.searchDate}" pattern="d 'de' MMMM 'de' yyyy" locale="es_ES"/></c:set></c:when><c:when test="${!empty actionBean.month}"><c:set var="date">en <joda:format value="${actionBean.searchDate}" pattern="MMMM 'de' yyyy" locale="es_ES"/></c:set></c:when><c:otherwise><c:set var="date">en <joda:format value="${actionBean.searchDate}" pattern="yyyy"/></c:set></c:otherwise></c:choose>
+<c:choose><c:when test="${!empty actionBean.month}"><c:set var="date">en <joda:format value="${actionBean.searchDate}" pattern="MMMM 'de' yyyy" locale="es_ES"/></c:set></c:when><c:otherwise><c:set var="date">en <joda:format value="${actionBean.searchDate}" pattern="yyyy"/></c:set></c:otherwise></c:choose>
 <c:set var="pageName" value="Entradas archivadas ${date}"/><c:set var="blogTitle" value="${preferences.title}"/><c:set var="blogTagline" value="${preferences.tagline}"/><c:set var="posts" value="${actionBean.posts}"/>
 <%@include file="/WEB-INF/jsp/fragments/head.jsp"%>
 

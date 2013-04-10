@@ -17,7 +17,7 @@
 				<aside id="recent-comments-3" class="widget3 bottom-widget widget_recent_comments">
 					<h3>Comentarios recientes</h3>
 					<ul id="recentcomments">
-<c:forEach items="${recentCommentsBean.comments}" var="comment"><fmt:formatNumber minIntegerDigits="2" type="number" value="${comment.post.month}" var="month"/><fmt:formatNumber minIntegerDigits="2" type="number" value="${comment.post.day}" var="day"/><stripes:url anchor="comment-${comment.id}" beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="commentUrl"><stripes:param name="year" value="${comment.post.year}"/><stripes:param name="month" value="${month}"/><stripes:param name="day" value="${day}"/><stripes:param name="name" value="${comment.post.titleUrl}"/></stripes:url>						<li class="recentcomments">${comment.author.displayName} en <a href="${commentUrl}">${comment.post.title}</a></li>
+<c:forEach items="${recentCommentsBean.comments}" var="comment"><fmt:formatNumber minIntegerDigits="2" type="number" value="${comment.post.month}" var="month"/><stripes:url anchor="comment-${comment.id}" beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="commentUrl"><stripes:param name="year" value="${comment.post.year}"/><stripes:param name="month" value="${month}"/><stripes:param name="name" value="${comment.post.titleUrl}"/></stripes:url>						<li class="recentcomments">${comment.author.displayName} en <a href="${commentUrl}">${comment.post.title}</a></li>
 </c:forEach>					</ul>
 				</aside>
 			</li>

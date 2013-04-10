@@ -23,12 +23,11 @@ public interface PostService {
 	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays);
 
 	// calcula los valores de paginacion para una lista de posts, filtrando por fecha
-	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer day, Integer page, Host preferences);
-	// recupera una lista de posts, filtrando por una fecha (el año es obligatorio, los demás no lo son)
-	// el objeto de paginación es obligatorio
-	public List<Post> listPostsForDate(Integer year, Integer month, Integer day, PaginationInfo pi);
-	// recupera una lista de posts, filtrando por una fecha (el año es obligatorio, los demás no lo son)
-	public List<Post> listPostsForDate(Integer year, Integer month, Integer day);
+	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer page, Host preferences);
+	// recupera una lista de posts, filtrando por una fecha (el año y el objeto de paginación son obligatorios)
+	public List<Post> listPostsForDate(Integer year, Integer month, PaginationInfo pi);
+	// recupera una lista de posts, filtrando por una fecha (el año es obligatorio)
+	public List<Post> listPostsForDate(Integer year, Integer month);
 
 	// calcula los valores de paginacion para una lista de posts, filtrando por tag
 	public PaginationInfo computePaginationOfPostsForTag(Long id, Integer page, Host preferences);
@@ -49,7 +48,7 @@ public interface PostService {
 	public Post getDetailedPost(Long id);
 
 	// recupera el id de un post por el título adaptado a url, filtrando además por la fecha de archivo
-	public Long findPostId(String titleUrl, int year, int month, int day);
+	public Long findPostId(String titleUrl, int year, int month);
 
 	// calcula los valores de paginacion para todos los posts del sistema
 	public PaginationInfo computePaginationOfPosts(Integer page);

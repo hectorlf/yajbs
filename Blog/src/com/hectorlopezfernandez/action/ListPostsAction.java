@@ -26,7 +26,6 @@ public class ListPostsAction implements ActionBean {
 
 	public final static String PARAM_YEAR = "year";
 	public final static String PARAM_MONTH = "month";
-	public final static String PARAM_DAY = "day";
 
 	private BlogActionBeanContext ctx;
 	@Inject private PostService postService;
@@ -35,7 +34,6 @@ public class ListPostsAction implements ActionBean {
 	
 	private Integer year;
 	private Integer month;
-	private Integer day;
 	private Integer page;
 	private DateTime searchDate;
 	private List<Post> posts;
@@ -44,13 +42,12 @@ public class ListPostsAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ListPostsAction.execute");
-		if (year == null || (day != null && month == null)) return new ForwardResolution(Error404Action.class);
+		if (year == null) return new ForwardResolution(Error404Action.class);
 		try {
 			// se intenta convertir la fecha a DateTime. Si no existe la fecha, 404.
 			int y = year.intValue();
 			int m = month == null ? 1 : month.intValue();
-			int d = day == null ? 1 : day.intValue();
-			searchDate = new DateTime(y, m, d, 0, 0);
+			searchDate = new DateTime(y, m, 1, 0, 0);
 		} catch(Exception e) {
 			return new ForwardResolution(Error404Action.class);
 		}
@@ -59,8 +56,8 @@ public class ListPostsAction implements ActionBean {
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
 		// se realiza la busqueda de posts
-		paginationInfo = postService.computePaginationOfPostsForDate(year, month, day, page, prefs);
-		posts = postService.listPostsForDate(year, month, day, paginationInfo);
+		paginationInfo = postService.computePaginationOfPostsForDate(year, month, page, prefs);
+		posts = postService.listPostsForDate(year, month, paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/post-list.jsp");
 	}
 	
@@ -83,13 +80,6 @@ public class ListPostsAction implements ActionBean {
 	}
 	public void setMonth(Integer month) {
 		this.month = month;
-	}
-
-	public Integer getDay() {
-		return day;
-	}
-	public void setDay(Integer day) {
-		this.day = day;
 	}
 
 	public void setPage(Integer page) {

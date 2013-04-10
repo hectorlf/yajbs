@@ -64,53 +64,43 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	// cuenta el número de posts, filtrados por fecha
 	@Override
-	public Long countPosts(Integer year, Integer month, Integer day) {
+	public Long countPosts(Integer year, Integer month) {
 		if (year == null) throw new IllegalArgumentException("El parametro year no puede ser nulo.");
-		String q = "select count(p.id) from Post p where p.year = :year";
-		String w1 = " and p.month = :month";
-		String w2 = " and p.day = :day";
-		StringBuilder sb = new StringBuilder(q.length() + w1.length() + w2.length());
-		Map<String,Object> params = new HashMap<String, Object>(3);
+		String q = "select count(p.id) from Post p inner join p.archiveEntry ae where ae.year = :year";
+		String w1 = " and ae.month = :month";
+		StringBuilder sb = new StringBuilder(q.length() + w1.length());
+		Map<String,Object> params = new HashMap<String, Object>(2);
 		sb.append(q);
 		params.put("year", year);
 		if (month != null) {
 			sb.append(w1);
 			params.put("month", month);
-		}
-		if (day != null) {
-			sb.append(w2);
-			params.put("day", day);
 		}
 		Long count = count(sb.toString(), params);
 		return count;
 	}
 	// recupera un listado de posts filtrados por fecha, ordenados por id de forma descendente
 	@Override
-	public List<Post> listPosts(Integer year, Integer month, Integer day) {
-		List<Post> posts = listPosts(year, month, day, 0, 0);
+	public List<Post> listPosts(Integer year, Integer month) {
+		List<Post> posts = listPosts(year, month, 0, 0);
 		return posts;
 	}
 	// recupera un listado de posts filtrados por fecha y usando paginación, ordenados por id de forma descendente
 	// IMPORTANTE: si maxResults es menor que 1, se desactiva la paginacion
 	@Override
-	public List<Post> listPosts(Integer year, Integer month, Integer day, int firstResult, int maxResults) {
+	public List<Post> listPosts(Integer year, Integer month, int firstResult, int maxResults) {
 		if (year == null) throw new IllegalArgumentException("El parametro year no puede ser nulo.");
 		if (maxResults > 0 && firstResult < 0) throw new IllegalArgumentException("El parametro firstResult no puede ser menor que 0 si maxResults es mayor que 0.");
-		String q = "select p from Post p left join fetch p.author left join fetch p.comments where p.year = :year";
-		String w1 = " and p.month = :month";
-		String w2 = " and p.day = :day";
+		String q = "select p from Post p inner join p.archiveEntry ae left join fetch p.author left join fetch p.comments where ae.year = :year";
+		String w1 = " and ae.month = :month";
 		String o = " order by p.id desc";
-		StringBuilder sb = new StringBuilder(q.length() + w1.length() + w2.length() + o.length());
-		Map<String,Object> params = new HashMap<String,Object>(3);
+		StringBuilder sb = new StringBuilder(q.length() + w1.length() + o.length());
+		Map<String,Object> params = new HashMap<String,Object>(2);
 		sb.append(q);
 		params.put("year", year);
 		if (month != null) {
 			sb.append(w1);
 			params.put("month", month);
-		}
-		if (day != null) {
-			sb.append(w2);
-			params.put("day", day);
 		}
 		sb.append(o);
 		List<Post> posts = null;
@@ -239,15 +229,14 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	
 	// recupera el id de un post a partir del nombre
 	@Override
-	public Long findPostId(int year, int month, int day, String titleUrl) {
+	public Long findPostId(int year, int month, String titleUrl) {
 		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El parametro titleUrl no puede ser nulo ni vacio.");
-		if (logger.isDebugEnabled()) { logger.debug("Recuperando post con nombre {}", titleUrl); logger.debug("year {}", year); logger.debug("month {}", month); logger.debug("day {}", day); }
-		Map<String,Object> params = new HashMap<String, Object>(4);
+		if (logger.isDebugEnabled()) { logger.debug("Recuperando post con nombre {}", titleUrl); logger.debug("year {}", year); logger.debug("month {}", month); }
+		Map<String,Object> params = new HashMap<String, Object>(3);
 		params.put("year", Integer.valueOf(year));
 		params.put("month", Integer.valueOf(month));
-		params.put("day", Integer.valueOf(day));
 		params.put("titleUrl", titleUrl);
-		List<Long> ids = listIds("select p.id from Post p where p.year = :year and p.month = :month and p.day = :day and p.titleUrl = :titleUrl", params);
+		List<Long> ids = listIds("select p.id from Post p inner join p.archiveEntry ae where ae.year = :year and ae.month = :month and p.titleUrl = :titleUrl", params);
 		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios post para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);

@@ -4,7 +4,7 @@
 	<link rel="self" href="http://${alias.name}${feedUrl}"/>
 	<updated><joda:format value="${actionBean.lastModificationDate}" pattern="yyyy-MM-dd'T'HH:mm:ssZZ"/></updated>
 	<id>http://${alias.name}/</id>	
-<c:forEach items="${actionBean.posts}" var="post">	<entry><fmt:formatNumber minIntegerDigits="2" type="number" value="${post.month}" var="month"/><fmt:formatNumber minIntegerDigits="2" type="number" value="${post.day}" var="day"/><stripes:url beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="postUrl"><stripes:param name="year" value="${post.year}"/><stripes:param name="month" value="${month}"/><stripes:param name="day" value="${day}"/><stripes:param name="name" value="${post.titleUrl}"/></stripes:url>
+<c:forEach items="${actionBean.posts}" var="post">	<entry><fmt:formatNumber minIntegerDigits="2" type="number" value="${post.month}" var="month"/><stripes:url beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="postUrl"><stripes:param name="year" value="${post.year}"/><stripes:param name="month" value="${month}"/><stripes:param name="name" value="${post.titleUrl}"/></stripes:url>
 		<title type="text">${post.title}</title>
 		<link rel="alternate" href="http://${alias.name}${postUrl}"/>
 		<id>http://${alias.name}${postUrl}</id>

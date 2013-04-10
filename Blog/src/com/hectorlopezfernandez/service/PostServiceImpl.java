@@ -79,9 +79,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer day, Integer page, Host preferences) {
+	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer page, Host preferences) {
 		if (preferences == null) throw new IllegalArgumentException("El parametro preferences no puede ser nulo.");
-		Long postCount = postDao.countPosts(year, month, day);
+		Long postCount = postDao.countPosts(year, month);
 		int total = postCount == null ? 0 : postCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
 		int itemsPerPage = preferences.getPostsPerIndexPage().intValue();
@@ -89,16 +89,16 @@ public class PostServiceImpl implements PostService {
 		return pi;
 	}
 	@Override
-	public List<Post> listPostsForDate(Integer year, Integer month, Integer day, PaginationInfo pi) {
+	public List<Post> listPostsForDate(Integer year, Integer month, PaginationInfo pi) {
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
 		logger.debug("Recuperando posts por fecha, página {}, y limitando a {} posts por página", pi.getCurrentPage(), pi.getItemsPerPage());
-		List<Post> posts = postDao.listPosts(year, month, day, pi.getFirstItem(), pi.getItemsPerPage());
+		List<Post> posts = postDao.listPosts(year, month, pi.getFirstItem(), pi.getItemsPerPage());
 		return posts;
 	}
 	@Override
-	public List<Post> listPostsForDate(Integer year, Integer month, Integer day) {
+	public List<Post> listPostsForDate(Integer year, Integer month) {
 		PaginationInfo pi = new PaginationInfo();
-		List<Post> posts = listPostsForDate(year, month, day, pi);
+		List<Post> posts = listPostsForDate(year, month, pi);
 		return posts;
 	}
 
@@ -156,10 +156,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Long findPostId(String titleUrl, int year, int month, int day) {
+	public Long findPostId(String titleUrl, int year, int month) {
 		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El título del post a buscar no puede ser nulo.");
-		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por título url: {}", titleUrl); logger.debug("año: {}", year); logger.debug("mes: {}", month); logger.debug("dia: {}", day); }
-		Long id = postDao.findPostId(year, month, day, titleUrl);
+		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por título url: {}", titleUrl); logger.debug("año: {}", year); logger.debug("mes: {}", month); }
+		Long id = postDao.findPostId(year, month, titleUrl);
 		return id;
 	}
 
@@ -274,8 +274,8 @@ public class PostServiceImpl implements PostService {
 			c.setPost(new Post());
 			c.getPost().setTitle((String)array[2]);
 			c.getPost().setTitleUrl((String)array[3]);
-			DateTime dt = new DateTime(((Long)array[4]).longValue());
-			c.getPost().setPublicationDate(dt);
+			// el setter de la fecha AsLong también inicializa el campo DateTime
+			c.getPost().setPublicationDateAsLong(((Long)array[4]).longValue());
 			results.add(c);
 		}
 		return results;

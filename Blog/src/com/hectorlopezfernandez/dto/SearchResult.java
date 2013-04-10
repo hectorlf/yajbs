@@ -35,9 +35,6 @@ public final class SearchResult {
 	public int getMonth() {
 		return publicationDate.getMonthOfYear();
 	}
-	public int getDay() {
-		return publicationDate.getDayOfMonth();
-	}
 
 	// getters
 	
