@@ -3,15 +3,21 @@ package com.hectorlopezfernandez.action;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
+import com.hectorlopezfernandez.model.Alias;
+import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.utils.OWASPUtils;
 
@@ -25,34 +31,51 @@ public class AddCommentAction implements ActionBean {
 	
 	// campos que guarda el actionbean
 	
-	private Integer postId;
-	private Integer registeredUserId;
+	private Long postId;
 	private String name;
 	private String email;
 	private String url;
 	private String commentText;
-	private String captchaText;
+	private String recaptcha_challenge_field;
+	private String recaptcha_response_field;
 	
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a AddCommentAction.execute");
+		if (postId == null) {
+			// si no se recibe el id de post, no podemos hacer absolutamente nada
+			return new ErrorResolution(400);
+		}
+		Post p = postService.getPost(postId);
+		if (recaptcha_challenge_field == null || recaptcha_challenge_field.length() == 0 || recaptcha_response_field == null || recaptcha_response_field.length() == 0) {
+			return new RedirectResolution(ViewPostAction.class).addParameter(ViewPostAction.PARAM_ID, p.getId());
+		}
+		// se cargan las preferencias
+		Alias alias = ctx.getAlias();
+		Host prefs = alias.getHost();
+		// se comprueba el captcha
+		String remoteAddr = ctx.getRemoteAddress();
+		ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+		reCaptcha.setPrivateKey(prefs.getReCaptchaPrivateKey());
+		ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, recaptcha_challenge_field, recaptcha_response_field);
+		if (reCaptchaResponse.isValid()) {
+		System.out.println("Answer was entered correctly!");
+		} else {
+		System.out.println("Answer is wrong");
+		}
 		try {
-			commentText = commentText + captchaText + url + email + name + registeredUserId + postId;
+			commentText = commentText + url + email + name + postId;
 			commentText = OWASPUtils.parsePostComment(commentText).getCleanHTML();
 		} catch(Exception e) {
 			logger.error("Ocurrió un error parseando el comentario de entrada: {} - {}", e.getClass().getName(),e.getMessage());
 		}
-		return new ForwardResolution("/WEB-INF/jsp/comment.jsp");
+		return new RedirectResolution(ViewPostAction.class).addParameter(ViewPostAction.PARAM_ID, p.getId());
 	}
 	
 	// Getters y setters
 
-	public void setPostId(Integer postId) {
+	public void setPostId(Long postId) {
 		this.postId = postId;
-	}
-
-	public void setRegisteredUserId(Integer registeredUserId) {
-		this.registeredUserId = registeredUserId;
 	}
 
 	public void setName(String name) {
@@ -65,10 +88,6 @@ public class AddCommentAction implements ActionBean {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public void setCaptchaText(String captchaText) {
-		this.captchaText = captchaText;
 	}
 
 	public void setCommentText(String commentText) {

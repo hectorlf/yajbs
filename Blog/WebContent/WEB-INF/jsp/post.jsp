@@ -14,7 +14,7 @@
 	<ul id="main-wrapper">
 		<li id="maincontent" role="main"> <!-- begin maincontent -->
 <%@include file="/WEB-INF/jsp/fragments/post-detail.jsp"%>
-<%@include file="/WEB-INF/jsp/fragments/post-comments.jsp"%>
+<c:if test="${fn:length(post.comments) > 0 || !post.commentsClosed}"><%@include file="/WEB-INF/jsp/fragments/post-comments.jsp"%></c:if>
 		</li> <!-- end #maincontent -->
 <%@include file="/WEB-INF/jsp/fragments/sidebar.jsp"%>
 	</ul> <!-- end #main-wrapper ul -->

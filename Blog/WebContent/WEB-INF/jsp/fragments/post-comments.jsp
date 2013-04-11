@@ -1,5 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:if test="${fn:length(post.comments) > 0 || !post.commentsClosed}">			<div id="comments"> <!-- beging comments -->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>			<div id="comments"> <!-- beging comments -->
 				<h3 id="comments-title">${fn:length(post.comments)} comentario<c:if test="${fn:length(post.comments) ne 1}">s</c:if> sobre <em>${post.title}</em></h3>
 				<ol class="commentlist">
 <c:forEach items="${post.comments}" var="comment" varStatus="status">
@@ -26,6 +25,7 @@
 					<p class="comment-form-email"><input id="email" name="email" type="email" required="true" value="" size="30" placeholder="Your email *" aria-required="true"></p>
 					<p class="comment-form-url"><input id="url" name="url" type="url" value="" size="30" placeholder="Your website"></p>
 					<p class="comment-form-comment"><textarea id="comment" name="commentText" required="true" cols="45" rows="8" placeholder="Your comment *" aria-required="true"></textarea></p>
+					<p>${reCaptchaHtml}</p>
 					<p class="form-submit">
 						<input name="submit" type="submit" id="submit" value="Post Comment">
 						<input type="hidden" name="comment_post_ID" value="149" id="comment_post_ID">
@@ -34,4 +34,4 @@
 					</form>
 </c:when><c:otherwise>					<h3 id="reply-title">Los comentarios est&aacute;n cerrados</h3>
 </c:otherwise></c:choose>				</div><!-- #respond -->
-			</div> <!-- end comments --></c:if>
+			</div> <!-- end comments -->

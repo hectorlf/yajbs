@@ -21,6 +21,12 @@ public class BlogActionBeanContext extends ActionBeanContext {
 		return u;
 	}
 
+	// recupera la ip del cliente (necesario para recaptcha)
+	public String getRemoteAddress() {
+		String ra = getRequest().getRemoteAddr();
+		return ra;
+	}
+
 	// atributos de request
 	public void setAttribute(String key, Object value) {
 		getRequest().setAttribute(key, value);

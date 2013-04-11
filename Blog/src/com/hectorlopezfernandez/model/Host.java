@@ -54,6 +54,15 @@ public class Host extends PersistentObject {
 	@Column(name="feeds_max_post_age_in_days")
 	private Integer maxPostAgeInDaysForFeeds;
 
+	@Basic
+	@Column(name="recaptcha_public_key",length=50)
+	private String reCaptchaPublicKey;
+
+	@Basic
+	@Column(name="recaptcha_private_key",length=50)
+	private String reCaptchaPrivateKey;
+
+
 	// getters & setters
 	
 	public Set<Alias> getAliases() {
@@ -124,6 +133,20 @@ public class Host extends PersistentObject {
 	}
 	public void setMaxPostAgeInDaysForFeeds(Integer maxPostAgeInDaysForFeeds) {
 		this.maxPostAgeInDaysForFeeds = maxPostAgeInDaysForFeeds;
+	}
+
+	public String getReCaptchaPublicKey() {
+		return reCaptchaPublicKey;
+	}
+	public void setReCaptchaPublicKey(String reCaptchaPublicKey) {
+		this.reCaptchaPublicKey = reCaptchaPublicKey;
+	}
+
+	public String getReCaptchaPrivateKey() {
+		return reCaptchaPrivateKey;
+	}
+	public void setReCaptchaPrivateKey(String reCaptchaPrivateKey) {
+		this.reCaptchaPrivateKey = reCaptchaPrivateKey;
 	}
 
 }
