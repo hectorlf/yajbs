@@ -3,7 +3,7 @@ package com.hectorlopezfernandez.action;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -32,22 +32,22 @@ public class AddCommentAction implements ActionBean {
 	// campos que guarda el actionbean
 	
 	private Long postId;
-	private String name;
+	private String author;
 	private String email;
 	private String url;
 	private String commentText;
 	private String recaptcha_challenge_field;
 	private String recaptcha_response_field;
+
 	
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a AddCommentAction.execute");
-		if (postId == null) {
-			// si no se recibe el id de post, no podemos hacer absolutamente nada
-			return new ErrorResolution(400);
-		}
+		// si no se recibe el id de post, no podemos hacer absolutamente nada
+		if (postId == null) return new ForwardResolution(Error404Action.class);
 		Post p = postService.getPost(postId);
 		if (recaptcha_challenge_field == null || recaptcha_challenge_field.length() == 0 || recaptcha_response_field == null || recaptcha_response_field.length() == 0) {
+			ctx.setFlashAttribute("author", author);
 			return new RedirectResolution(ViewPostAction.class).addParameter(ViewPostAction.PARAM_ID, p.getId());
 		}
 		// se cargan las preferencias
@@ -59,12 +59,12 @@ public class AddCommentAction implements ActionBean {
 		reCaptcha.setPrivateKey(prefs.getReCaptchaPrivateKey());
 		ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, recaptcha_challenge_field, recaptcha_response_field);
 		if (reCaptchaResponse.isValid()) {
-		System.out.println("Answer was entered correctly!");
+			System.out.println("Answer was entered correctly!");
 		} else {
-		System.out.println("Answer is wrong");
+			System.out.println("Answer is wrong");
 		}
 		try {
-			commentText = commentText + url + email + name + postId;
+			commentText = commentText + url + email + author + postId;
 			commentText = OWASPUtils.parsePostComment(commentText).getCleanHTML();
 		} catch(Exception e) {
 			logger.error("Ocurrió un error parseando el comentario de entrada: {} - {}", e.getClass().getName(),e.getMessage());
@@ -78,8 +78,8 @@ public class AddCommentAction implements ActionBean {
 		this.postId = postId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public void setEmail(String email) {

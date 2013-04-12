@@ -12,6 +12,7 @@ public final class Constants {
 	public static final String ALIAS_REQUEST_ATTRIBUTE_NAME = "request_context_current_host";
 	public static final String USER_SESSION_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_user_session_filter_toker";
 	public static final String LOGGED_USER_REQUEST_ATTRIBUTE_NAME = "request_context_logged_user";
+	public static final String STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME = "request_context_flash_scope_in_use";
 	
 	// constantes sobre la aplicacion
 	public static final String APP_NAME = "YAJBS";

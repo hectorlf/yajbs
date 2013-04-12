@@ -62,16 +62,17 @@ public class UserSessionFilter implements Filter {
 			request.setAttribute(Constants.LOGGED_USER_REQUEST_ATTRIBUTE_NAME, u);
 		} else {
 			// ya que no hay usuario logado, intentamos eliminar las cookies de sesion (para la normativa de mierda esa)
+			// esto no debería afectar al comportamiento del flash scope de stripes
 			eraseJsessionIdCookie((HttpServletRequest)request, (HttpServletResponse)response);
 		}
 		// una vez gestionado el usuario, se continua con la cadena de filtros
 		filterChain.doFilter(request, response);
 		// una vez temina la peticion, se debe hacer limpieza
-		if (currentSubject.isAuthenticated()) {
-			// si existe un usuario logado, sólo se elimina el objeto User de la request
+		if (currentSubject.isAuthenticated() || request.getAttribute(Constants.STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME) != null) {
+			// si existe un usuario logado o se ha utilizado un flash scope, sólo se elimina el objeto User de la request
 			request.removeAttribute(Constants.LOGGED_USER_REQUEST_ATTRIBUTE_NAME);
 		} else {
-			// si no habia usuario logado, es necesario cerrar la sesion para evitar gastar memoria (al no haber cookie de sesion, cada peticion generaría una)
+			// si no habia usuario logado ni flash scope, es necesario cerrar la sesion para evitar gastar memoria (al no haber cookie de sesion, cada peticion generaría una)
 			currentSubject.logout();
 			
 			//FIXME

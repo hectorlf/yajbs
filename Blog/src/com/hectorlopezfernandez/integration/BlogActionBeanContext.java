@@ -1,6 +1,7 @@
 package com.hectorlopezfernandez.integration;
 
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.controller.FlashScope;
 
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.User;
@@ -33,6 +34,12 @@ public class BlogActionBeanContext extends ActionBeanContext {
 	}
 	public Object getAttribute(String key) {
 		return getRequest().getAttribute(key);
+	}
+	
+	// atributos del flash scope (esto permitirá que la sesión dure una request más)
+	public void setFlashAttribute(String key, Object value) {
+		FlashScope.getCurrent(getRequest(), true).put(key, value);
+		getRequest().setAttribute(Constants.STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME, Boolean.TRUE);
 	}
 	
 	// atributos de sesion
