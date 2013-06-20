@@ -19,16 +19,6 @@
 <%@include file="/WEB-INF/jsp/admin/fragments/menu.jsp"%>
 
 	<section id="main" class="column">
-		<article class="module width_full">
-			<header><h3>Estad&iacute;sticas</h3></header>
-			<div class="module_content">
-				<article>
-					<iframe width="100%" height="350" src="http://piwik.hectorlopezfernandez.com/index.php?module=Widgetize&action=iframe&columns[]=nb_visits&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite=1&period=day&date=today&disableLink=1&widget=1&token_auth=" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
-				</article>
-				<div class="clear"></div>
-			</div>
-		</article><!-- end of stats article -->
-		
 		<div class="spacer"></div>
 	</section>
 
