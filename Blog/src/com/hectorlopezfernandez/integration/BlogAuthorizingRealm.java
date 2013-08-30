@@ -61,6 +61,7 @@ public class BlogAuthorizingRealm extends AuthorizingRealm {
 			logger.debug("La contraseña introducida no es correcta para el login: {}", upt.getUsername());
 			throw new AuthenticationException("Contraseña incorrecta para el login: " + upt.getUsername());
 		}
+		logger.debug("Usuario autenticado correctamente para el login: {}", upt.getUsername());
 		return ai;
 	}
 
