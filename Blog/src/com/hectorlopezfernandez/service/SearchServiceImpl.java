@@ -12,9 +12,11 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -25,8 +27,10 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.postingshighlight.PostingsHighlighter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.Version;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +45,19 @@ import com.hectorlopezfernandez.utils.HTMLUtils;
 public class SearchServiceImpl implements SearchService {
 
 	private final static Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
+	
+	private final static int MAX_RESULTADOS_BUSQUEDA = 20;
 
-	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_42);
-	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_42, analyzer);
+	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
+	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
+	private final static PostingsHighlighter highlighter = new PostingsHighlighter();
 
 	private final static String ID_FIELD_NAME = "id";
 	private final static String TYPE_FIELD_NAME = "type";
+	private final static String TITLE_FIELD_NAME = "title";
+	private final static String TITLE_URL_FIELD_NAME = "title_url";
 	private final static String INDEXED_FIELD_NAME = "contents";
+	private final static String PUBLICATION_DATE_AS_LONG_FIELD_NAME = "publication_date";
 
 	private final Directory directory;
 	private final PostDao postDao;
@@ -86,19 +96,22 @@ public class SearchServiceImpl implements SearchService {
 			reader = DirectoryReader.open(directory);
 			// se construyen los objetos de lucene
 	        IndexSearcher searcher = new IndexSearcher(reader);
-	        QueryParser parser = new QueryParser(Version.LUCENE_42, INDEXED_FIELD_NAME, analyzer);
+	        QueryParser parser = new QueryParser(Version.LUCENE_44, INDEXED_FIELD_NAME, analyzer);
 	        Query query = parser.parse(queryString);
-	        // se buscan los mejores 50 resultados
-	        TopDocs searchResults = searcher.search(query, 50);
+	        // se buscan los mejores MAX_RESULTADOS_BUSQUEDA resultados
+	        TopDocs searchResults = searcher.search(query, MAX_RESULTADOS_BUSQUEDA);
 	        logger.debug("La búsqueda de lucene ha encontrado {} documentos coincidentes.", searchResults.totalHits);
 	        ScoreDoc[] hits = searchResults.scoreDocs;
 	        if (hits == null || hits.length == 0) return Collections.emptyList();
-	        // de los resultados, obtenemos los ids de los objetos y su tipo para cargar los datos
+	        // se generan los pasajes de texto formateados
+	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_RESULTADOS_BUSQUEDA);
+	        // se construyen los resultados de busqueda
 	        results = new ArrayList<SearchResult>(hits.length);
 	        for (int i = 0; i < hits.length; i++) {
 	        	Document doc = searcher.doc(hits[i].doc);
-	        	logger.debug("Encontrado documento de tipo {} con id {}", doc.get(TYPE_FIELD_NAME), doc.get(ID_FIELD_NAME));
-	        	SearchResult sr = createSearchResultFromDocument(doc);
+	        	logger.debug("Encontrado documento de tipo {} con titulo '{}'", doc.get(TYPE_FIELD_NAME), doc.get(TITLE_FIELD_NAME));
+	        	// se usa como contenido el resultado del resaltador de lucene
+	        	SearchResult sr = createSearchResultFromDocumentAndFormattedPassage(doc, passages[i]);
 	        	results.add(sr);
 	        }
 		} catch(IOException ioe) {
@@ -111,45 +124,23 @@ public class SearchServiceImpl implements SearchService {
 		}
 		return results;
 	}
-	private SearchResult createSearchResultFromDocument(Document document) {
+	private SearchResult createSearchResultFromDocumentAndFormattedPassage(Document document, String passage) {
 		assert(document != null);
-		// se recupera el id del objeto encontrado en el índice
-		String stringId = document.get(ID_FIELD_NAME);
-		Long id = Long.valueOf(stringId);
-		// se discrimina por tipo de objeto
-		String type = document.get(TYPE_FIELD_NAME);
-		if (SearchResult.PAGE_TYPE.equals(type)) {
-			// el documento es de un objeto Page, se recupera y se construye el SearchResult
-			Page p = pageDao.getPage(id);
-			String content = HTMLUtils.parseTextForLucene(p.getContent()); /* al contenido se le quita el html para presentarlo */
-			SearchResult sr = new SearchResult(SearchResult.PAGE_TYPE, p.getTitle(), p.getTitleUrl(), content, p.getPublicationDate());
-			return sr;
-		} else if (SearchResult.POST_TYPE.equals(type)) {
-			// el documento es de un objeto Post, se recupera y se construye el SearchResult
-			Post p = postDao.getPost(id);
-			String excerpt = HTMLUtils.parseTextForLucene(p.getExcerpt()); /* al resumen se le quita el html para presentarlo */
-			String content = HTMLUtils.parseTextForLucene(p.getContent()); /* al contenido se le quita el html para presentarlo */
-			StringBuilder sb = new StringBuilder(1 + excerpt.length() + content.length()); sb.append(excerpt).append(" ").append(content);
-			SearchResult sr = new SearchResult(SearchResult.POST_TYPE, p.getTitle(), p.getTitleUrl(), sb.toString(), p.getPublicationDate());
-			return sr;
-		} else {
-			throw new RuntimeException("Se ha recuperado un documento del índice de lucene con un tipo que no se sabe transformar. ¿Qué coño estás haciendo?");
-		}
+		DateTime pubDate = new DateTime(Long.valueOf(document.get(PUBLICATION_DATE_AS_LONG_FIELD_NAME)));
+		SearchResult sr = new SearchResult(document.get(TYPE_FIELD_NAME), document.get(TITLE_FIELD_NAME), document.get(TITLE_URL_FIELD_NAME), passage, pubDate);
+		return sr;
 	}
 
 	@Override
 	public void addPostToIndex(Post post) {
 		if (post == null) throw new IllegalArgumentException("El parametro post no puede ser nulo.");
 		if (post.getId() == null) throw new IllegalArgumentException("El id del post a indexar no puede ser nulo.");
-		logger.debug("Añadiendo post con id {} al índice de lucene.", post.getId());
+		logger.debug("Añadiendo post con id {} y titulo '{}' al índice de lucene.", post.getId(), post.getTitle());
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y el documento con la información del post
 			writer = new IndexWriter(directory, iwc);
-	    	Document doc = new Document();
-	    	Field idField = new StringField(ID_FIELD_NAME, "", Field.Store.YES); doc.add(idField);
-	    	Field typeField = new StringField(TYPE_FIELD_NAME, "", Field.Store.YES); doc.add(typeField);
-	    	Field contentField = new TextField(INDEXED_FIELD_NAME, "", Field.Store.NO); doc.add(contentField);
+			Document doc = createDocument();
 	    	transferPostToDocument(post, doc);
         	// se indexa el documento
         	addDocumentToIndex(doc, writer);
@@ -186,15 +177,12 @@ public class SearchServiceImpl implements SearchService {
 	public void addPageToIndex(Page page) {
 		if (page == null) throw new IllegalArgumentException("El parametro page no puede ser nulo.");
 		if (page.getId() == null) throw new IllegalArgumentException("El id de la página a indexar no puede ser nulo.");
-		logger.debug("Añadiendo page con id {} al índice de lucene.", page.getId());
+		logger.debug("Añadiendo page con id {} y titulo '{}' al índice de lucene.", page.getId(), page.getTitle());
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y el documento con la información de la página
 			writer = new IndexWriter(directory, iwc);
-	    	Document doc = new Document();
-	    	Field idField = new StringField(ID_FIELD_NAME, "", Field.Store.YES); doc.add(idField);
-	    	Field typeField = new StringField(TYPE_FIELD_NAME, "", Field.Store.YES); doc.add(typeField);
-	    	Field contentField = new TextField(INDEXED_FIELD_NAME, "", Field.Store.NO); doc.add(contentField);
+	    	Document doc = createDocument();
 	    	transferPageToDocument(page, doc);
         	// se indexa el documento
         	addDocumentToIndex(doc, writer);
@@ -236,11 +224,8 @@ public class SearchServiceImpl implements SearchService {
 		try {
 			// se crean los objetos de lucene
 			writer = new IndexWriter(directory, iwc);
-	    	Document doc = new Document();
-	    	Field idField = new StringField(ID_FIELD_NAME, "", Field.Store.YES); doc.add(idField);
-	    	Field typeField = new StringField(TYPE_FIELD_NAME, "", Field.Store.YES); doc.add(typeField);
-	    	Field contentField = new TextField(INDEXED_FIELD_NAME, "", Field.Store.NO); doc.add(contentField);
-			// se reindexan todos los post
+	    	Document doc = createDocument();
+	    	// se reindexan todos los post
 			List<Post> allPosts = postDao.getAllPosts();
 			for (Post p : allPosts) {
 				transferPostToDocument(p, doc);
@@ -273,12 +258,15 @@ public class SearchServiceImpl implements SearchService {
 		assert(document != null);
 		((StringField)document.getField(ID_FIELD_NAME)).setStringValue(post.getId().toString());
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.POST_TYPE);
+		((StringField)document.getField(TITLE_FIELD_NAME)).setStringValue(post.getTitle());
+		((StringField)document.getField(TITLE_URL_FIELD_NAME)).setStringValue(post.getTitleUrl());
 		String title = StringEscapeUtils.unescapeHtml4(post.getTitle());
 		String excerpt = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getExcerpt()));
 		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getContent()));
 		StringBuilder completeText = new StringBuilder(2 + title.length() + excerpt.length() + content.length());
     	completeText.append(title).append(" ").append(excerpt).append(" ").append(content);
-    	((TextField)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
+    	((Field)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
+    	((StringField)document.getField(PUBLICATION_DATE_AS_LONG_FIELD_NAME)).setStringValue(String.valueOf(post.getPublicationDateAsLong()));
 	}
 
 	private void transferPageToDocument(Page page, Document document) {
@@ -287,11 +275,14 @@ public class SearchServiceImpl implements SearchService {
 		assert(document != null);
 		((StringField)document.getField(ID_FIELD_NAME)).setStringValue(page.getId().toString());
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.PAGE_TYPE);
+		((StringField)document.getField(TITLE_FIELD_NAME)).setStringValue(page.getTitle());
+		((StringField)document.getField(TITLE_URL_FIELD_NAME)).setStringValue(page.getTitleUrl());
 		String title = StringEscapeUtils.unescapeHtml4(page.getTitle());
 		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(page.getContent()));
 		StringBuilder completeText = new StringBuilder(1 + title.length() + content.length());
     	completeText.append(title).append(" ").append(content);
-    	((TextField)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
+    	((Field)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
+    	((StringField)document.getField(PUBLICATION_DATE_AS_LONG_FIELD_NAME)).setStringValue(String.valueOf(page.getPublicationDateAsLong()));
 	}
 
 	private void addDocumentToIndex(Document document, IndexWriter indexWriter) throws IOException {
@@ -312,4 +303,24 @@ public class SearchServiceImpl implements SearchService {
 		indexWriter.deleteDocuments(docId);
 	}
 
+	
+	// metodo comun para generar un documento, ya que todos son iguales
+	private Document createDocument() {
+    	Document doc = new Document();
+    	Field idField = new StringField(ID_FIELD_NAME, "", Field.Store.NO);
+    	doc.add(idField);
+    	Field typeField = new StringField(TYPE_FIELD_NAME, "", Field.Store.YES);
+    	doc.add(typeField);
+    	Field titleField = new StringField(TITLE_FIELD_NAME, "", Field.Store.YES);
+    	doc.add(titleField);
+    	Field titleUrlField = new StringField(TITLE_URL_FIELD_NAME, "", Field.Store.YES);
+    	doc.add(titleUrlField);
+    	FieldType offsetsType = new FieldType(TextField.TYPE_STORED);
+    	offsetsType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+    	Field contentField = new Field(INDEXED_FIELD_NAME, "", offsetsType);
+    	doc.add(contentField);
+    	Field publicationDateField = new StringField(PUBLICATION_DATE_AS_LONG_FIELD_NAME, "0", Field.Store.YES);
+    	doc.add(publicationDateField);
+    	return doc;
+	}
 }
