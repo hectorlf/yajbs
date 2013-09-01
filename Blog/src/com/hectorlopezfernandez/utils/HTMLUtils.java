@@ -3,6 +3,10 @@ package com.hectorlopezfernandez.utils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import org.apache.commons.lang3.text.translate.AggregateTranslator;
+import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
+import org.apache.commons.lang3.text.translate.EntityArrays;
+import org.apache.commons.lang3.text.translate.LookupTranslator;
 import org.apache.html.dom.HTMLAnchorElementImpl;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.apache.html.dom.HTMLImageElementImpl;
@@ -90,8 +94,8 @@ public final class HTMLUtils {
 		while (i > -1) {
 			i = sb.indexOf("</", i);
 			if (i > 0) {
-				sb.insert(i, "&nbsp;");
-				i += 8;
+				sb.insert(i, " ");
+				i += 3;
 			}
 		}
 		logger.debug("Resultado de la inserción de blancos: {}", sb);
@@ -123,5 +127,35 @@ public final class HTMLUtils {
 			child = child.getNextSibling();
 		}
 	}
+
+	/**
+	 * Codifica las entidades html pero no las etiquetas. Específico para el retorno de pasajes resaltados por la busqueda de lucene.
+	 */
+	public static String parseTextFromHighlightedLucenePassage(String text) {
+		return ESCAPE_HTML4_CHARACTERS.translate(text);
+	}
+		
+	
+	
+	// Helpers
+	
+	/**
+	 * Translator copiado de Commons Lang para codificar sólo los caractéres, no las etiquetas
+	 */
+	public static final CharSequenceTranslator ESCAPE_HTML4_CHARACTERS = 
+			new AggregateTranslator(
+					new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE()),
+					new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE())
+			);
+
+	/**
+	 * Translator copiado de Commons Lang para decodificar sólo los caractéres, no las etiquetas
+	 */
+//	public static final CharSequenceTranslator UNESCAPE_HTML4_CHARACTERS = 
+//			new AggregateTranslator(
+//					new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE()),
+//					new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE()),
+//					new NumericEntityUnescaper()
+//			);
 
 }
