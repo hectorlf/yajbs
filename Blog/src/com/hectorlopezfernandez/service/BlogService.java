@@ -3,6 +3,7 @@ package com.hectorlopezfernandez.service;
 import java.util.List;
 
 import com.hectorlopezfernandez.model.Alias;
+import com.hectorlopezfernandez.model.BlogLanguage;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Theme;
 
@@ -25,5 +26,8 @@ public interface BlogService {
 
 	// recupera un tema por id
 	public Theme getTheme(Long id);
+
+	// recupera la lista de idiomas
+	public List<BlogLanguage> getAllLanguages();
 
 }

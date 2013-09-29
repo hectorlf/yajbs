@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.Alias;
+import com.hectorlopezfernandez.model.BlogLanguage;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Theme;
 
@@ -89,6 +90,14 @@ public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
 		logger.debug("Recuperando theme con id {}", id);
 		Theme t = get(id, Theme.class);
 		return t;
+	}
+
+	@Override
+	public List<BlogLanguage> getAllLanguages() {
+		logger.debug("Recuperando todos los idiomas del sistema");
+		List<BlogLanguage> languages = find("select bl from BlogLanguage bl", null, BlogLanguage.class);
+		if (languages.size() == 0) return Collections.emptyList();
+		return languages;
 	}
 
 }

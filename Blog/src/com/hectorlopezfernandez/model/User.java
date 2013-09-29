@@ -2,6 +2,9 @@ package com.hectorlopezfernandez.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 //@Entity
@@ -18,6 +21,10 @@ public abstract class User extends PersistentObject {
 	@Column(name="password",length=50)
 	private String password;
 	
+	@ManyToOne(fetch=FetchType.EAGER,optional=false)
+	@JoinColumn(name="language_id",nullable=false)
+	private Language language;
+	
 	// getters & setters
 	
 	public String getPassword() {
@@ -32,6 +39,13 @@ public abstract class User extends PersistentObject {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Language getLanguage() {
+		return language;
+	}
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
 
 }

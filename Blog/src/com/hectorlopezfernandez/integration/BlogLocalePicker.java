@@ -1,22 +1,24 @@
 package com.hectorlopezfernandez.integration;
 
-import net.sourceforge.stripes.config.Configuration;
-import net.sourceforge.stripes.localization.LocalePicker;
-import net.sourceforge.stripes.util.Log;
-import net.sourceforge.stripes.util.StringUtil;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sourceforge.stripes.config.Configuration;
+import net.sourceforge.stripes.localization.LocalePicker;
+
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Collections;
-import java.util.Map;
-import java.util.HashMap;
-import java.nio.charset.Charset;
+import com.google.inject.Injector;
+import com.hectorlopezfernandez.model.BlogLanguage;
+import com.hectorlopezfernandez.model.User;
+import com.hectorlopezfernandez.service.BlogService;
+import com.hectorlopezfernandez.utils.Constants;
 
 /**
  * <p>Default locale picker that uses a comma separated list of locales in the servlet init
@@ -40,6 +42,18 @@ public class BlogLocalePicker implements LocalePicker {
     /** Log instance for use within the class. */
 	private final static Logger logger = LoggerFactory.getLogger(BlogLocalePicker.class);
 
+    private final Injector theInjector;
+    
+    
+    /**
+     * Constructores
+     */
+    
+    @Inject
+    public BlogLocalePicker(Injector anInjector) {
+        theInjector = anInjector;
+    }
+    
     /**
      * No se configura nada en el inicio
      */
@@ -59,19 +73,29 @@ public class BlogLocalePicker implements LocalePicker {
      * @param request the request being processed
      * @return a Locale to use in processing the request
      */
-    @SuppressWarnings("unchecked")
 	public Locale pickLocale(HttpServletRequest request) {
-    	// si existe un usuario autenticado en el sistema, se usan sus lenguajes preferidos
+    	// si existe un usuario autenticado en el sistema, se usa su lenguaje preferido
+    	if (SecurityUtils.getSubject().isAuthenticated()) {
+    		logger.debug("Existe un usuario autenticado, se utiliza el locale que tiene configurado.");
+    		User u = (User)request.getAttribute(Constants.LOGGED_USER_REQUEST_ATTRIBUTE_NAME);
+    		Locale l = u.getLanguage().toLocale();
+    		return l;
+    	}
     	
+    	// si el usuario ha seleccionado un lenguaje con una cookie o un parametro de url, se utiliza
     	
-    	// si el usuario ha 
+    	// si no hay ningun idioma preseleccionado, se utiliza el lenguaje del navegador
+    	BlogService bs = theInjector.getInstance(BlogService.class);
+    	List<BlogLanguage> systemLanguages = bs.getAllLanguages();
+    	
         Locale oneWayMatch = null;
         Locale twoWayMatch= null;
 
-        List<Locale> preferredLocales = Collections.list(request.getLocales());
-        for (Locale preferredLocale : preferredLocales) {
-            for (Locale systemLocale : this.locales) {
-
+        Enumeration<Locale> preferredLocales = request.getLocales();
+        while (preferredLocales.hasMoreElements()) {
+        	Locale preferredLocale = preferredLocales.nextElement();
+            for (BlogLanguage systemLanguage : systemLanguages) {
+/*
                 if ( systemLocale.getLanguage().equals(preferredLocale.getLanguage()) ) {
 
                     // We have a language match, let's go for two!
@@ -94,6 +118,7 @@ public class BlogLocalePicker implements LocalePicker {
                         }
                     }
                 }
+*/
             }
         }
 
@@ -105,7 +130,8 @@ public class BlogLocalePicker implements LocalePicker {
             return oneWayMatch;
         }
         else {
-            return this.locales.get(0);
+        	//TODO insertar un atributo en la request para que el actioncontext pueda saber que el locale se seleccionó por defecto
+            return systemLanguages.get(0).toLocale();
         }
     }
 

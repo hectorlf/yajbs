@@ -1,4 +1,4 @@
-<%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><head>
+<%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><fmt:setLocale value="${pageContext.request.locale}"/><head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><c:if test="${not empty metaDescription}">
 	<meta name="description" content="${metaDescription}">
 	</c:if><meta charset="UTF-8">
