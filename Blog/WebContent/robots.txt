@@ -11,8 +11,6 @@ Disallow: /*.js$
 Disallow: /*.inc$
 Disallow: /*.css$
 Disallow: /*.gz$
-Disallow: /*.wmv$
-Disallow: /*.cgi$
 Disallow: /*.xhtml$
 # disallow all files with ? in url
 Disallow: /*?*
@@ -22,11 +20,10 @@ Disallow: /search*
 # disable duggmirror
 User-agent: duggmirror
 Disallow: /
- 
-# allow google image bot to search all images
-User-agent: Googlebot-Image
-Disallow:
-Allow: /*
+
+# Internet Archiver Wayback Machine
+User-agent: ia_archiver
+Disallow: /
  
 # allow adsense bot on entire site
 User-agent: Mediapartners-Google*
