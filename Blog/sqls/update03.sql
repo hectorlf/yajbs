@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS `languages`;
 
 CREATE TABLE `languages` (
   `id` int(10) unsigned NOT NULL,
-  `language` varchar(3) unsigned NOT NULL,
+  `language` varchar(3) NOT NULL,
   `region` varchar(3) NULL,
   `variant` varchar(8) NULL,
   `name` varchar(10) NOT NULL,
