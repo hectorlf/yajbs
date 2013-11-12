@@ -47,6 +47,7 @@ public class SearchServiceImpl implements SearchService {
 	private final static Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
 	
 	private final static int MAX_RESULTADOS_BUSQUEDA = 20;
+	private final static int MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO = 4;
 
 	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
 	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
@@ -104,7 +105,7 @@ public class SearchServiceImpl implements SearchService {
 	        ScoreDoc[] hits = searchResults.scoreDocs;
 	        if (hits == null || hits.length == 0) return Collections.emptyList();
 	        // se generan los pasajes de texto formateados
-	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_RESULTADOS_BUSQUEDA);
+	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
 	        // se construyen los resultados de busqueda
 	        results = new ArrayList<SearchResult>(hits.length);
 	        for (int i = 0; i < hits.length; i++) {

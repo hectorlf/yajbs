@@ -25,7 +25,7 @@
 					</hgroup>
 				</header>
 				<div class="storycontent">
-					<p>${h:limitLength(result.content,300)}</p>
+					<p>${result.content}</p>
 					<a href="${resultUrl}" class="more-link">Seguir leyendo &raquo;</a>
 				</div> 
 			</article></c:forEach></c:otherwise></c:choose>
