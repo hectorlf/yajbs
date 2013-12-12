@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="es-ES" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Pagina de prueba</title>
+</head>
+
+<!--[if lt IE 7 ]><body class="page ie6"><![endif]-->
+<!--[if IE 7 ]><body class="page ie7"><![endif]-->
+<!--[if IE 8 ]><body class="page ie8"><![endif]-->
+<!--[if IE 9 ]><body class="page ie9"><![endif<]-->
+<!--[if (gt IE 9)|!(IE)]><!--><body class="home page"><!--<![endif]-->
+<div id="body-wrapper" class="clearfix">
+	<header id="header-main" role="banner">
+		<p>El título y eso</p>
+	</header>
+	<ul id="main-wrapper">
+		<li id="maincontent" role="main"> <!-- begin maincontent -->
+
+			<article id="page-0" class="page" th:id="'page-'+${actionBean.page.id}" th:fragment="page-detail">
+				<header>
+					<hgroup>
+						<h1 class="posttitle"><a href="page.html" title="Enlace permanente a page.html" rel="bookmark" th:href="@{com.hectorlopezfernandez.action.PagesAction(name=${actionBean.page.titleUrl})}" th:title="'Enlace permanente a '+${actionBean.page.title}" th:utext="${actionBean.page.title}">Una página de prueba</a></h1>
+					</hgroup>
+				</header>
+				<div class="storycontent" th:utext="${actionBean.page.content}">Texto de una página de prueba</div>
+				<footer class="clearfix fl"/>
+			</article>
+
+		</li>
+	</ul>
+</div>
+</body>
+</html>

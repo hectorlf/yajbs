@@ -43,6 +43,8 @@ public class ViewPageAction implements ActionBean {
 		page = pageService.getPage(id);
 		// si no existe, 404
 		if (page == null) return new ForwardResolution(Error404Action.class);
+		
+		if (ctx.getRequest().getParameter("thymeleaf") != null) return new ForwardResolution("/WEB-INF/thymeleaf/page.html");
 		return new ForwardResolution("/WEB-INF/jsp/page.jsp");
 	}
 	

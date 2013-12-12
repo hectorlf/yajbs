@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="es-ES" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/stripes">
+
+<head th:fragment="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="description" content="contenido de prueba" th:content="${metaDescription}" th:if="${metaDescription != null}"/>
+	<meta charset="UTF-8"/>
+	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="generator" content="Yet Another Java Blogging System 0.3"/>
+	<link rel="shortcut icon" type="image/gif" href="http://media.hectorlopezfernandez.com/favicon.gif"/>
+	<!--[if IE]><![endif]-->
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link rel="profile" href="http://gmpg.org/xfn/11"/>
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/style.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/custom.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Simonetta" type="text/css"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400" type="text/css"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quattrocento" type="text/css"/>
+	<link rel="alternate" href="feed.html" type="application/atom+xml" title="Feed de entradas en formato ATOM" th:href="@{com.hectorlopezfernandez.action.FeedAction}"/>
+	<link rel="index" title="Home" href="index.html" th:href="@{com.hectorlopezfernandez.action.IndexAction}"/>
+	<title th:utext="${pageName} + ' - ' + ${preferences.title}">Pagina de prueba</title>
+</head>
+
+<body>
+</body>
+
+</html>

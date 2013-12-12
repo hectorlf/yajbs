@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="es-ES" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Pagina de prueba</title>
+</head>
+
+<!--[if lt IE 7 ]><body class="page ie6"><![endif]-->
+<!--[if IE 7 ]><body class="page ie7"><![endif]-->
+<!--[if IE 8 ]><body class="page ie8"><![endif]-->
+<!--[if IE 9 ]><body class="page ie9"><![endif<]-->
+<!--[if (gt IE 9)|!(IE)]><!--><body class="home page"><!--<![endif]-->
+<div id="body-wrapper" class="clearfix">
+	<header id="header-main" role="banner" th:fragment="header">
+		<ul id="headerbanner" class="clearfix">
+			<li id="header_logo" class="mainl">
+				<div id="site-logo" class="siteheader">
+					<h1><a href="index.html" title="Blog de prueba" th:href="@{com.hectorlopezfernandez.action.IndexAction}" th:utext="${preferences.title}">Blog de prueba</a></h1> <span style="font-style: italic;" th:utext="'{ '+${preferences.tagline}+' }'">{ un blog de prueba }</span>
+				</div>
+			</li>
+			<li id="nav" class="mainl">
+				<nav class="clear fl" role="navigation">
+					<h3 class="assistive-text">Men&uacute;</h3>
+					<ul id="main-menu" class="menu">
+						<li id="inicio"><a href="index.html" th:href="@{com.hectorlopezfernandez.action.IndexAction}">Inicio</a></li>
+						<li id="curriculum"><a href="curriculum.html" th:href="@{com.hectorlopezfernandez.action.PagesAction(name='curriculum')}">Curr&iacute;culum</a></li>
+						<li id="github"><a href="github.html" th:href="@{com.hectorlopezfernandez.action.PagesAction(name='github')}">GitHub</a></li>
+					</ul>
+				</nav>
+			</li>
+		</ul> <!-- end headerbanner -->
+	</header> <!-- end header -->
+</div>
+</body>
+</html>

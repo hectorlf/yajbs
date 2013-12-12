@@ -129,6 +129,14 @@
 			<param-name>LocalePicker.Class</param-name>
 			<param-value>com.hectorlopezfernandez.integration.BlogLocalePicker</param-value>
 		</init-param>
+		<init-param>
+			<param-name>LocalizationBundleFactory.ErrorMessageBundle</param-name>
+			<param-value>StripesResources</param-value>
+		</init-param>
+		<init-param>
+			<param-name>LocalizationBundleFactory.FieldNameBundle</param-name>
+			<param-value>StripesResources</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>

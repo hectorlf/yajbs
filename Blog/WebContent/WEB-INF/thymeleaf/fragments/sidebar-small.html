@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="es-ES" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Pagina de prueba</title>
+</head>
+
+<!--[if lt IE 7 ]><body class="page ie6"><![endif]-->
+<!--[if IE 7 ]><body class="page ie7"><![endif]-->
+<!--[if IE 8 ]><body class="page ie8"><![endif]-->
+<!--[if IE 9 ]><body class="page ie9"><![endif<]-->
+<!--[if (gt IE 9)|!(IE)]><!--><body class="home page"><!--<![endif]-->
+<div id="body-wrapper" class="clearfix">
+	<header id="header-main" role="banner">
+		<p>El título y eso</p>
+	</header>
+	<ul id="main-wrapper">
+		<li id="maincontent" role="main"> <!-- begin maincontent -->
+			<article id="page-0" class="page">
+				<p>Un post</p>
+			</article>
+		</li> <!-- end #maincontent -->
+
+		<li id="firstsidebar" role="complementary" class="el2" th:fragment="sidebar"> <!-- begin firstsidebar -->
+			<aside id="search-3" class="side-widget widget_search" th:include="/WEB-INF/thymeleaf/fragments/small-search-bar.html::searchbar">
+				<header><h3>Buscador de prueba</h3></header>
+			</aside>
+			<aside id="who" class="side-widget">
+				<header><h3>&iquest;Qui&eacute;n?</h3></header>
+				<article id="who" class="post side-featured odd">
+					<img width="50" height="65" src="http://media.hectorlopezfernandez.com/hector.png" class="alignleft wp-post-image" alt="H&eacute;ctor" title="H&eacute;ctor"/>
+					<div class="content-col">
+						<header>
+							<h1 class="posttitle">H&eacute;ctor L&oacute;pez Fern&aacute;ndez</h1>
+						</header>
+						<div class="storycontent">
+							<p class="excerpt">Ingeniero de estudios, consultor de T.I. de profesi&oacute;n, afincado en Madrid y con la cabeza en la Web y en Android.</p>
+						</div>
+					</div>
+				</article>
+			</aside>
+			<aside id="feeds" class="side-widget">
+				<header><h3>&iquest;Quieres suscribirte?</h3></header>
+				<ul>
+					<li><a href="feed.html" target="_blank" th:href="@{com.hectorlopezfernandez.action.FeedAction}"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/rss20x20.png" style="vertical-align: middle;"/> feed de entradas en ATOM</a></li>
+				</ul>
+			</aside>
+			<aside id="contacto" class="side-widget">
+				<header><h3>Contacto</h3></header>
+				<ul>
+					<li><a href="http://es.linkedin.com/in/hectorlopezfernandez" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/linkedin20x20.png" style="vertical-align: middle;"/> linkedin</a></li>
+					<li><a href="http://twitter.com/hectorlf" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/twitter20x20.png" style="vertical-align: middle;"/> twitter</a></li>
+					<li><a href="http://plus.google.com/115609463128735595001" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/gplus20x20.png" style="vertical-align: middle;"/> google plus</a></li>
+				</ul>
+			</aside>
+			<aside id="creditos" class="side-widget">
+				<header><h3>Cr&eacute;ditos</h3></header>
+				<ul>
+					<li><a href="http://presswork.me" target="_blank">PressWork</a> - Dise&ntilde;o del blog</li>
+					<li><a href="http://arbent.net/blog" target="_blank">Arbenting</a> - Iconos de redes sociales</li>
+				</ul>
+			</aside>
+		</li> <!-- end firstsidebar -->
+
+	</ul>
+</div>
+</body>
+</html>
