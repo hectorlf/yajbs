@@ -4,12 +4,13 @@ import java.util.Locale;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-//@Entity
-//@Table(name="languages")
-@MappedSuperclass
-public class Language extends PersistentObject {
+@Entity
+@Table(name="languages")
+//@MappedSuperclass
+public abstract class Language extends PersistentObject {
 
 	@Basic(optional=false)
 	@Column(name="language",length=3)

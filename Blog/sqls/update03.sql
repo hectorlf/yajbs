@@ -32,8 +32,6 @@ CREATE TABLE `languages` (
   `language` varchar(3) NOT NULL,
   `region` varchar(3) NULL,
   `variant` varchar(8) NULL,
-  `name` varchar(10) NOT NULL,
-  `flag_image_url` varchar(100) NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `lang_reg_var` (`language`,`region`,`variant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
