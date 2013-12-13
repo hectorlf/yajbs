@@ -20,7 +20,6 @@
         <class>com.hectorlopezfernandez.model.Host</class>
         <class>com.hectorlopezfernandez.model.Alias</class>
         <class>com.hectorlopezfernandez.model.Theme</class>
-        <class>com.hectorlopezfernandez.model.BlogLanguage</class>
         
 
 		<!-- Configuracion especifica para openjpa -->

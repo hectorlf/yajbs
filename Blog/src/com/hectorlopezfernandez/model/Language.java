@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="languages")
 //@MappedSuperclass
-public abstract class Language extends PersistentObject {
+public class Language extends PersistentObject {
 
 	@Basic(optional=false)
 	@Column(name="language",length=3)

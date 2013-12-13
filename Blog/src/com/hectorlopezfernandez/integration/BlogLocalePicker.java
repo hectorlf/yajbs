@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Injector;
-import com.hectorlopezfernandez.model.BlogLanguage;
+import com.hectorlopezfernandez.model.Language;
 import com.hectorlopezfernandez.model.User;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.utils.Constants;
@@ -86,7 +86,7 @@ public class BlogLocalePicker implements LocalePicker {
     	
     	// si no hay ningun idioma preseleccionado, se utiliza el lenguaje del navegador
     	BlogService bs = theInjector.getInstance(BlogService.class);
-    	List<BlogLanguage> systemLanguages = bs.getAllLanguages();
+    	List<Language> systemLanguages = bs.getAllLanguages();
     	
         Locale oneWayMatch = null;
         Locale twoWayMatch= null;
@@ -94,7 +94,7 @@ public class BlogLocalePicker implements LocalePicker {
         Enumeration<Locale> preferredLocales = request.getLocales();
         while (preferredLocales.hasMoreElements()) {
         	Locale preferredLocale = preferredLocales.nextElement();
-            for (BlogLanguage systemLanguage : systemLanguages) {
+            for (Language systemLanguage : systemLanguages) {
 /*
                 if ( systemLocale.getLanguage().equals(preferredLocale.getLanguage()) ) {
 
