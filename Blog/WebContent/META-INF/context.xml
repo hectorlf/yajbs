@@ -24,7 +24,7 @@
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 		maxActive="100" minIdle="10" maxIdle="20" maxWait="10000" 
 		username="blog" password="blog" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/blog_db" defaultAutoCommit="false"
+		url="jdbc:mysql://localhost:3306/blog_db?rewriteBatchedStatements=true" defaultAutoCommit="false"
 		validationQuery="select 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="10000"
 		validationInterval="14400000" />
 

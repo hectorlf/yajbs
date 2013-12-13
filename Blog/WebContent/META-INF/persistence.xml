@@ -4,7 +4,7 @@
 
     <!-- Configuracion del EntityManagerFactory -->
     <persistence-unit name="blogDataPersistence" transaction-type="RESOURCE_LOCAL">
-        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/jdbc/BlogDB</non-jta-data-source>
 
         <!-- Clases mapeadas -->
@@ -24,19 +24,14 @@
 
 		<!-- Configuracion especifica para openjpa -->
         <properties>
-<!--
-            <property name="openjpa.jdbc.DriverDataSource" value="simple"/>
-            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost/blog_db"/>
-            <property name="openjpa.ConnectionUserName" value="root"/>
-            <property name="openjpa.ConnectionPassword" value=""/>
--->
-            <property name="openjpa.jdbc.DBDictionary" value="mysql"/>
-            <property name="openjpa.Log" value="log4j"/>
-<!-- - ->
-            <property name="openjpa.DataCache" value="true(CacheSize=100, SoftReferenceSize=0)"/>
-            <property name="openjpa.QueryCache" value="true(CacheSize=50, SoftReferenceSize=0)"/>
-<!- - -->
+            <property name="eclipselink.target-database" value="MySQL"/>
+            <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+            <property name="eclipselink.weaving" value="static"/>
+
+            <property name="eclipselink.logging.level" value="FINEST"/>
+            
+            <property name="eclipselink.cache.shared.default" value="true"/>
+            <property name="eclipselink.cache.query-results" value="true"/>
         </properties>
     </persistence-unit>
     

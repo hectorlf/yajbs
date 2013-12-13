@@ -185,4 +185,9 @@
 		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
 
+	<persistence-context-ref>
+		<persistence-context-ref-name>persistence/em</persistence-context-ref-name>
+		<persistence-unit-name>blogDataPersistence</persistence-unit-name>
+	</persistence-context-ref>
+
 </web-app>
