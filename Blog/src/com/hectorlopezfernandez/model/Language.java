@@ -5,11 +5,16 @@ import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.QueryHint;
 import javax.persistence.Table;
+
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 @Entity
 @Table(name="languages")
-//@MappedSuperclass
+@NamedQuery(name="allLanguages",query="select l from Language l",hints={@QueryHint(name=QueryHints.READ_ONLY,value=HintValues.TRUE)})
 public class Language extends PersistentObject {
 
 	@Basic(optional=false)

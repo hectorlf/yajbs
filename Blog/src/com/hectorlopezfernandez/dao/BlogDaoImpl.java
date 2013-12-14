@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +63,7 @@ public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
 		logger.debug("Recuperando id de alias con nombre {}", hostname);
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("hostname", hostname);
-		List<Long> ids = listIds("select a.id from Alias a where a.name = :hostname", params);
+		List<Long> ids = listNamedIds("Alias.aliasIdByName", params);
 		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios alias para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);
@@ -95,7 +97,9 @@ public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
 	@Override
 	public List<Language> getAllLanguages() {
 		logger.debug("Recuperando todos los idiomas del sistema");
-		List<Language> languages = find("select bl from Language bl", null, Language.class);
+		// Query convertida a NamedQuery
+		//List<Language> languages = find("select bl from Language bl", null, Language.class);
+		List<Language> languages = findNamed("allLanguages", null, Language.class);
 		if (languages.size() == 0) return Collections.emptyList();
 		return languages;
 	}

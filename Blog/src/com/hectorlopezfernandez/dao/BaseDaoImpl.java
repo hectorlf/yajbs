@@ -80,6 +80,19 @@ public abstract class BaseDaoImpl {
 		T result = q.getSingleResult();
 		return result;
 	}
+	
+	/**
+	 * @throws NoResultException, cuando no se encuentra ningun resultado
+	 * @throws NonUniqueResultException, cuando se encuentran varios resultados y no se puede devolver solo uno
+	 */
+	final protected Long findUniqueId(String query, Map<String,Object> namedParams) throws NoResultException, NonUniqueResultException {
+		assert(query != null && query.length() > 0);
+		logger.debug("Recuperando campo Long mediante JPQL: {}", query);
+		TypedQuery<Long> q = em.createQuery(query, Long.class);
+		setParameters(q, namedParams);
+		Long result = q.getSingleResult();
+		return result;
+	}
 
 	final protected List<Object[]> list(String query, Map<String,Object> namedParams) {
 		assert(query != null && query.length() > 0);
@@ -136,8 +149,49 @@ public abstract class BaseDaoImpl {
 		em.remove(obj);
 	}
 
+	
+	/*
+	 * NamedQuery methods
+	 */
 
-	/* MÉTODOS DE UTILIDAD */
+	final protected <T extends PersistentObject> List<T> findNamed(String queryName, Map<String,Object> namedParams, Class<T> cls) {
+		assert(queryName != null && queryName.length() > 0);
+		assert(cls != null);
+		logger.debug("Buscando entidades {} mediante NamedQuery: {}", cls.getSimpleName(), queryName);
+		TypedQuery<T> q = em.createNamedQuery(queryName, cls);
+		setParameters(q, namedParams);
+		List<T> results = q.getResultList();
+		if (results.size() == 0) return Collections.emptyList();
+		return results;
+	}
+	
+	/**
+	 * @throws NoResultException, cuando no se encuentra ningun resultado
+	 * @throws NonUniqueResultException, cuando se encuentran varios resultados y no se puede devolver solo uno
+	 */
+	final protected Long findNamedUniqueId(String queryName, Map<String,Object> namedParams) throws NoResultException, NonUniqueResultException {
+		assert(queryName != null && queryName.length() > 0);
+		logger.debug("Recuperando campo Long mediante NamedQuery: {}", queryName);
+		TypedQuery<Long> q = em.createNamedQuery(queryName, Long.class);
+		setParameters(q, namedParams);
+		Long result = q.getSingleResult();
+		return result;
+	}
+
+	final protected List<Long> listNamedIds(String queryName, Map<String,Object> namedParams) {
+		assert(queryName != null && queryName.length() > 0);
+		logger.debug("Listando campos Long mediante NamedQuery: {}", queryName);
+		TypedQuery<Long> q = em.createNamedQuery(queryName, Long.class);
+		setParameters(q, namedParams);
+		List<Long> results = q.getResultList();
+		if (results.size() == 0) return Collections.emptyList();
+		return results;
+	}
+	
+	
+	/* 
+	 * Utility methods
+	 */
 	
 	private void setParameters(Query q, Map<String,Object> namedParams) {
 		if (q == null || namedParams == null || namedParams.size() == 0) return;

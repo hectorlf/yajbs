@@ -21,6 +21,8 @@
         <class>com.hectorlopezfernandez.model.Alias</class>
         <class>com.hectorlopezfernandez.model.Theme</class>
         
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        
 
 		<!-- Configuracion especifica para openjpa -->
         <properties>

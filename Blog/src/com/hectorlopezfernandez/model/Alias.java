@@ -3,19 +3,28 @@ package com.hectorlopezfernandez.model;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.QueryHint;
 import javax.persistence.Table;
+
+import org.eclipse.persistence.annotations.CacheIndex;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 @Entity
 @Table(name="aliases")
+@NamedQuery(name="Alias.aliasIdByName",query="select a.id from Alias a where a.name = :hostname",hints={@QueryHint(name=QueryHints.READ_ONLY,value=HintValues.TRUE)})
 public class Alias extends PersistentObject {
 
 	@Basic(optional=false)
 	@Column(name="name",length=50,nullable=false)
+	@CacheIndex
 	private String name;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false,fetch=FetchType.LAZY)
 	@JoinColumn(name="host_id",nullable=false)
 	private Host host;
 	
