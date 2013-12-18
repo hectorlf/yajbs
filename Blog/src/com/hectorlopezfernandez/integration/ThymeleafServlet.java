@@ -20,7 +20,7 @@ import org.thymeleaf.stripes.context.StripesWebContext;
 import org.thymeleaf.stripes.messageresolver.PropertyResourceBundleMessageResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-@WebServlet(urlPatterns={"/WEB-INF/thymeleaf/*"},loadOnStartup=4)
+@WebServlet(urlPatterns={"*.html"},loadOnStartup=4)
 public class ThymeleafServlet implements Servlet {
 
 	private final static Logger logger = LoggerFactory.getLogger(ThymeleafServlet.class);

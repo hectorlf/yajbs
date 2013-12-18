@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="es-ES" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/stripes">
+
+<head th:fragment="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="description" content="contenido de prueba" th:content="${metaDescription}" th:if="${metaDescription != null}"/>
+	<meta charset="UTF-8"/>
+	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="generator" content="Yet Another Java Blogging System 0.3"/>
+	<link rel="shortcut icon" type="image/gif" href="http://media.hectorlopezfernandez.com/favicon.gif"/>
+	<!--[if IE]><![endif]-->
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link rel="profile" href="http://gmpg.org/xfn/11"/>
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/style.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/custom.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Simonetta" type="text/css"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400" type="text/css"/>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quattrocento" type="text/css"/>
+	<link rel="alternate" href="feed.html" type="application/atom+xml" title="Feed de entradas en formato ATOM" th:href="@{com.hectorlopezfernandez.action.FeedAction}"/>
+	<link rel="index" title="Home" href="index.html" th:href="@{com.hectorlopezfernandez.action.IndexAction}"/>
+	<title th:utext="${pageName} + ' - ' + ${preferences.title}">Pagina de prueba</title>
+</head>
+
+<!--[if lt IE 7 ]><body class="page ie6"><![endif]-->
+<!--[if IE 7 ]><body class="page ie7"><![endif]-->
+<!--[if IE 8 ]><body class="page ie8"><![endif]-->
+<!--[if IE 9 ]><body class="page ie9"><![endif<]-->
+<!--[if (gt IE 9)|!(IE)]><!--><body class="home page"><!--<![endif]-->
+<div id="body-wrapper" class="clearfix">
+	<header id="header-main" role="banner" th:fragment="header">
+		<ul id="headerbanner" class="clearfix">
+			<li id="header_logo" class="mainl">
+				<div id="site-logo" class="siteheader">
+					<h1><a href="index.html" title="Blog de prueba" th:href="@{com.hectorlopezfernandez.action.IndexAction}" th:utext="${preferences.title}">Blog de prueba</a></h1> <span style="font-style: italic;" th:utext="'{ '+${preferences.tagline}+' }'">{ un blog de prueba }</span>
+				</div>
+			</li>
+			<li id="nav" class="mainl">
+				<nav class="clear fl" role="navigation">
+					<h3 class="assistive-text">Men&uacute;</h3>
+					<ul id="main-menu" class="menu">
+						<li id="inicio"><a href="index.html" th:href="@{com.hectorlopezfernandez.action.IndexAction}">Inicio</a></li>
+						<li id="curriculum"><a href="curriculum.html" th:href="@{com.hectorlopezfernandez.action.PagesAction(name='curriculum')}">Curr&iacute;culum</a></li>
+						<li id="github"><a href="github.html" th:href="@{com.hectorlopezfernandez.action.PagesAction(name='github')}">GitHub</a></li>
+					</ul>
+				</nav>
+			</li>
+		</ul> <!-- end headerbanner -->
+	</header> <!-- end header -->
+
+	<ul id="main-wrapper">
+		<li id="maincontent" role="main"> <!-- begin maincontent -->
+
+			<article id="page-0" class="page" th:id="'page-'+${actionBean.page.id}" th:fragment="page-detail">
+				<header>
+					<hgroup>
+						<h1 class="posttitle"><a href="page.html" title="Enlace permanente a page.html" rel="bookmark" th:href="@{com.hectorlopezfernandez.action.PagesAction(name=${actionBean.page.titleUrl})}" th:title="'Enlace permanente a '+${actionBean.page.title}" th:utext="${actionBean.page.title}">Una página de prueba</a></h1>
+					</hgroup>
+				</header>
+				<div class="storycontent" th:utext="${actionBean.page.content}">Texto de una página de prueba</div>
+				<footer class="clearfix fl"></footer>
+			</article>
+
+		</li>
+		
+		<li id="firstsidebar" role="complementary" class="el2" th:fragment="sidebar"> <!-- begin firstsidebar -->
+			<aside id="search-3" class="side-widget widget_search">
+				<form role="search" method="get" id="searchform" action="#" th:action="@{com.hectorlopezfernandez.action.SearchAction}">
+					<label class="assistive-text" for="s">Buscar</label>
+					<input type="search" id="s" name="q" placeholder="Texto..." maxlength="50" th:value="${queryText}"/>
+				</form>
+			</aside>
+			<aside id="who" class="side-widget">
+				<header><h3>&iquest;Qui&eacute;n?</h3></header>
+				<article id="who" class="post side-featured odd">
+					<img width="50" height="65" src="http://media.hectorlopezfernandez.com/hector.png" class="alignleft wp-post-image" alt="H&eacute;ctor" title="H&eacute;ctor"/>
+					<div class="content-col">
+						<header>
+							<h1 class="posttitle">H&eacute;ctor L&oacute;pez Fern&aacute;ndez</h1>
+						</header>
+						<div class="storycontent">
+							<p class="excerpt">Ingeniero de estudios, consultor de T.I. de profesi&oacute;n, afincado en Madrid y con la cabeza en la Web y en Android.</p>
+						</div>
+					</div>
+				</article>
+			</aside>
+			<aside id="feeds" class="side-widget">
+				<header><h3>&iquest;Quieres suscribirte?</h3></header>
+				<ul>
+					<li><a href="feed.html" target="_blank" th:href="@{com.hectorlopezfernandez.action.FeedAction}"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/rss20x20.png" style="vertical-align: middle;"/> feed de entradas en ATOM</a></li>
+				</ul>
+			</aside>
+			<aside id="contacto" class="side-widget">
+				<header><h3>Contacto</h3></header>
+				<ul>
+					<li><a href="http://es.linkedin.com/in/hectorlopezfernandez" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/linkedin20x20.png" style="vertical-align: middle;"/> linkedin</a></li>
+					<li><a href="http://twitter.com/hectorlf" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/twitter20x20.png" style="vertical-align: middle;"/> twitter</a></li>
+					<li><a href="http://plus.google.com/+hectorlopezfernandez" target="_blank"><img width="20" height="20" src="http://media.hectorlopezfernandez.com/gplus20x20.png" style="vertical-align: middle;"/> google plus</a></li>
+				</ul>
+			</aside>
+			<aside id="creditos" class="side-widget">
+				<header><h3>Cr&eacute;ditos</h3></header>
+				<ul>
+					<li><a href="http://presswork.me" target="_blank">PressWork</a> - Dise&ntilde;o del blog</li>
+					<li><a href="http://arbent.net/blog" target="_blank">Arbenting</a> - Iconos de redes sociales</li>
+				</ul>
+			</aside>
+		</li> <!-- end firstsidebar -->
+	</ul>
+
+	<footer id="footer-main" class="clearfix fl" role="contentinfo" th:fragment="footer"> <!-- begin footer -->
+	<th:use-action-bean class="com.hectorlopezfernandez.action.RecentArchiveEntriesAction" event="execute" var="archiveEntriesBean"/>
+	<th:use-action-bean class="com.hectorlopezfernandez.action.PopularTagsAction" event="execute" var="popularTagsBean"/>
+	<th:use-action-bean class="com.hectorlopezfernandez.action.RecentCommentsAction" event="execute" var="recentCommentsBean"/>
+		<ul id="footer" class="clearfix">
+			<li id="extendedfooter" class="foot" role="complementary">
+				<aside id="archives" class="widget1 bottom-widget widget_archive" th:with="archiveEntries=${#ctx.variables.archiveEntriesBean}">
+					<h3><a href="archive.html" th:href="@{com.hectorlopezfernandez.action.ArchiveAction}">Archivo</a></h3>
+					<ul th:each="entry : ${archiveEntries.entries}" th:with="month=${#numbers.formatInteger(entry.month,2)}">
+						<li><a href="enero.html" title="enero" th:href="@{com.hectorlopezfernandez.action.ArchiveAction(year=${entry.year},month=${month})}" th:title="'Month: '+${month}" th:utext="${#strings.capitalize('month ')+month}">Enero</a> de <a href="2013.html" title="2013" th:href="@{com.hectorlopezfernandez.action.ArchiveAction(year=${entry.year})}" th:title="${entry.year}" th:utext="${#joda.createNow()}">2013</a></li>
+					</ul>
+				</aside>
+				<aside id="tagcloud" class="widget2 bottom-widget widget_tag_cloud" th:with="popularTags=${#ctx.variables.popularTagsBean}">
+					<h3><a href="tags.html" th:href="@{com.hectorlopezfernandez.action.TagsAction}">Etiquetas frecuentes</a></h3>
+					<div th:each="tag : ${popularTags.tags}">
+						<a href="tag1.html" title="tag1" style="font-size:8pt;" th:href="@{com.hectorlopezfernandez.action.TagsAction(name=${tag.nameUrl})}" th:title="${tag.name}" th:utext="${tagStat.index>0}?'&#8226; '+${tag.name}">tag1</a>
+					</div>
+				</aside>
+				<aside id="recentcomments-aside" class="widget3 bottom-widget widget_recent_comments" th:with="recentComments=${#ctx.variables.recentCommentsBean}">
+					<h3>&Uacute;ltimos comentarios</h3>
+					<ul id="recentcomments" th:each="comment : ${recentComments.comments}" th:with="month=${#numbers.formatInteger(comment.post.month,2)}">
+						<li class="recentcomments"><span th:text="${comment.author.displayName}">Pepito</span> en <a href="comentario1.html" th:href="@{com.hectorlopezfernandez.action.ArchiveAction#comment-${comment.id}(year=${comment.post.year},month=${month},name=${comment.post.titleUrl})}" th:text="${comment.post.title}">Titulo de post</a></li>
+					</ul>
+				</aside>
+			</li>
+			<li id="copyright" class="foot">&copy;2013 All Rights Reserved &#8226; Served by YAJBS 0.3 &#8226; Original design by <a href="http://presswork.me">PressWork</a></li>
+		</ul> <!-- end #footer -->
+	</footer> <!-- end footer -->
+</div>
+</body>
+
+</html>

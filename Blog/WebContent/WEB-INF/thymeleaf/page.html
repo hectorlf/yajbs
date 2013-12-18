@@ -2,7 +2,7 @@
 
 <html dir="ltr" lang="es-ES" xmlns:th="http://www.thymeleaf.org/stripes">
 
-<head th:include="/WEB-INF/thymeleaf/fragments/head.html::head" th:with="pageName=${actionBean.page.title},metaDescription=${actionBean.page.metaDescription}">
+<head th:include="/WEB-INF/thymeleaf/templates/page-template.html::head" th:with="pageName=${actionBean.page.title},metaDescription=${actionBean.page.metaDescription}">
 	<title>Pagina de prueba</title>
 </head>
 
@@ -12,20 +12,20 @@
 <!--[if IE 9 ]><body class="page ie9"><![endif<]-->
 <!--[if (gt IE 9)|!(IE)]><!--><body class="home page"><!--<![endif]-->
 <div id="body-wrapper" class="clearfix">
-	<header id="header-main" role="banner" th:replace="/WEB-INF/thymeleaf/fragments/header.html::header">
+	<header id="header-main" role="banner" th:replace="/WEB-INF/thymeleaf/templates/page-template.html::header">
 		<p>El título y eso</p>
 	</header>
 	<ul id="main-wrapper">
 		<li id="maincontent" role="main"> <!-- begin maincontent -->
-			<article id="page-0" class="page" th:replace="/WEB-INF/thymeleaf/fragments/page-detail.html::page-detail">
+			<article id="page-0" class="page" th:replace="/WEB-INF/thymeleaf/templates/page-template.html::page-detail">
 				<p>Un post</p>
 			</article>
 		</li> <!-- end #maincontent -->
-		<li id="firstsidebar" role="complementary" class="el2" th:replace="/WEB-INF/thymeleaf/fragments/sidebar-small.html::sidebar">
+		<li id="firstsidebar" role="complementary" class="el2" th:replace="/WEB-INF/thymeleaf/templates/page-template.html::sidebar">
 			<p>Barra lateral de prueba</p>
 		</li>
 	</ul> <!-- end #main-wrapper ul -->
-	<footer id="footer-main" class="clearfix fl" role="contentinfo" th:replace="/WEB-INF/thymeleaf/fragments/footer.html::footer">
+	<footer id="footer-main" class="clearfix fl" role="contentinfo" th:replace="/WEB-INF/thymeleaf/templates/page-template.html::footer">
 		<p>Pie de página de prueba</p>
 	</footer>
 </div> <!-- end #body-wrapper -->
