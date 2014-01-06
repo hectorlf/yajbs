@@ -35,4 +35,23 @@
 					<li><a href="http://arbent.net/blog" target="_blank">Arbenting</a> - Iconos de redes sociales</li>
 				</ul>
 			</aside>
+			<aside id="tecnologias" class="side-widget">
+				<header><h3>Lo que hay debajo</h3></header>
+				<table>
+					<tr>
+						<td><a href="http://www.stripesframework.org" title="Stripes Framework"><img src="http://media.hectorlopezfernandez.com/logo-stripes.png"/></a></td>
+						<td><a href="http://www.eclipse.org/eclipselink/" title="EclipseLink"><img src="http://media.hectorlopezfernandez.com/logo-eclipselink.png"/></a></td>
+						<td><a href="http://www.thymeleaf.org" title="Thymeleaf"><img src="http://media.hectorlopezfernandez.com/logo-thymeleaf.png"/></a></td>
+					</tr>
+					<tr>
+						<td><a href="http://code.google.com/p/google-guice/" title="Google Guice"><img src="http://media.hectorlopezfernandez.com/logo-google-guice.png"/></a></td>
+						<td><a href="http://shiro.apache.org" title="Apache Shiro"><img src="http://media.hectorlopezfernandez.com/logo-apache-shiro.png"/></a></td>
+						<td><a href="http://lucene.apache.org" title="Apache Lucene"><img src="http://media.hectorlopezfernandez.com/logo-apache-lucene.png"/></a></td>
+					</tr>
+					<tr>
+						<td><a href="http://www.gradle.org" title="Gradle"><img src="http://media.hectorlopezfernandez.com/logo-gradle.png"/></a></td>
+						<td colspan="2"><a href="http://tomcat.apache.org" title="Apache Tomcat"><img src="http://media.hectorlopezfernandez.com/logo-apache-tomcat.png"/></a></td>
+					</tr>
+				</table>
+			</aside>
 		</li> <!-- end firstsidebar -->

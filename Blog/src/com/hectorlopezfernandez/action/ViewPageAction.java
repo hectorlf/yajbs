@@ -44,8 +44,8 @@ public class ViewPageAction implements ActionBean {
 		// si no existe, 404
 		if (page == null) return new ForwardResolution(Error404Action.class);
 		
-		if (ctx.getRequest().getParameter("thymeleaf") != null) return new ForwardResolution("/WEB-INF/thymeleaf/page.html");
-		return new ForwardResolution("/WEB-INF/jsp/page.jsp");
+		if (ctx.getRequest().getParameter("jsp") != null) return new ForwardResolution("/WEB-INF/jsp/page.jsp");
+		return new ForwardResolution("/WEB-INF/thymeleaf/page.html");
 	}
 	
 	// Getters y setters

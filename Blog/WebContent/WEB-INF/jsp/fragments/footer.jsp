@@ -5,13 +5,13 @@
 				<aside id="archives" class="widget1 bottom-widget widget_archive">
 					<h3><stripes:link beanclass="com.hectorlopezfernandez.action.ArchiveAction">Archivo</stripes:link></h3>
 					<ul>
-<c:forEach items="${archiveEntriesBean.entries}" var="entry"><fmt:formatNumber minIntegerDigits="2" type="number" value="${entry.month}" var="month"/><stripes:url beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="monthlyArchiveUrl"><stripes:param name="year" value="${entry.year}"/><stripes:param name="month" value="${month}"/></stripes:url><stripes:url beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="yearlyArchiveUrl"><stripes:param name="year" value="${entry.year}"/></stripes:url><joda:format value="${entry.date}" pattern="MMMM" locale="es_ES" var="entryMonth"/><joda:format value="${entry.date}" pattern="yyyy" locale="es_ES" var="entryYear"/>						<li><a href="${monthlyArchiveUrl}" title="${entryMonth}">${h:toTitleCase(entryMonth)}</a> de <a href="${yearlyArchiveUrl}" title="${entryYear}">${entryYear}</a></li>
+<c:forEach items="${archiveEntriesBean.entries}" var="entry"><fmt:formatNumber minIntegerDigits="2" type="number" value="${entry.month}" var="month"/><stripes:url beanclass="com.hectorlopezfernandez.action.ArchiveAction" var="monthlyArchiveUrl"><stripes:param name="year" value="${entry.year}"/><stripes:param name="month" value="${month}"/></stripes:url><joda:format value="${entry.date}" pattern="MMMM yyyy" locale="es_ES" var="entryDateAsText"/>						<li><a href="${monthlyArchiveUrl}" title="Entradas de ${entryDateAsText}">${entryDateAsText}</a></li>
 </c:forEach>					</ul>
 				</aside>
 				<aside id="tagcloud" class="widget2 bottom-widget widget_tag_cloud">
 					<h3><stripes:link beanclass="com.hectorlopezfernandez.action.TagsAction">Etiquetas frecuentes</stripes:link></h3>
 					<div>
-<c:forEach items="${popularTagsBean.tags}" var="tag" varStatus="status"><stripes:url beanclass="com.hectorlopezfernandez.action.TagsAction" var="tagUrl"><stripes:param name="name" value="${tag.nameUrl}"/></stripes:url>						<c:if test="${status.index > 0}">&#8226; </c:if><a href="${tagUrl}" title="${tag.count} entrada<c:if test="${tag.count != 1}">s</c:if>" style="font-size:8pt;">${tag.name}</a>
+<c:forEach items="${popularTagsBean.tags}" var="tag" varStatus="status"><stripes:url beanclass="com.hectorlopezfernandez.action.TagsAction" var="tagUrl"><stripes:param name="name" value="${tag.nameUrl}"/></stripes:url>						<span><c:if test="${status.index > 0}">&#8226; </c:if><a href="${tagUrl}" title="${tag.name}" style="font-size:8pt;">${tag.name}</a></span>
 </c:forEach>					</div>
 				</aside>
 				<aside id="recent-comments-3" class="widget3 bottom-widget widget_recent_comments">
@@ -21,6 +21,6 @@
 </c:forEach>					</ul>
 				</aside>
 			</li>
-			<li id="copyright" class="foot">&copy;2013 All Rights Reserved &#8226; Served by <%=Constants.APP_NAME%> <%=Constants.APP_VERSION%> &#8226; Original design by <a href="http://presswork.me">PressWork</a></li>
+			<li id="copyright" class="foot"><a rel="license" title="Esta obra est&aacute; bajo una licencia Creative Commons" href="http://creativecommons.org/licenses/by/3.0/es/" style="vertical-align:middle;"><img alt="Esta obra est&aacute; bajo una licencia Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/es/80x15.png" /></a> &#8226; <stripes:link beanclass="com.hectorlopezfernandez.action.PagesAction"><stripes:param name="name" value="aviso-legal"/>Aviso legal</stripes:link> &#8226; Served by YAJBS 0.3 &#8226; Original design by <a href="http://presswork.me">PressWork</a></li>
 		</ul> <!-- end #footer -->
 	</footer> <!-- end footer -->
