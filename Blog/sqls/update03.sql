@@ -40,7 +40,7 @@ CREATE TABLE `languages` (
 -- Datos de lenguajes por defecto
 --
 
-INSERT INTO `languages` (`id`, `language`, `region`, `name`) VALUES (1, 'es', 'ES', 'Español');
+INSERT INTO `languages` (`id`, `language`, `region`) VALUES (1, 'es', 'ES');
 
 --
 -- Alter para la union de usuarios con lenguajes

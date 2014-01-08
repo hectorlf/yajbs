@@ -1,15 +1,18 @@
 <%---- %>
-<!-- Piwik Tracking Code --> 
+<!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.hectorlopezfernandez.com/" : "http://piwik.hectorlopezfernandez.com/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.hectorlopezfernandez.com/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "1"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
 </script>
-<script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script>
-<noscript><p><img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1" style="border:0" alt="" width="0" height="0"/></p></noscript>
-<!-- End Piwik Tracking Code --><%----%>
+<noscript><img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
+<!-- End Piwik -->
+<%----%>
