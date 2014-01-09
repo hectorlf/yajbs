@@ -48,14 +48,13 @@ public class HostResolverFilter implements Filter {
 		// se usa el nombre completo del servidor que figura en la cabecera http para identificar el host
 		logger.debug("Nombre del servidor: {}", request.getServerName());
 		String hostname = request.getServerName();
-		Long hostId = bs.getAliasIdByName(hostname);
-		if (hostId == null) {
+		Alias a = bs.getAliasByName(hostname);
+		if (a == null) {
 			logger.info("Se ha intentado acceder al blog en el Host {}, pero ese nombre de host no existe en la tabla de aliases.", hostname);
 			((HttpServletResponse)response).sendError(404);
 			return;
 		}
 		logger.debug("Seleccionado host {} como responsable de la peticion.",hostname);
-		Alias a = bs.getAlias(hostId);
 		request.setAttribute(Constants.ALIAS_REQUEST_ATTRIBUTE_NAME, a);
 		// una vez obtenido el host, se continua con la cadena de filtros
 		filterChain.doFilter(request, response);

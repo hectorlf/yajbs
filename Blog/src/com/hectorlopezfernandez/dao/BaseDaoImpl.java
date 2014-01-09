@@ -164,6 +164,19 @@ public abstract class BaseDaoImpl {
 		if (results.size() == 0) return Collections.emptyList();
 		return results;
 	}
+
+	/**
+	 * @throws NoResultException, cuando no se encuentra ningun resultado
+	 * @throws NonUniqueResultException, cuando se encuentran varios resultados y no se puede devolver solo uno
+	 */
+	final protected <T extends PersistentObject> T findNamedUnique(String queryName, Map<String,Object> namedParams, Class<T> cls) throws NoResultException, NonUniqueResultException {
+		assert(queryName != null && queryName.length() > 0);
+		logger.debug("Recuperando entidad mediante NamedQuery: {}", queryName);
+		TypedQuery<T> q = em.createNamedQuery(queryName, cls);
+		setParameters(q, namedParams);
+		T result = q.getSingleResult();
+		return result;
+	}
 	
 	/**
 	 * @throws NoResultException, cuando no se encuentra ningun resultado

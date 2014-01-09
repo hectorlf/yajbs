@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.QueryHint;
 import javax.persistence.Table;
@@ -16,8 +17,14 @@ import org.eclipse.persistence.config.QueryHints;
 
 @Entity
 @Table(name="aliases")
-@NamedQuery(name="Alias.aliasIdByName",query="select a.id from Alias a where a.name = :hostname",hints={@QueryHint(name=QueryHints.READ_ONLY,value=HintValues.TRUE)})
+@NamedQueries(value={
+@NamedQuery(name=Alias.ID_BY_NAME_QUERY,query="select a.id from Alias a where a.name = :hostname",hints={@QueryHint(name=QueryHints.READ_ONLY,value=HintValues.TRUE)}),
+@NamedQuery(name=Alias.BY_NAME_QUERY,query="select a from Alias a where a.name = :hostname",hints={@QueryHint(name=QueryHints.READ_ONLY,value=HintValues.TRUE)})
+})
 public class Alias extends PersistentObject {
+	
+	public final static String ID_BY_NAME_QUERY = "Alias.aliasIdByName";
+	public final static String BY_NAME_QUERY = "Alias.aliasByName";
 
 	@Basic(optional=false)
 	@Column(name="name",length=50,nullable=false)

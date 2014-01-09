@@ -48,12 +48,14 @@ public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
 		logger.debug("Recuperando alias con nombre {}", hostname);
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("hostname", hostname);
-		List<Long> ids = listIds("select a.id from Alias a where a.name = :hostname", params);
-		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios alias para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
-		if (ids.size() == 0) return null;
-		Long id = ids.get(0);
-		Alias host = get(id, Alias.class);
-		return host;
+		try {
+			Alias alias = findNamedUnique(Alias.BY_NAME_QUERY, params, Alias.class);
+			return alias;
+		} catch(NoResultException nre) {
+			return null;
+		} catch (NonUniqueResultException nure) {
+			throw new DataIntegrityException("Se han encontrado varios alias para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
+		}
 	}
 	
 	// recupera el id de un alias a partir del nombre
@@ -97,8 +99,6 @@ public class BlogDaoImpl extends BaseDaoImpl implements BlogDao {
 	@Override
 	public List<Language> getAllLanguages() {
 		logger.debug("Recuperando todos los idiomas del sistema");
-		// Query convertida a NamedQuery
-		//List<Language> languages = find("select bl from Language bl", null, Language.class);
 		List<Language> languages = findNamed("allLanguages", null, Language.class);
 		if (languages.size() == 0) return Collections.emptyList();
 		return languages;
