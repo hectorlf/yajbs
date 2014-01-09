@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sourceforge.stripes.config.Configuration;
@@ -20,23 +21,6 @@ import com.hectorlopezfernandez.model.User;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.utils.Constants;
 
-/**
- * <p>Default locale picker that uses a comma separated list of locales in the servlet init
- * parameters to determine the set of locales that are supported by the application.  Then at
- * request time matches the user's preference order list as specified by the headers included
- * in the request until it finds one of those locales in the system list.  If a match cannot be
- * found, the first locale in the system list will be picked.  If there is no list of configured
- * locales then the picker will default the list to a one entry list containing the system locale.</p>
- *
- * <p>Locales are hierarchical, with up to three levels designating language, country and
- * variant.  Only the first level (language) is required.  To provide the best match possible the
- * DefaultLocalePicker tracks the one-level matches, two-level matches and three-level matches. If
- * a three level match is found, it will be returned.  If not the first two-level match will be
- * returned if one was found.  If not, the first one-level match will be returned.  If not even a
- * one-level match is found, the first locale supported by the system is returned.</p>
- *
- * @author Tim Fennell
- */
 public class BlogLocalePicker implements LocalePicker {
 
     /** Log instance for use within the class. */
@@ -48,7 +32,6 @@ public class BlogLocalePicker implements LocalePicker {
     /**
      * Constructores
      */
-    
     @Inject
     public BlogLocalePicker(Injector anInjector) {
         theInjector = anInjector;
@@ -62,77 +45,44 @@ public class BlogLocalePicker implements LocalePicker {
     }
 
     /**
-     * Uses a preference matching algorithm to pick a Locale for the user's request.  Iterates
-     * through the user's acceptable list of Locales, matching them against the system list. On the
-     * way through the list records the first Locale to match on Language, and the first locale to
-     * match on both Language and Country.  If a match is found for all three, Language, Country
-     * and Variant, it will be returned.  If no three-way match is found the first two-way match
-     * found will be returned.  If no two-way match way found the first one-way match found will
-     * be returned.  If no one way match was found, the default system locale will be returned.
-     *
      * @param request the request being processed
      * @return a Locale to use in processing the request
      */
 	public Locale pickLocale(HttpServletRequest request) {
     	// si existe un usuario autenticado en el sistema, se usa su lenguaje preferido
     	if (SecurityUtils.getSubject().isAuthenticated()) {
-    		logger.debug("Existe un usuario autenticado, se utiliza el locale que tiene configurado.");
     		User u = (User)request.getAttribute(Constants.LOGGED_USER_REQUEST_ATTRIBUTE_NAME);
     		Locale l = u.getLanguage().toLocale();
     		return l;
     	}
-    	
-    	// si el usuario ha seleccionado un lenguaje con una cookie o un parametro de url, se utiliza
-    	
-    	// si no hay ningun idioma preseleccionado, se utiliza el lenguaje del navegador
+
     	BlogService bs = theInjector.getInstance(BlogService.class);
     	List<Language> systemLanguages = bs.getAllLanguages();
+
+    	// si el usuario ha seleccionado un lenguaje con una cookie o un parametro de url, se utiliza
+    	// comprobando primero que sea un locale soportado por el sistema
+    	String localeFromCookie = findLocaleCookie(request);
+    	if (localeFromCookie != null && localeFromCookie.length() > 0) {
+    		Locale loc = Locale.forLanguageTag(localeFromCookie);
+    		for (Language lang : systemLanguages) {
+    			if (lang.toLocale().equals(loc)) return loc;
+    		}
+    	}
     	
-        Locale oneWayMatch = null;
-        Locale twoWayMatch= null;
+    	// si no hay ningun idioma preseleccionado, se utiliza el lenguaje del navegador
+    	// se inserta un atributo en la request para que el actioncontext pueda saber que el locale se seleccionó por defecto
+    	request.setAttribute(Constants.DEFAULT_LOCALE_SELECTED, Boolean.TRUE);
 
         Enumeration<Locale> preferredLocales = request.getLocales();
         while (preferredLocales.hasMoreElements()) {
         	Locale preferredLocale = preferredLocales.nextElement();
             for (Language systemLanguage : systemLanguages) {
-/*
-                if ( systemLocale.getLanguage().equals(preferredLocale.getLanguage()) ) {
-
-                    // We have a language match, let's go for two!
-                    oneWayMatch = (oneWayMatch == null ? systemLocale : oneWayMatch);
-                    String systemCountry = systemLocale.getCountry();
-                    String preferredCountry = preferredLocale.getCountry();
-
-                    if ( (systemCountry == null && preferredCountry == null) ||
-                         (systemCountry != null && systemCountry.equals(preferredCountry)) ) {
-
-                        // Ooh, we have a two way match, can we make three?
-                        twoWayMatch = (twoWayMatch == null ? systemLocale : twoWayMatch);
-                        String systemVariant = systemLocale.getVariant();
-                        String preferredVariant = preferredLocale.getVariant();
-
-                        if ( (systemVariant == null && preferredVariant == null) ||
-                                (systemVariant != null && systemVariant.equals(preferredVariant)) ) {
-                            // Bingo!  You sunk my battleship!
-                            return systemLocale;
-                        }
-                    }
-                }
-*/
+            	Locale systemLocale = systemLanguage.toLocale();
+            	if (systemLocale.equals(preferredLocale)) return systemLocale;
             }
         }
-
-        // We didn't get a match complete match, maybe partial will do
-        if (twoWayMatch != null) {
-            return twoWayMatch;
-        }
-        else if (oneWayMatch != null) {
-            return oneWayMatch;
-        }
-        else {
-        	//TODO insertar un atributo en la request para que el actioncontext pueda saber que el locale se seleccionó por defecto
-            return systemLanguages.get(0).toLocale();
-        }
+        // We didn't get a match, return something!
+        return systemLanguages.get(0).toLocale();
     }
 
 	/**
@@ -140,6 +90,20 @@ public class BlogLocalePicker implements LocalePicker {
 	 */
 	public String pickCharacterEncoding(HttpServletRequest request, Locale locale) {
 		return "utf-8";
+	}
+
+	
+	/*
+	 * Metodos de utilidad
+	 */
+	
+	private String findLocaleCookie(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null) return null;
+		for (int i = 0; i < cookies.length; i++) {
+			if (Constants.LOCALE_COOKIE_NAME.equals(cookies[i].getName())) return cookies[i].getValue();
+		}
+		return null;
 	}
 
 }

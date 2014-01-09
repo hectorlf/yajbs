@@ -13,6 +13,8 @@ public final class Constants {
 	public static final String USER_SESSION_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_user_session_filter_toker";
 	public static final String LOGGED_USER_REQUEST_ATTRIBUTE_NAME = "request_context_logged_user";
 	public static final String STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME = "request_context_flash_scope_in_use";
+	public static final String LOCALE_COOKIE_NAME = "user_locale";
+	public static final String DEFAULT_LOCALE_SELECTED = "request_context_default_locale_selected";
 	
 	// constantes sobre la aplicacion
 	public static final String APP_NAME = "YAJBS";
