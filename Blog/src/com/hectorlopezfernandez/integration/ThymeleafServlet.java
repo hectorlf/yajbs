@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.cache.StandardCacheManager;
+import org.thymeleaf.exceptions.TemplateInputException;
 import org.thymeleaf.stripes.StripesTemplateEngine;
 import org.thymeleaf.stripes.context.StripesWebContext;
 import org.thymeleaf.stripes.messageresolver.PropertyResourceBundleMessageResolver;
@@ -87,7 +88,13 @@ public class ThymeleafServlet implements Servlet {
         response.setDateHeader("Expires", 0);
         
         StripesWebContext ctx = new StripesWebContext(request, response, request.getServletContext(), request.getLocale());
-        templateEngine.process(request.getServletPath(), ctx, response.getWriter());
+        try {
+        	templateEngine.process(request.getServletPath(), ctx, response.getWriter());
+        } catch(TemplateInputException tie) {
+        	// usually a non-existent html, log to debug and return 404
+        	logger.debug("Se ha solicitado procesar una plantilla que no existe: {}", request.getServletPath());
+        	response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
 	}
 
 }
