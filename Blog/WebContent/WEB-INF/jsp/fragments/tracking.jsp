@@ -1,4 +1,4 @@
-<%---- %>
+<%----%>
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
@@ -13,6 +13,8 @@
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" /></noscript>
-<!-- End Piwik -->
+<noscript>
+<img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" />
+</noscript>
+<!-- End Piwik Code -->
 <%----%>

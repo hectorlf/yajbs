@@ -14,15 +14,6 @@
 					</div>
 				</article>
 			</aside>
-			<aside id="how" class="side-widget">
-				<header><h3>&iquest;C&oacute;mo?</h3></header>
-				<article id="how" class="post side-featured odd">
-				    <div class="storycontent">
-						<p class="excerpt">Este blog es el resultado de unos cuantos ratos de trasteo y tiene su hogar en una aplicaci&oacute;n de cosecha propia. Es, pr&aacute;cticamente, mi &quot;portafolio tecnol&oacute;gico&quot; y mi banco de pruebas.</p><br>
-						<p class="excerpt">Sobre <a href="http://tomcat.apache.org/" target="_blank">Apache Tomcat</a>, y servido desde una instancia de <a href="http://aws.amazon.com" target="_blank">Amazon Web Services</a>, este clon venido a menos de <a href="http://wordpress.org" target="_blank">Wordpress</a> combina <a href="http://www.mysql.com" target="_blank">MySQL</a>, <a href="http://openjpa.apache.org" target="_blank">OpenJPA</a>, <a href="http://lucene.apache.org" target="_blank">Lucene</a>, <a href="http://code.google.com/p/google-guice/" target="_blank">Google Guice</a> y <a href="http://www.stripesframework.org" target="_blank">Stripes Framework</a> con otras cuantas librer&iacute;as opensource para ofrecer lo que est&aacute;s viendo.</p>
-					</div>
-				</article>
-			</aside>
 			<aside id="feeds" class="side-widget">
 				<header><h3>&iquest;Quieres suscribirte?</h3></header>
 				<ul>
@@ -55,5 +46,24 @@
 					<li><a href="http://www.xatakamovil.com/" target="_blank">Xataka M&oacute;vil</a></li>
 					<li><a href="http://arascarla.blogspot.com/" target="_blank">A Rascarla</a></li>
 				</ul>
+			</aside>
+			<aside id="tecnologias" class="side-widget">
+				<header><h3>Lo que hay debajo</h3></header>
+				<table>
+					<tr>
+						<td><a href="http://www.stripesframework.org" title="Stripes Framework"><img src="http://media.hectorlopezfernandez.com/logo-stripes.png"/></a></td>
+						<td><a href="http://www.eclipse.org/eclipselink/" title="EclipseLink"><img src="http://media.hectorlopezfernandez.com/logo-eclipselink.png"/></a></td>
+						<td><a href="http://www.thymeleaf.org" title="Thymeleaf"><img src="http://media.hectorlopezfernandez.com/logo-thymeleaf.png"/></a></td>
+					</tr>
+					<tr>
+						<td><a href="http://code.google.com/p/google-guice/" title="Google Guice"><img src="http://media.hectorlopezfernandez.com/logo-google-guice.png"/></a></td>
+						<td><a href="http://shiro.apache.org" title="Apache Shiro"><img src="http://media.hectorlopezfernandez.com/logo-apache-shiro.png"/></a></td>
+						<td><a href="http://lucene.apache.org" title="Apache Lucene"><img src="http://media.hectorlopezfernandez.com/logo-apache-lucene.png"/></a></td>
+					</tr>
+					<tr>
+						<td><a href="http://www.gradle.org" title="Gradle"><img src="http://media.hectorlopezfernandez.com/logo-gradle.png"/></a></td>
+						<td colspan="2"><a href="http://tomcat.apache.org" title="Apache Tomcat"><img src="http://media.hectorlopezfernandez.com/logo-apache-tomcat.png"/></a></td>
+					</tr>
+				</table>
 			</aside>
 		</li> <!-- end firstsidebar -->

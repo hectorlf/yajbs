@@ -9,10 +9,8 @@
 	<link rel="shortcut icon" type="image/gif" href="http://media.hectorlopezfernandez.com/favicon.gif">
 	<!--[if IE]><![endif]-->
 	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link rel="profile" href="http://gmpg.org/xfn/11"><%--
-	<link rel="stylesheet" href="<c:url value="/css/style.css"/>" type="text/css" media="screen">
-	<link rel="stylesheet" href="<c:url value="/css/custom.css"/>" type="text/css" media="screen">
---%>	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/style.css" type="text/css" media="screen">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/style.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/custom.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Simonetta" type="text/css">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400" type="text/css">
@@ -20,5 +18,10 @@
 	<link rel="alternate" href="<stripes:url beanclass="com.hectorlopezfernandez.action.FeedAction"/>" type="application/atom+xml" title="Feed de entradas en formato ATOM">
 <%--	<link rel="pingback" href="/pingback.php">--%>
 	<link rel="index" title="Home" href="<stripes:url beanclass="com.hectorlopezfernandez.action.IndexAction"/>">
+	<!-- Code syntax highlighter -->
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/syntaxhighlighter/shCore.css" type="text/css">
+	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/syntaxhighlighter/shThemeDefault.css" type="text/css">
+	<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shBrushJava.js"></script>
 	<title>${pageName} - ${blogTitle}</title>
 </head>

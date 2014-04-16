@@ -7,7 +7,7 @@
 <!--[if IE 7 ]><body class="single ie7"><![endif]-->
 <!--[if IE 8 ]><body class="single ie8"><![endif]-->
 <!--[if IE 9 ]><body class="single ie9"><![endif<]-->
-<!--[if (gt IE 9)|!(IE)]><!--><body class="single"><!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><body class="single" onload="SyntaxHighlighter.all();"><!--<![endif]-->
 
 <div id="body-wrapper" class="clearfix">
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
