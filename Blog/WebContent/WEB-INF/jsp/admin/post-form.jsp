@@ -40,12 +40,12 @@
 					</fieldset>
 					<fieldset>
 						<label>Resumen <span style="font-size:0.7em">texto html, se muestra en todas las p&aacute;ginas que no son el detalle de la entrada</span></label>
-						<stripes:textarea name="excerpt" id="excerpt" rows="4" value="${actionBean.excerpt}"/>
 					</fieldset>
+					<stripes:textarea name="excerpt" id="excerpt" value="${actionBean.excerpt}"/>
 					<fieldset>
 						<label>Contenido <span style="font-size:0.7em">texto html, se muestra en la p&aacute;gina de detalle de la entrada</span></label>
-						<stripes:textarea name="content" id="content" rows="10" value="${actionBean.content}"/>
 					</fieldset>
+					<stripes:textarea name="content" id="content" value="${actionBean.content}"/>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Autor</label>
 						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}"><stripes:options-collection collection="${actionBean.authors}" label="displayName" value="id"/></stripes:select>
@@ -80,7 +80,9 @@ $(document).ready(function() {
 	$("#title").charCount(60);
 	$("#titleUrl").charCount(50);
 	$("#metaDescription").charCount(160);
+	$("#excerpt").markItUp(mySettings);
 	$("#excerpt").charCount(500);
+	$("#content").markItUp(mySettings);
 	$("#content").charCount(3000);
 });
 </script>

@@ -40,8 +40,8 @@
 					</fieldset>
 					<fieldset>
 						<label>Contenido <span style="font-size:0.7em">texto html, se muestra tal cual en el detalle de la p&aacute;gina</span></label>
-						<stripes:textarea name="content" id="content" rows="20" value="${actionBean.content}"/>
 					</fieldset>
+					<stripes:textarea name="content" id="content" value="${actionBean.content}"/>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Blog</label>
 						<stripes:select name="hostId" style="width:92%;" value="${actionBean.hostId}"><stripes:options-collection collection="${actionBean.hosts}" label="title" value="id"/></stripes:select>
@@ -64,6 +64,7 @@ $(document).ready(function() {
 	$("#title").charCount(60);
 	$("#titleUrl").charCount(50);
 	$("#metaDescription").charCount(160);
+	$("#content").markItUp(mySettings);
 	$("#content").charCount(3000);
 });
 </script>
