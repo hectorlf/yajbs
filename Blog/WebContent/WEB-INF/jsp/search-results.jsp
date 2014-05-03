@@ -4,7 +4,7 @@
 
 <%@include file="/WEB-INF/jsp/fragments/head.jsp"%>
 
-<body onload="SyntaxHighlighter.all();">
+<body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
 	<main class="content" role="main">
