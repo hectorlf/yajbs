@@ -50,7 +50,6 @@ public class SearchServiceImpl implements SearchService {
 	private final static int MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO = 4;
 
 	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_48);
-	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 	private final static PostingsHighlighter highlighter = new PostingsHighlighter();
 
 	private final static String ID_FIELD_NAME = "id";
@@ -141,6 +140,7 @@ public class SearchServiceImpl implements SearchService {
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y el documento con la información del post
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 			writer = new IndexWriter(directory, iwc);
 			Document doc = createDocument();
 	    	transferPostToDocument(post, doc);
@@ -165,6 +165,7 @@ public class SearchServiceImpl implements SearchService {
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y se borra el documento
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 			writer = new IndexWriter(directory, iwc);
         	removeDocumentFromIndex(id, writer);
 		} catch(IOException ioe) {
@@ -183,6 +184,7 @@ public class SearchServiceImpl implements SearchService {
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y el documento con la información de la página
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 			writer = new IndexWriter(directory, iwc);
 	    	Document doc = createDocument();
 	    	transferPageToDocument(page, doc);
@@ -207,6 +209,7 @@ public class SearchServiceImpl implements SearchService {
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y se borra el documento
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 			writer = new IndexWriter(directory, iwc);
         	removeDocumentFromIndex(id, writer);
         	writer.close();
@@ -225,7 +228,9 @@ public class SearchServiceImpl implements SearchService {
 		IndexWriter writer = null;
 		try {
 			// se crean los objetos de lucene
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 			writer = new IndexWriter(directory, iwc);
+			writer.deleteAll();
 	    	Document doc = createDocument();
 	    	// se reindexan todos los post
 			List<Post> allPosts = postDao.getAllPosts();

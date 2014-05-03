@@ -5,6 +5,6 @@
 	        </header>
 	        <section class="post-excerpt">
 	            ${post.excerpt}
-	            <p class="readmore"><a href="${postUrl}#readmore">Leer la entrada completa <i class="fa fa-chevron-circle-right"></i></a></p>
+	            <p class="readmore"><a href="${postUrl}#readmore">Leer el resto de la entrada <i class="fa fa-chevron-circle-right"></i></a></p>
 	        </section>
 	    </article>
