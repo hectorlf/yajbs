@@ -62,14 +62,6 @@ public class Post extends PersistentObject {
 	@Transient
 	private DateTime lastModificationDate;
 
-	@Basic(optional=true)
-	@Column(name="header_image_url",length=100)
-	private String headerImageUrl;
-
-	@Basic(optional=true)
-	@Column(name="side_image_url",length=100)
-	private String sideImageUrl;
-	
 	@Basic(optional=false)
 	@Column(name="comments_closed")
 	private boolean commentsClosed;
@@ -184,20 +176,6 @@ public class Post extends PersistentObject {
 	@Column(name="last_modification_date")
 	public long getLastModificationDateAsLong() {
 		return lastModificationDateAsLong;
-	}
-
-	public String getHeaderImageUrl() {
-		return headerImageUrl;
-	}
-	public void setHeaderImageUrl(String headerImageUrl) {
-		this.headerImageUrl = headerImageUrl;
-	}
-
-	public String getSideImageUrl() {
-		return sideImageUrl;
-	}
-	public void setSideImageUrl(String sideImageUrl) {
-		this.sideImageUrl = sideImageUrl;
 	}
 
 	public boolean isCommentsClosed() {

@@ -1,5 +1,8 @@
 package com.hectorlopezfernandez.integration;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
@@ -7,6 +10,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +27,17 @@ public class AppInitializerContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		logger.debug("Creando contexto de la aplicacion");
 		ServletContext sc = sce.getServletContext();
-		// se crea el ramdirectory de lucene
-		Directory dir = new RAMDirectory();
+		// se abre el indice de lucene
+		// si no se pudiera abrir por algún motivo, se crea un RAMDirectory para que no falle
+		Directory dir = null;
+		try {
+			File ld = new File(Constants.LUCENE_DIRECTORY_FILE_PATH);
+			if (!ld.exists()) if (!ld.mkdirs()) throw new IOException("No se ha podido crear la ruta de directorios para el indice de lucene: " + Constants.LUCENE_DIRECTORY_FILE_PATH);
+			dir = FSDirectory.open(ld);
+		} catch(IOException ioe) {
+			logger.error("Ha ocurrido una IOException creando el indice de lucene: {}", ioe.getMessage());
+			dir = new RAMDirectory();
+		}
 		sc.setAttribute(Constants.LUCENE_DIRECTORY_CONTEXT_ATTRIBUTE_NAME, dir);
 		// se crea el inyector de Guice usado para construir los action e inyectar dependencias y se añade al contexto
 		Injector i = Guice.createInjector(new GuiceBindingModule(new GuiceEntityManagerProvider(), dir));

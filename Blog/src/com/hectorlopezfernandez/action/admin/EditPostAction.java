@@ -41,8 +41,6 @@ public class EditPostAction implements ActionBean {
 	private String metaDescription;
 	private String excerpt;
 	private String content;
-	private String headerImageUrl;
-	private String sideImageUrl;
 	private boolean commentsAllowed;
 	private Long hostId; // current host
 	private Long authorId; // current author
@@ -61,8 +59,6 @@ public class EditPostAction implements ActionBean {
 		metaDescription = p.getMetaDescription();
 		excerpt = p.getExcerpt();
 		content = p.getContent();
-		headerImageUrl = p.getHeaderImageUrl();
-		sideImageUrl = p.getSideImageUrl();
 		commentsAllowed = !p.isCommentsClosed();
 		hostId = getContext().getAlias().getHost().getId();
 		authorId = getContext().getLoggedUser().getId();
@@ -146,14 +142,6 @@ public class EditPostAction implements ActionBean {
 
 	public String getContent() {
 		return content;
-	}
-
-	public String getHeaderImageUrl() {
-		return headerImageUrl;
-	}
-
-	public String getSideImageUrl() {
-		return sideImageUrl;
 	}
 
 	public boolean isCommentsAllowed() {

@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8"/>
-	<meta name="generator" content="<%=Constants.APP_NAME%> <%=Constants.APP_VERSION%>">
+	<meta name="generator" content="<%=Constants.APPLICATION_TAG%>">
 	<link rel="shortcut icon" type="image/gif" href="http://media.hectorlopezfernandez.com/favicon.gif">
 	<title>${pageName}</title>
 	<!--[if lt IE 9]>

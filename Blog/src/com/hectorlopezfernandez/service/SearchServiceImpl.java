@@ -49,8 +49,8 @@ public class SearchServiceImpl implements SearchService {
 	private final static int MAX_RESULTADOS_BUSQUEDA = 20;
 	private final static int MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO = 4;
 
-	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
-	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
+	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_48);
+	private final static IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
 	private final static PostingsHighlighter highlighter = new PostingsHighlighter();
 
 	private final static String ID_FIELD_NAME = "id";
@@ -97,7 +97,7 @@ public class SearchServiceImpl implements SearchService {
 			reader = DirectoryReader.open(directory);
 			// se construyen los objetos de lucene
 	        IndexSearcher searcher = new IndexSearcher(reader);
-	        QueryParser parser = new QueryParser(Version.LUCENE_44, INDEXED_FIELD_NAME, analyzer);
+	        QueryParser parser = new QueryParser(Version.LUCENE_48, INDEXED_FIELD_NAME, analyzer);
 	        Query query = parser.parse(queryString);
 	        // se buscan los mejores MAX_RESULTADOS_BUSQUEDA resultados
 	        TopDocs searchResults = searcher.search(query, MAX_RESULTADOS_BUSQUEDA);
@@ -116,7 +116,7 @@ public class SearchServiceImpl implements SearchService {
 	        	results.add(sr);
 	        }
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException accediendo al RAMDirectory de Lucene. RARO, RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException accediendo al Directory de Lucene. RARO, RARO. -> {}", ioe.getMessage());
 		} catch(ParseException pe) {
 			logger.warn("Ha ocurrido una ParseException al procesar el texto de búsqueda. Esto no debería pasar. -> {}", pe.getMessage());
 		} finally {

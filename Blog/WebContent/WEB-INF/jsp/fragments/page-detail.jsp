@@ -1,12 +1,28 @@
-<%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><stripes:url beanclass="com.hectorlopezfernandez.action.PagesAction" var="pageUrl"><stripes:param name="name" value="${page.titleUrl}"/></stripes:url>
-			<article id="page-${page.id}" class="page">
-				<header>
-					<hgroup>
-						<h1 class="posttitle"><a href="${pageUrl}" title="Enlace permanente a ${page.title}" rel="bookmark">${page.title}</a></h1>
-					</hgroup>
-				</header>
-				<div class="storycontent">
-					${page.content}
-				</div> 
-				<footer class="clearfix fl"></footer>
-			</article>
+<%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><stripes:url beanclass="com.hectorlopezfernandez.action.PagesAction" prependContext="true" var="pageUrl"><stripes:param name="name" value="${page.titleUrl}"/></stripes:url>	    <article>
+	        <header>
+	        	<h1 class="post-title">${page.title}</h1>
+	        </header>
+	
+	        <section class="post-content">
+	            ${page.content}
+	        </section>
+	
+	        <section class="share">
+	            <p class="info prompt">Compartir esta p&aacute;gina</p>
+	            <a href="http://twitter.com/share?text=${page.title}&url=http://${alias.name}${pageUrl}"
+	                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+	                <i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span>
+	            </a>
+	            <a href="https://www.facebook.com/sharer/sharer.php?u=http://${alias.name}${pageUrl}"
+	                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+	                <i class="fa fa-2x fa-fw fa-facebook-square"></i> <span class="hidden">Facebook</span>
+	            </a>
+	            <a href="https://plus.google.com/share?url=http://${alias.name}${pageUrl}"
+	               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+	                <i class="fa fa-2x fa-fw fa-google-plus-square"></i> <span class="hidden">Google+</span>
+	            </a>
+	        </section>
+	
+	        <footer class="post-footer">
+	        </footer>
+	    </article>

@@ -46,14 +46,6 @@
 						<label>Contenido <span style="font-size:0.7em">texto html, se muestra en la p&aacute;gina de detalle de la entrada</span></label>
 						<stripes:textarea name="content" id="content" rows="10" value="${actionBean.content}"/>
 					</fieldset>
-					<fieldset>
-						<label>URL de la imagen de cabecera <span style="font-size:0.7em">esta imagen se muestra en el detalle de la entrada y en el &iacute;ndice cuando la entrada est&aacute; en la primera posici&oacute;n</span></label>
-						<stripes:text name="headerImageUrl" id="headerImageUrl" value="${actionBean.headerImageUrl}"/>
-					</fieldset>
-					<fieldset>
-						<label>URL de la imagen lateral <span style="font-size:0.7em">esta imagen se muestra en el &iacute;ndice cuando la entrada est&aacute; en la segunda posici&oacute;n</span></label>
-						<stripes:text name="sideImageUrl" id="sideImageUrl" value="${actionBean.sideImageUrl}"/>
-					</fieldset>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Autor</label>
 						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}"><stripes:options-collection collection="${actionBean.authors}" label="displayName" value="id"/></stripes:select>
@@ -90,8 +82,6 @@ $(document).ready(function() {
 	$("#metaDescription").charCount(160);
 	$("#excerpt").charCount(500);
 	$("#content").charCount(3000);
-	$("#headerImageUrl").charCount(100);
-	$("#sideImageUrl").charCount(100);
 });
 </script>
 

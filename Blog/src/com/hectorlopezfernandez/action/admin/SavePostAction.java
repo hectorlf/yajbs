@@ -36,8 +36,6 @@ public class SavePostAction implements ActionBean {
 	private String metaDescription;
 	private String excerpt;
 	private String content; 
-	private String headerImageUrl;
-	private String sideImageUrl;
 	private boolean commentsAllowed;
 	private Long hostId;
 	private Long authorId;
@@ -47,14 +45,13 @@ public class SavePostAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a SavePostAction.execute");
+		// se guarda el post
 		Post p = new Post();
 		p.setCommentsClosed(!commentsAllowed);
 		p.setContent(content);
 		p.setExcerpt(excerpt);
-		p.setHeaderImageUrl(headerImageUrl);
 		p.setId(id);
 		p.setMetaDescription(metaDescription);
-		p.setSideImageUrl(sideImageUrl);
 		p.setTitle(title);
 		p.setTitleUrl(titleUrl);
 		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
@@ -105,14 +102,6 @@ public class SavePostAction implements ActionBean {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public void setHeaderImageUrl(String headerImageUrl) {
-		this.headerImageUrl = headerImageUrl;
-	}
-
-	public void setSideImageUrl(String sideImageUrl) {
-		this.sideImageUrl = sideImageUrl;
 	}
 
 	public void setCommentsAllowed(boolean commentsAllowed) {

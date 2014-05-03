@@ -287,11 +287,9 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		dbp.setCommentsClosed(post.isCommentsClosed());
 		dbp.setContent(post.getContent());
 		dbp.setExcerpt(post.getExcerpt());
-		dbp.setHeaderImageUrl(post.getHeaderImageUrl());
 		if (!dbp.getHost().getId().equals(post.getHost().getId())) dbp.setHost(post.getHost());
 		dbp.setLastModificationDate(post.getLastModificationDate());
 		dbp.setMetaDescription(post.getMetaDescription());
-		dbp.setSideImageUrl(post.getSideImageUrl());
 		dbp.setTitle(post.getTitle());
 		dbp.setTitleUrl(post.getTitleUrl());
 		// los tags tienen un procesado especial, ya que hay que eliminar e insertar en la coleccion segun el caso

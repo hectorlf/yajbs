@@ -7,7 +7,6 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.service.UserService;
 
-@UrlBinding("/authors/{name}/{overhead}")
+//@UrlBinding("/authors/{name}/{overhead}")
 public class AuthorsAction implements ActionBean {
 
 	private final static Logger logger = LoggerFactory.getLogger(AuthorsAction.class);
