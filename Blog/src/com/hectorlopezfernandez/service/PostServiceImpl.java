@@ -114,6 +114,7 @@ public class PostServiceImpl implements PostService {
 	}
 	@Override
 	public List<Post> listPostsForTag(Long id, PaginationInfo pi) {
+		//TODO o activar la paginacion o quitar el limite de elementos
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
 		logger.debug("Recuperando posts por tag, página {}, y limitando a {} posts por página", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPostsByTag(id, pi.getFirstItem(), pi.getItemsPerPage());

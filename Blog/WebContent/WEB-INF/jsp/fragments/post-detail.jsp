@@ -2,7 +2,7 @@
 	        <header>
 		        <c:if test="${fn:length(post.tags) > 0}"><div class="post-meta tags">Etiquetado en <c:forEach items="${post.tags}" var="tag" varStatus="status"><stripes:url beanclass="com.hectorlopezfernandez.action.TagsAction" var="tagUrl"><stripes:param name="name" value="${tag.nameUrl}"/></stripes:url><c:if test="${status.index > 0}">, </c:if><a href="${tagUrl}" rel="category tag">${tag.name}</a></c:forEach></div></c:if>
 		        <h1 class="post-title">${post.title}</h1>
-		        <div class="post-meta"><time datetime="<joda:format value="${post.publicationDate}" pattern="YYYY-MM-DD"/>"><joda:format value="${post.publicationDate}" pattern="EEEE, d 'de' MMMM, YYYY" locale="es_ES"/></time></div>
+		        <div class="post-meta"><time datetime="<joda:format value="${post.publicationDate}" pattern="yyyy-MM-dd"/>"><joda:format value="${post.publicationDate}" pattern="EEEE, d 'de' MMMM, yyyy" locale="es_ES"/></time></div>
 	        </header>
 	
 	        <section class="post-content">

@@ -35,7 +35,7 @@
 					<c:choose>
 						<c:when test="${result.type eq postType}">categor&iacute;a: entrada</c:when>
 						<c:otherwise>categor&iacute;a: p&aacute;gina</c:otherwise>
-					</c:choose> &#8226; publicada el <time datetime="<joda:format value="${result.publicationDate}" pattern="YYYY-MM-DD"/>"><joda:format value="${result.publicationDate}" pattern="d 'de' MMMM 'de' YYYY" locale="es_ES"/></time>	            
+					</c:choose> &#8226; publicada el <time datetime="<joda:format value="${result.publicationDate}" pattern="yyyy-MM-dd"/>"><joda:format value="${result.publicationDate}" pattern="d 'de' MMMM 'de' yyyy" locale="es_ES"/></time>	            
 	            </div>
 	        </header>
 	        <section class="post-excerpt">
