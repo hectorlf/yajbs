@@ -12,6 +12,3 @@
             <section class="poweredby">Orgullosamente publicado con <a href="https://github.com/hectorlf/yajbs"><%=Constants.APPLICATION_TAG%></a></section>
         </div>
     </footer>
-
-    <script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shCore.js"></script>
-	<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shBrushJava.js"></script>

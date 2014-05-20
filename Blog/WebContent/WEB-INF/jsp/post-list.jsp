@@ -5,7 +5,7 @@
 
 <%@include file="/WEB-INF/jsp/fragments/head.jsp"%>
 
-<body onload="SyntaxHighlighter.all();">
+<body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
 	<main class="content" role="main">
@@ -27,6 +27,10 @@
 
 <%@include file="/WEB-INF/jsp/fragments/footer.jsp"%>
 <%@include file="/WEB-INF/jsp/fragments/tracking.jsp"%>
+
+<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shCore.js" async></script>
+<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shBrushJava.js" async></script>
+<script type="text/javascript" async>SyntaxHighlighter.all();</script>
 </body>
 
 </html>

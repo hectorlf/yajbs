@@ -1,6 +1,6 @@
 <%----%>
 <!-- Piwik -->
-<script type="text/javascript">
+<script type="text/javascript" async>
   var _paq = _paq || [];
   _paq.push(["trackPageView"]);
   _paq.push(["enableLinkTracking"]);
@@ -13,8 +13,5 @@
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript>
-<img src="http://piwik.hectorlopezfernandez.com/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" />
-</noscript>
 <!-- End Piwik Code -->
 <%----%>
