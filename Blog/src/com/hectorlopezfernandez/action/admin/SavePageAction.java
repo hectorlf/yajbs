@@ -7,6 +7,7 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +41,8 @@ public class SavePageAction implements ActionBean {
 		Page p = new Page();
 		p.setContent(content);
 		p.setId(id);
-		p.setMetaDescription(metaDescription);
-		p.setTitle(title);
+		p.setMetaDescription(StringEscapeUtils.escapeHtml4(metaDescription));
+		p.setTitle(StringEscapeUtils.escapeHtml4(title));
 		p.setTitleUrl(titleUrl);
 		if (id == null) pageService.savePage(p, hostId);
 		else pageService.modifyPage(p, hostId);

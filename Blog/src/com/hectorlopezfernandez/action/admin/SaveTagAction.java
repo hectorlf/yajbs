@@ -7,6 +7,7 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class SaveTagAction implements ActionBean {
 		logger.debug("Entrando a SaveTagAction.execute");
 		Tag t = new Tag();
 		t.setId(id);
-		t.setName(name);
+		t.setName(StringEscapeUtils.escapeHtml4(name));
 		t.setNameUrl(nameUrl);
 		if (id == null) postService.saveTag(t);
 		else postService.modifyTag(t);

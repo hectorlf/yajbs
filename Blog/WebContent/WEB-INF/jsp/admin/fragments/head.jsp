@@ -9,7 +9,6 @@
 	<link rel="shortcut icon" type="image/gif" href="http://media.hectorlopezfernandez.com/favicon.gif">
 	<title>${pageName}</title>
 	<!--[if lt IE 9]>
-	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/admin/css/layout.css" type="text/css" media="screen" />

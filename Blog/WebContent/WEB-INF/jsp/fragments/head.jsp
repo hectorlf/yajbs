@@ -6,11 +6,11 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="320" />
 
-    <link rel="stylesheet" href="http://media.hectorlopezfernandez.com/screen.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://cdn.hectorlopezfernandez.com/screen.min.css" type="text/css"/>
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?subset=latin,latin-ext&family=Open+Sans+Condensed:300|Open+Sans:400,600,400italic,600italic|Merriweather:400,300,300italic,400italic|Roboto+Slab:400,300" type="text/css"/>
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" type="text/css"/>
 	<!-- Code syntax highlighter -->
-	<link rel="stylesheet" href="http://media.hectorlopezfernandez.com/syntaxhighlighter/sh.min.css" type="text/css"/>
+	<link rel="stylesheet" href="http://cdn.hectorlopezfernandez.com/sh/sh.min.css" type="text/css"/>
     
    	<link rel="alternate" href="<stripes:url beanclass="com.hectorlopezfernandez.action.FeedAction"/>" type="application/atom+xml" title="Feed de entradas en formato ATOM"/>
 	<link rel="index" href="<stripes:url beanclass="com.hectorlopezfernandez.action.IndexAction"/>" title="Inicio"/>

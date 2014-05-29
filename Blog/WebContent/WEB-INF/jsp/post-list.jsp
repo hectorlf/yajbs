@@ -28,8 +28,8 @@
 <%@include file="/WEB-INF/jsp/fragments/footer.jsp"%>
 <%@include file="/WEB-INF/jsp/fragments/tracking.jsp"%>
 
-<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shCore.js" async></script>
-<script type="text/javascript" src="http://media.hectorlopezfernandez.com/syntaxhighlighter/shBrushJava.js" async></script>
+<script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shCore.js" async></script>
+<script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shBrushJava.js" async></script>
 <script type="text/javascript" async>SyntaxHighlighter.all();</script>
 </body>
 

@@ -9,6 +9,8 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +53,8 @@ public class SavePostAction implements ActionBean {
 		p.setContent(content);
 		p.setExcerpt(excerpt);
 		p.setId(id);
-		p.setMetaDescription(metaDescription);
-		p.setTitle(title);
+		p.setMetaDescription(StringEscapeUtils.escapeHtml4(metaDescription));
+		p.setTitle(StringEscapeUtils.escapeHtml4(title));
 		p.setTitleUrl(titleUrl);
 		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
 		else postService.modifyPost(p, hostId, authorId, tagIds);
