@@ -3,7 +3,7 @@
         <a id="blog-logo" href="${indexUrl}"><div class="bloglogo" style="background:url(http://cdn.hectorlopezfernandez.com/hector.png)"></div></a>
         <h1 class="blog-title"><a href="${indexUrl}">${blogTitle}</a></h1>
         <h2 class="blog-description">${blogTagline}</h2>
-        <nav class="menu" role="nav">
+        <nav class="menu" role="navigation">
 		    <ul>
 		      <li><stripes:link beanclass="com.hectorlopezfernandez.action.ArchiveAction">Archivo</stripes:link></li>
 		      <li><stripes:link beanclass="com.hectorlopezfernandez.action.TagsAction">Etiquetas</stripes:link></li>

@@ -16,7 +16,7 @@
 
 <script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shCore.js"></script>
 <script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shBrushJava.js"></script>
-<script type="text/javascript" async defer>SyntaxHighlighter.all();</script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <%----%>
 <!-- Piwik -->
-<script type="text/javascript" async>
+<script type="text/javascript">
   var _paq = _paq || [];
   _paq.push(["trackPageView"]);
   _paq.push(["enableLinkTracking"]);
