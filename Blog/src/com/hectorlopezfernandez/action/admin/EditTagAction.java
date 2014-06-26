@@ -7,6 +7,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class EditTagAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditTagAction.execute");
 		Tag t = postService.getTag(id);
-		name = t.getName();
+		name = StringEscapeUtils.unescapeHtml4(t.getName());
 		nameUrl = t.getNameUrl();
 		return new ForwardResolution("/WEB-INF/jsp/admin/tag-form.jsp");
 	}

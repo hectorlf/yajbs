@@ -9,6 +9,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +44,9 @@ public class EditPageAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditPageAction.execute");
 		Page p = pageService.getPage(id);
-		title = p.getTitle();
+		title = StringEscapeUtils.unescapeHtml4(p.getTitle());
 		titleUrl = p.getTitleUrl();
-		metaDescription = p.getMetaDescription();
+		metaDescription = StringEscapeUtils.unescapeHtml4(p.getMetaDescription());
 		content = p.getContent();
 		hostId = p.getHost().getId();
 		hosts = blogService.getAllHosts();

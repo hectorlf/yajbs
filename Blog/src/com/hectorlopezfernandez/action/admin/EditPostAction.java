@@ -10,6 +10,7 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,9 +55,9 @@ public class EditPostAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditPostAction.execute");
 		Post p = postService.getPost(id);
-		title = p.getTitle();
+		title = StringEscapeUtils.unescapeHtml4(p.getTitle());
 		titleUrl = p.getTitleUrl();
-		metaDescription = p.getMetaDescription();
+		metaDescription = StringEscapeUtils.unescapeHtml4(p.getMetaDescription());
 		excerpt = p.getExcerpt();
 		content = p.getContent();
 		commentsAllowed = !p.isCommentsClosed();

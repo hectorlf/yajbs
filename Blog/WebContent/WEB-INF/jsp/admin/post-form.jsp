@@ -48,11 +48,13 @@
 					<stripes:textarea name="content" id="content" value="${actionBean.content}"/>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Autor</label>
-						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}"><stripes:options-collection collection="${actionBean.authors}" label="displayName" value="id"/></stripes:select>
+						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}">
+							<c:forEach items="${actionBean.authors}" var="author"><option value="${author.id}">${author.displayName}</option></c:forEach>
+						</stripes:select>
 					</fieldset>
 					<fieldset style="width:48%; float:left;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Blog</label>
-						<stripes:select name="hostId" style="width:92%;" value="${actionBean.hostId}"><stripes:options-collection collection="${actionBean.hosts}" label="title" value="id"/></stripes:select>
+						<stripes:select name="hostId" style="width:92%;" value="${actionBean.hostId}" ><stripes:options-collection collection="${actionBean.hosts}" label="title" value="id"/></stripes:select>
 					</fieldset>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Etiquetas</label>
