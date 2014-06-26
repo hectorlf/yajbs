@@ -48,9 +48,7 @@
 					<stripes:textarea name="content" id="content" value="${actionBean.content}"/>
 					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Autor</label>
-						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}">
-							<c:forEach items="${actionBean.authors}" var="author"><option value="${author.id}">${author.displayName}</option></c:forEach>
-						</stripes:select>
+						<stripes:select name="authorId" style="width:92%;" value="${actionBean.authorId}"><c:forEach items="${actionBean.authors}" var="author"><option value="${author.id}"<c:if test="${actionBean.authorId eq author.id}"> selected="selected"</c:if>>${author.displayName}</option></c:forEach></stripes:select>
 					</fieldset>
 					<fieldset style="width:48%; float:left;"> <!-- to make two field float next to one another, adjust values accordingly -->
 						<label>Blog</label>
