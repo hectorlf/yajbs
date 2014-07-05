@@ -79,8 +79,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public PaginationInfo computePagination(Integer page) {
-		PaginationInfo pi = new PaginationInfo();
-		return pi;
+		return PaginationInfo.DISABLED;
 	}
 
 	@Override
@@ -233,7 +232,7 @@ public class SearchServiceImpl implements SearchService {
 			writer.deleteAll();
 	    	Document doc = createDocument();
 	    	// se reindexan todos los post
-			List<Post> allPosts = postDao.getAllPosts();
+			List<Post> allPosts = postDao.listPublishedPosts(PaginationInfo.DISABLED);
 			for (Post p : allPosts) {
 				transferPostToDocument(p, doc);
 	        	addDocumentToIndex(doc, writer);

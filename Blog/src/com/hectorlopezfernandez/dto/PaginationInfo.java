@@ -5,6 +5,8 @@ package com.hectorlopezfernandez.dto;
  */
 public final class PaginationInfo {
 
+	public static final PaginationInfo DISABLED = new PaginationInfo();
+
 	private int currentPage;
 	private int firstPage = 1;
 	private int lastPage;
@@ -13,7 +15,7 @@ public final class PaginationInfo {
 	private int itemsPerPage;
 	private int totalItemCount;
 	private int firstItem;
-	private boolean paginationNeeded;
+	private boolean enabled;
 
 
 	// constructores
@@ -21,7 +23,7 @@ public final class PaginationInfo {
 	/**
 	 * Crea un objeto con la paginacion deshabilitada
 	 */
-	public PaginationInfo() {
+	private PaginationInfo() {
 		this.currentPage = 1;
 		this.lastPage = 1;
 		this.previousPage = 1;
@@ -29,23 +31,23 @@ public final class PaginationInfo {
 		this.itemsPerPage = 0;
 		this.totalItemCount = 0;
 		this.firstItem = 0;
-		this.paginationNeeded = false;
+		this.enabled = false;
 	}
 
 	/**
 	 * Crea un objeto calculando la paginacion a partir de la pagina actual
 	 */
 	public PaginationInfo(int page, int numItems, int total) {
-		this.itemsPerPage = numItems;
-		this.totalItemCount = total;
+		this.totalItemCount = total < 1 ? 1 : total;
+		this.itemsPerPage = numItems > total ? total : numItems;
 		this.lastPage = (totalItemCount / itemsPerPage) + (totalItemCount % itemsPerPage > 0 ? 1 : 0);
 		this.currentPage = page;
 		this.currentPage = currentPage < firstPage ? firstPage : currentPage;
 		this.currentPage = currentPage > lastPage ? lastPage : currentPage;
 		this.previousPage = currentPage <= firstPage ? firstPage : currentPage - 1;
 		this.nextPage = currentPage >= lastPage ? lastPage : currentPage + 1;
-		this.firstItem = this.itemsPerPage * (this.currentPage - 1);
-		this.paginationNeeded = true;
+		this.firstItem = itemsPerPage * (currentPage - 1);
+		this.enabled = true;
 	}
 
 	// getters sintéticos
@@ -87,12 +89,12 @@ public final class PaginationInfo {
 		return totalItemCount;
 	}
 
-	public boolean isPaginationNeeded() {
-		return paginationNeeded;
-	}
-
 	public int getFirstItem() {
 		return firstItem;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }

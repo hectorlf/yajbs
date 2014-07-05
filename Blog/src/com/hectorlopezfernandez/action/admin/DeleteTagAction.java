@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 @UrlBinding("/admin/deleteTag.action")
 public class DeleteTagAction implements ActionBean {
@@ -21,7 +21,7 @@ public class DeleteTagAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 
 	// campos que guarda el actionbean
 	
@@ -31,7 +31,7 @@ public class DeleteTagAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a DeleteTagAction.execute");
-		postService.deleteTag(id);
+		tagService.deleteTag(id);
 		return new RedirectResolution(ListTagsAction.class);
 	}
 	
@@ -46,8 +46,8 @@ public class DeleteTagAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public void setId(Long id) {

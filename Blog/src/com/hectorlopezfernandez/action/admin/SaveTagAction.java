@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 @UrlBinding("/admin/saveTag.action")
 public class SaveTagAction implements ActionBean {
@@ -23,7 +23,7 @@ public class SaveTagAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 
 	// campos que guarda el actionbean
 	
@@ -39,8 +39,8 @@ public class SaveTagAction implements ActionBean {
 		t.setId(id);
 		t.setName(StringEscapeUtils.escapeHtml4(name));
 		t.setNameUrl(nameUrl);
-		if (id == null) postService.saveTag(t);
-		else postService.modifyTag(t);
+		if (id == null) tagService.saveTag(t);
+		else tagService.modifyTag(t);
 		return new RedirectResolution(ListTagsAction.class);
 	}
 	
@@ -55,8 +55,8 @@ public class SaveTagAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public void setId(Long id) {

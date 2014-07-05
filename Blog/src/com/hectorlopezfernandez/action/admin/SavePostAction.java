@@ -10,15 +10,14 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.hectorlopezfernandez.dao.PostDao;
+import com.hectorlopezfernandez.dao.TagDao;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Post;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.AdminPostService;
 
 @UrlBinding("/admin/savePost.action")
 public class SavePostAction implements ActionBean {
@@ -27,8 +26,8 @@ public class SavePostAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	
-	@Inject private PostService postService;
-	@Inject private PostDao postDao;
+	@Inject private AdminPostService postService;
+	@Inject private TagDao tagDao;
 
 	// campos que guarda el actionbean
 	
@@ -59,7 +58,7 @@ public class SavePostAction implements ActionBean {
 		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
 		else postService.modifyPost(p, hostId, authorId, tagIds);
 		// TODO encontrar otra forma de actualizar la cuenta de posts etiquetados en un tag
-		postDao.updateTagRefCounts();
+		tagDao.updateTagRefCounts();
 		return new RedirectResolution(ListPostsAction.class);
 	}
 	
@@ -74,12 +73,12 @@ public class SavePostAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostDao(PostDao postDao) {
-		this.postDao = postDao;
+	public void setPostService(AdminPostService postService) {
+		this.postService = postService;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagDao(TagDao tagDao) {
+		this.tagDao = tagDao;
 	}
 
 	public void setId(Long id) {

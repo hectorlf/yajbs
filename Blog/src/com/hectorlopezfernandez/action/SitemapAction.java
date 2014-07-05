@@ -42,7 +42,7 @@ public class SitemapAction implements ActionBean {
 		ctx.setAttribute("alias", alias);
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
-		posts = postService.getAllPosts();
+		posts = postService.getPublishedPosts();
 		pages = pageService.getAllPages();
 		return new ForwardResolution("/WEB-INF/jsp/sitemap.jsp");
 	}

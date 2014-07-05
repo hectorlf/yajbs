@@ -28,10 +28,6 @@ import org.joda.time.DateTime;
 @Table(name="posts")
 public class Post extends PersistentObject {
 
-//	@Basic(optional=false)
-//	@Column(name="style")
-//	private PostStyle style;
-
 	@Basic(optional=false)
 	@Column(name="title",length=100)
 	private String title;
@@ -53,6 +49,11 @@ public class Post extends PersistentObject {
 	private String content;
 
 	// la configuracion de jpa va en el get
+	private long creationDateAsLong;
+	@Transient
+	private DateTime creationDate;
+
+	// la configuracion de jpa va en el get
 	private long publicationDateAsLong;
 	@Transient
 	private DateTime publicationDate;
@@ -65,6 +66,10 @@ public class Post extends PersistentObject {
 	@Basic(optional=false)
 	@Column(name="comments_closed")
 	private boolean commentsClosed;
+
+	@Basic(optional=false)
+	@Column(name="published")
+	private boolean published;
 
 	@OneToMany(mappedBy="post",orphanRemoval=true)
 	private List<Comment> comments;
@@ -86,7 +91,16 @@ public class Post extends PersistentObject {
 	private Collection<Tag> tags;
 
 	// getters y setters sinteticos
-	
+
+	public void setCreationDateAsLong(long creationDateAsLong) {
+		this.creationDateAsLong = creationDateAsLong;
+		this.creationDate = new DateTime(creationDateAsLong);
+	}
+	public void setCreationDate(DateTime creationDate) {
+		if (creationDate == null) setCreationDateAsLong(0);
+		else setCreationDateAsLong(creationDate.getMillis());
+	}
+
 	public void setPublicationDateAsLong(long publicationDateAsLong) {
 		this.publicationDateAsLong = publicationDateAsLong;
 		this.publicationDate = new DateTime(publicationDateAsLong);
@@ -166,6 +180,13 @@ public class Post extends PersistentObject {
 
 	@Basic(optional=false)
 	@Access(AccessType.PROPERTY)
+	@Column(name="creation_date")
+	public long getCreationDateAsLong() {
+		return creationDateAsLong;
+	}
+
+	@Basic(optional=false)
+	@Access(AccessType.PROPERTY)
 	@Column(name="publication_date")
 	public long getPublicationDateAsLong() {
 		return publicationDateAsLong;
@@ -211,6 +232,13 @@ public class Post extends PersistentObject {
 	}
 	public void setHost(Host host) {
 		this.host = host;
+	}
+
+	public boolean isPublished() {
+		return published;
+	}
+	public void setPublished(boolean published) {
+		this.published = published;
 	}
 
 }

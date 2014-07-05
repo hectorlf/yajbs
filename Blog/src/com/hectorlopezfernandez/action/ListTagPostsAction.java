@@ -22,6 +22,7 @@ import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 public class ListTagPostsAction implements ActionBean {
 
@@ -30,6 +31,7 @@ public class ListTagPostsAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	@Inject private PostService postService;
+	@Inject private TagService tagService;
 	
 	// campos que guarda el actionbean
 
@@ -48,9 +50,9 @@ public class ListTagPostsAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		// se busca el tag por nombre y, si existe, los post asociados
 		//TODO REVISAR ESTO
-		Long tagId = postService.findTagId(name);
+		Long tagId = tagService.findTagId(name);
 		if (tagId != null) {
-			Tag tag = postService.getTag(tagId);
+			Tag tag = tagService.getTag(tagId);
 			tagName = tag.getName();
 			PaginationInfo pi = postService.computePaginationOfPostsForTag(tagId, page, prefs);
 			posts = postService.listPostsForTag(tagId, pi);
@@ -94,6 +96,10 @@ public class ListTagPostsAction implements ActionBean {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 }

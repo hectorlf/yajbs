@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 @UrlBinding("/admin/editTag.action")
 public class EditTagAction implements ActionBean {
@@ -22,7 +22,7 @@ public class EditTagAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(EditTagAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 	
 	// campos que guarda el actionbean
 	
@@ -34,7 +34,7 @@ public class EditTagAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a EditTagAction.execute");
-		Tag t = postService.getTag(id);
+		Tag t = tagService.getTag(id);
 		name = StringEscapeUtils.unescapeHtml4(t.getName());
 		nameUrl = t.getNameUrl();
 		return new ForwardResolution("/WEB-INF/jsp/admin/tag-form.jsp");
@@ -51,8 +51,8 @@ public class EditTagAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public Long getId() {

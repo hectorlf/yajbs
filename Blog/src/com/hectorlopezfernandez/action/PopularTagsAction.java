@@ -15,14 +15,14 @@ import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 public class PopularTagsAction implements ActionBean {
 
 	private final static Logger logger = LoggerFactory.getLogger(PopularTagsAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 	
 	// campos que guarda el actionbean
 	
@@ -33,7 +33,7 @@ public class PopularTagsAction implements ActionBean {
 		logger.debug("Entrando a PopularTagsAction.execute");
 		Alias alias = ctx.getAlias();
 		Host prefs = alias.getHost();
-		tags = postService.getPopularTags(prefs.getPopularTagsPerIndexPage());
+		tags = tagService.getPopularTags(prefs.getPopularTagsPerIndexPage());
 		return null;
 	}
 	
@@ -52,8 +52,8 @@ public class PopularTagsAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 }

@@ -37,7 +37,7 @@ public class ListArchiveEntriesAction implements ActionBean {
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
 		// se recupera la lista completa de tags
-		entries = postService.getAllArchiveEntriesWithPostCount();
+		entries = postService.getAllArchiveEntriesWithPublishedPostCount();
 		return new ForwardResolution("/WEB-INF/jsp/archive-entry-list.jsp");
 	}
 	

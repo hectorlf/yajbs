@@ -19,7 +19,7 @@ import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.BlogService;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 import com.hectorlopezfernandez.service.UserService;
 
 @UrlBinding("/admin/newPost.action")
@@ -29,7 +29,7 @@ public class NewPostAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	@Inject private BlogService blogService;
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 	@Inject private UserService userService;
 	
 	// campos que guarda el actionbean
@@ -50,7 +50,7 @@ public class NewPostAction implements ActionBean {
 		authorId = getContext().getLoggedUser().getId();
 		hosts = blogService.getAllHosts();
 		authors = userService.getAllAuthors();
-		tags = postService.getAllTags();
+		tags = tagService.getAllTags();
 		return new ForwardResolution("/WEB-INF/jsp/admin/post-form.jsp");
 	}
 	
@@ -69,8 +69,8 @@ public class NewPostAction implements ActionBean {
 		this.blogService = blogService;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public void setUserService(UserService userService) {

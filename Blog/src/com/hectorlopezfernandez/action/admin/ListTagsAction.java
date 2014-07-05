@@ -16,7 +16,7 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.TagService;
 
 @UrlBinding("/admin/listTags.action")
 public class ListTagsAction implements ActionBean {
@@ -24,7 +24,7 @@ public class ListTagsAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(ListTagsAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private PostService postService;
+	@Inject private TagService tagService;
 	
 	// campos que guarda el actionbean
 
@@ -35,8 +35,8 @@ public class ListTagsAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ListTagsAction.execute");
-		paginationInfo = postService.computePaginationOfTags(page);
-		tags = postService.getAllTags(paginationInfo);
+		paginationInfo = tagService.computePaginationOfTags(page);
+		tags = tagService.getAllTags(paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/admin/tag-list.jsp");
 	}
 	
@@ -51,8 +51,8 @@ public class ListTagsAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
-		this.postService = postService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public Integer getPage() {

@@ -31,6 +31,7 @@
 	    				<th>URL relativa</th>
 	    				<th>Resumen</th>
 	    				<th>Etiquetas</th>
+	    				<th>Publicado</th>
 	    				<th>Fecha publicaci&oacute;n</th>
 	    				<th>Comentarios</th>
 	    				<th></th>
@@ -44,11 +45,17 @@
 	    				<td>${post.titleUrl}</td>
 	    				<td>${h:escape(post.excerpt)}</td>
 	    				<td><c:forEach items="${post.tags}" var="tag" varStatus="tagStats"><c:if test="${tagStats.count > 1}">, </c:if>${tag.name}</c:forEach></td>
+	    				<td>${post.published}</td>
 	    				<td><joda:format value="${post.publicationDate}" style="SS" locale="es_ES"/></td>
 	    				<td><c:choose><c:when test="${post.commentsClosed}">Cerrados</c:when><c:otherwise>Abiertos</c:otherwise></c:choose> | ${fn:length(post.comments)} comentarios</td>
 	    				<td>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPostAction"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_edit.png" title="Editar entrada"></stripes:link>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePostAction"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_trash.png" title="Borrar entrada"></stripes:link>
+<c:choose>
+<c:when test="${not post.published}">					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.PostPublishingAction" event="publish"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_photo.png" title="Publicar"></stripes:link></c:when>
+<c:when test="${post.published}">					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.PostPublishingAction" event="unpublish"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_photo.png" title="Despublicar"></stripes:link></c:when>
+</c:choose>
+	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.PostPublishingAction" event="changePublicationDate"><stripes:param name="id" value="${post.id}"/><img src="http://media.hectorlopezfernandez.com/admin/images/icn_photo.png" title="Establecer fecha de publicación a hoy"></stripes:link>
 	    				</td>
 					</tr>
 </c:forEach>

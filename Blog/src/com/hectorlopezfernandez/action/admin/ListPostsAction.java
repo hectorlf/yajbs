@@ -16,7 +16,7 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Post;
-import com.hectorlopezfernandez.service.PostService;
+import com.hectorlopezfernandez.service.AdminPostService;
 
 @UrlBinding("/admin/listPosts.action")
 public class ListPostsAction implements ActionBean {
@@ -24,7 +24,7 @@ public class ListPostsAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(ListPostsAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private PostService postService;
+	@Inject private AdminPostService postService;
 	
 	// campos que guarda el actionbean
 
@@ -51,7 +51,7 @@ public class ListPostsAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setPostService(PostService postService) {
+	public void setPostService(AdminPostService postService) {
 		this.postService = postService;
 	}
 

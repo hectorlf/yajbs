@@ -67,7 +67,7 @@
 			<footer>
 				<div class="submit_link"><c:choose><c:when test="${actionBean.editing}">
 					<stripes:submit name="modify" class="alt_btn">Modificar</stripes:submit></c:when><c:when test="${not actionBean.editing}">
-					<stripes:submit name="publish" class="alt_btn">Publicar</stripes:submit>
+					<stripes:submit name="publish" class="alt_btn">Guardar</stripes:submit>
 </c:when></c:choose>				</div>
 			</footer>
 		</article><!-- end of post new article -->
