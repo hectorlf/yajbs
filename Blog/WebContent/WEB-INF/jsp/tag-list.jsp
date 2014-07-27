@@ -7,7 +7,7 @@
 <body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
-	<main class="content" role="main">
+	<main role="main">
 		<article>
 	        <header><h1 class="post-title">Etiquetas</h1></header>
 	

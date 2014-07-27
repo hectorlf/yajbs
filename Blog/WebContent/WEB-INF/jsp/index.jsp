@@ -7,7 +7,7 @@
 <body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
-	<main class="content" role="main">
+	<main role="main">
 <c:forEach items="${posts}" var="post" varStatus="status">
 <%@include file="/WEB-INF/jsp/fragments/post-excerpt.jsp"%>
 </c:forEach>

@@ -1,6 +1,6 @@
 <%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 	<footer class="site-footer">
-    	<div class="inner">
+    	<div>
         	<section class="footer-description">
         		<form role="search" method="get" id="searchform" action="<stripes:url beanclass="com.hectorlopezfernandez.action.SearchAction"/>">
 					<i class="fa fa-search"></i>

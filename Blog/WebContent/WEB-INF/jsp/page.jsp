@@ -7,7 +7,7 @@
 <body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
-	<main class="content" role="main">
+	<main role="main">
 <%@include file="/WEB-INF/jsp/fragments/page-detail.jsp"%>
 	</main>
 

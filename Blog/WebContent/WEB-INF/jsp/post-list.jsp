@@ -8,7 +8,7 @@
 <body>
 <%@include file="/WEB-INF/jsp/fragments/header.jsp"%>
 
-	<main class="content" role="main">
+	<main role="main">
 		<c:choose>
 		<c:when test="${fn:length(posts) eq 0}">
 		<article class="preview">
