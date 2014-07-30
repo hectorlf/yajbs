@@ -8,8 +8,5 @@
 <script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shCore.js"></script>
 <script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shBrushJava.js"></script>
 <script type="text/javascript">
-  if (window.addEventListener)
-      window.addEventListener('load', function(){SyntaxHighlighter.all();}, false);
-  else if (element.attachEvent)
-      window.attachEvent('onload', function(){SyntaxHighlighter.all();});
+  SyntaxHighlighter.all();
 </script>
