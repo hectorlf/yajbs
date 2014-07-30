@@ -26,11 +26,10 @@
 	</main>
 
 <%@include file="/WEB-INF/jsp/fragments/footer.jsp"%>
-<%@include file="/WEB-INF/jsp/fragments/tracking.jsp"%>
 
-<script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shCore.js"></script>
-<script type="text/javascript" src="http://cdn.hectorlopezfernandez.com/sh/shBrushJava.js"></script>
-<script type="text/javascript">SyntaxHighlighter.all();</script>
+<%@include file="/WEB-INF/jsp/fragments/deferred-styles.jsp"%>
+<%@include file="/WEB-INF/jsp/fragments/syntaxhighlighter-scripts.jsp"%>
+<%@include file="/WEB-INF/jsp/fragments/tracking.jsp"%>
 </body>
 
 </html>

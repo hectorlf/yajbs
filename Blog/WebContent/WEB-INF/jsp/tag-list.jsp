@@ -23,6 +23,8 @@
 	</main>
 
 <%@include file="/WEB-INF/jsp/fragments/footer.jsp"%>
+
+<%@include file="/WEB-INF/jsp/fragments/deferred-styles.jsp"%>
 <%@include file="/WEB-INF/jsp/fragments/tracking.jsp"%>
 </body>
 

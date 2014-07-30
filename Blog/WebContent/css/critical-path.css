@@ -1,9 +1,4 @@
 
-/******** Fonts ********/
-
-@import url('//fonts.googleapis.com/css?subset=latin,latin-ext&family=Open+Sans+Condensed:300|Open+Sans:400,600,400italic,600italic|Merriweather:400,300,300italic,400italic,700,700italic|Roboto+Slab:400,300');
-
-
 /************************************
  ******** From normalize.css ********
  ************************************/
@@ -105,7 +100,7 @@ body * {
 h1,
 h2,
 li {
-  font-family: "Merriweather", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
+  font-family: Arial, sans-serif;
 }
 h1 {
   text-align: center;
@@ -134,7 +129,7 @@ li {
 
 h1 {
   color: #151515;
-  font-family: "Roboto Slab", "Merriweather", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 36px;
   font-weight: 400;
   line-height: 42px;
@@ -197,7 +192,7 @@ h1.blog-title a:hover {
   text-decoration: none;
 }
 h2 {
-  font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
+  font-family: Arial, sans-serif;
   margin-top: 2em;
   text-transform: uppercase;
   font-weight: 300;
@@ -222,7 +217,7 @@ nav ul {
 }
 nav ul li {
   display: inline-block;
-  font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 18px;
   font-weight: 300;
   margin: 0;
