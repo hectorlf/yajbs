@@ -8,7 +8,7 @@
 	</welcome-file-list>
 	
 	<session-config>
-		<cookie-config><http-only>true</http-only></cookie-config>
+		<cookie-config><http-only>true</http-only><secure>false</secure></cookie-config>
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 	
