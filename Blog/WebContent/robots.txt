@@ -1,4 +1,4 @@
-Sitemap: http://www.hectorlopezfernandez.com/sitemap.xml
+Sitemap: https://www.hectorlopezfernandez.com/sitemap.xml
 
 User-agent: *
 # disallow all files in these directories

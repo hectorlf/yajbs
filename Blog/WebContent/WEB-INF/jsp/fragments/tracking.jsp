@@ -1,4 +1,4 @@
-<%----%>
+<%-- - -%>
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
@@ -14,4 +14,4 @@
   })();
 </script>
 <!-- End Piwik Code -->
-<%----%>
+<%- - --%>
