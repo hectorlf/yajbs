@@ -8,6 +8,8 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +25,7 @@ import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.UserService;
 
 @UrlBinding("/viewAuthor.action")
-public class ViewAuthorAction implements ActionBean {
+public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
 
 	private final static Logger logger = LoggerFactory.getLogger(ViewAuthorAction.class);
 	public final static String PARAM_ID = "id";
@@ -56,7 +58,14 @@ public class ViewAuthorAction implements ActionBean {
 		posts = postService.listPostsForAuthor(id, paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/author.jsp");
 	}
-	
+
+	@Override
+	public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+		// La pagina puede generar un error de validacion, se controla para no devolver un 500
+		errors.remove("page");
+		return null;
+	}
+
 	// Getters y setters
 
 	public void setId(Long id) {

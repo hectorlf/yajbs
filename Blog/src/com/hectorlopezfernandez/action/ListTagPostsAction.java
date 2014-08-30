@@ -8,6 +8,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.apache.commons.lang.StringUtils;
 import org.owasp.reform.Reform;
@@ -24,7 +26,7 @@ import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.TagService;
 
-public class ListTagPostsAction implements ActionBean {
+public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 
 	private final static Logger logger = LoggerFactory.getLogger(ListTagPostsAction.class);
 	public final static String PARAM_NAME = "name";
@@ -39,6 +41,7 @@ public class ListTagPostsAction implements ActionBean {
 	private Integer page;
 	private String tagName;
 	private List<Post> posts;
+	private PaginationInfo paginationInfo;
 	
 	@DefaultHandler
 	public Resolution execute() {
@@ -54,8 +57,8 @@ public class ListTagPostsAction implements ActionBean {
 		if (tagId != null) {
 			Tag tag = tagService.getTag(tagId);
 			tagName = tag.getName();
-			PaginationInfo pi = postService.computePaginationOfPostsForTag(tagId, page, prefs);
-			posts = postService.listPostsForTag(tagId, pi);
+			paginationInfo = postService.computePaginationOfPostsForTag(tagId, page, prefs);
+			posts = postService.listPostsForTag(tagId, paginationInfo);
 		} else {
 			// si el tag no existe, se procesa la cadena de entrada, por si los hackers
 			tagName = Reform.HtmlEncode(StringUtils.abbreviate(name, 20));
@@ -63,8 +66,19 @@ public class ListTagPostsAction implements ActionBean {
 		}
 		return new ForwardResolution("/WEB-INF/jsp/tag-posts-list.jsp");
 	}
-	
+
+	@Override
+	public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+		// La pagina puede generar un error de validacion, se controla para no devolver un 500
+		errors.remove("page");
+		return null;
+	}
+
 	// Getters y setters
+
+	public String getName() {
+		return name;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -82,6 +96,9 @@ public class ListTagPostsAction implements ActionBean {
 		return posts;
 	}
 
+	public PaginationInfo getPaginationInfo() {
+		return paginationInfo;
+	}
 	
 	// contexto y servicios
 

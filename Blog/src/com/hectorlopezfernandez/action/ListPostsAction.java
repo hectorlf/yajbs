@@ -7,6 +7,8 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -20,7 +22,7 @@ import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.service.PostService;
 
-public class ListPostsAction implements ActionBean {
+public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 
 	private final static Logger logger = LoggerFactory.getLogger(ListPostsAction.class);
 
@@ -60,7 +62,14 @@ public class ListPostsAction implements ActionBean {
 		posts = postService.listPostsForDate(year, month, paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/post-list.jsp");
 	}
-	
+
+	@Override
+	public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+		// La pagina puede generar un error de validacion, se controla para no devolver un 500
+		errors.remove("page");
+		return null;
+	}
+
 	// Getters y setters
 
 	public List<Post> getPosts() {
@@ -71,6 +80,13 @@ public class ListPostsAction implements ActionBean {
 		return searchDate;
 	}
 
+	public PaginationInfo getPaginationInfo() {
+		return paginationInfo;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
 	public void setYear(Integer year) {
 		this.year = year;
 	}
@@ -85,6 +101,8 @@ public class ListPostsAction implements ActionBean {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
+
+	// contexto y servicios
 
 	@Override
 	public BlogActionBeanContext getContext() {

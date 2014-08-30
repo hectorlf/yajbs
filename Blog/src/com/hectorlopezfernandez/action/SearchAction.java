@@ -9,6 +9,8 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import org.owasp.reform.Reform;
 import org.slf4j.Logger;
@@ -24,7 +26,7 @@ import com.hectorlopezfernandez.service.SearchService;
 import com.hectorlopezfernandez.utils.StringLengthLimiterTag;
 
 @UrlBinding("/search.action")
-public class SearchAction implements ActionBean {
+public class SearchAction implements ActionBean, ValidationErrorHandler {
 
 	private final static Logger logger = LoggerFactory.getLogger(SearchAction.class);
 
@@ -59,7 +61,14 @@ public class SearchAction implements ActionBean {
 		}
 		return new ForwardResolution("/WEB-INF/jsp/search-results.jsp");
 	}
-	
+
+	@Override
+	public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
+		// La pagina puede generar un error de validacion, se controla para no devolver un 500
+		errors.remove("page");
+		return null;
+	}
+
 	// Getters y setters
 
 	public void setPage(Integer page) {
