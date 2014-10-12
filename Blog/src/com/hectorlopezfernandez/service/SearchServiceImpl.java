@@ -49,7 +49,7 @@ public class SearchServiceImpl implements SearchService {
 	private final static int MAX_RESULTADOS_BUSQUEDA = 20;
 	private final static int MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO = 4;
 
-	private final static Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_48);
+	private final static Analyzer analyzer = new SpanishAnalyzer();
 	private final static PostingsHighlighter highlighter = new PostingsHighlighter();
 
 	private final static String ID_FIELD_NAME = "id";
@@ -84,7 +84,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<SearchResult> search(String queryString) {
-		logger.debug("Buscando en el índice con el texto de consulta: {}", queryString);
+		logger.debug("Buscando en el ï¿½ndice con el texto de consulta: {}", queryString);
 		// no buscamos con una cadena en blanco
 		if (queryString == null || queryString.trim().length() == 0) return Collections.emptyList();
 		// se abre el ramdirectory
@@ -95,11 +95,11 @@ public class SearchServiceImpl implements SearchService {
 			reader = DirectoryReader.open(directory);
 			// se construyen los objetos de lucene
 	        IndexSearcher searcher = new IndexSearcher(reader);
-	        QueryParser parser = new QueryParser(Version.LUCENE_48, INDEXED_FIELD_NAME, analyzer);
+	        QueryParser parser = new QueryParser(INDEXED_FIELD_NAME, analyzer);
 	        Query query = parser.parse(queryString);
 	        // se buscan los mejores MAX_RESULTADOS_BUSQUEDA resultados
 	        TopDocs searchResults = searcher.search(query, MAX_RESULTADOS_BUSQUEDA);
-	        logger.debug("La búsqueda de lucene ha encontrado {} documentos coincidentes.", searchResults.totalHits);
+	        logger.debug("La bï¿½squeda de lucene ha encontrado {} documentos coincidentes.", searchResults.totalHits);
 	        ScoreDoc[] hits = searchResults.scoreDocs;
 	        if (hits == null || hits.length == 0) return Collections.emptyList();
 	        // se generan los pasajes de texto formateados
@@ -116,7 +116,7 @@ public class SearchServiceImpl implements SearchService {
 		} catch(IOException ioe) {
 			logger.error("Ha ocurrido una IOException accediendo al Directory de Lucene. RARO, RARO. -> {}", ioe.getMessage());
 		} catch(ParseException pe) {
-			logger.warn("Ha ocurrido una ParseException al procesar el texto de búsqueda. Esto no debería pasar. -> {}", pe.getMessage());
+			logger.warn("Ha ocurrido una ParseException al procesar el texto de bï¿½squeda. Esto no deberï¿½a pasar. -> {}", pe.getMessage());
 		} finally {
 			// se cierra el reader
 			try { reader.close(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
@@ -135,21 +135,21 @@ public class SearchServiceImpl implements SearchService {
 	public void addPostToIndex(Post post) {
 		if (post == null) throw new IllegalArgumentException("El parametro post no puede ser nulo.");
 		if (post.getId() == null) throw new IllegalArgumentException("El id del post a indexar no puede ser nulo.");
-		logger.debug("Añadiendo post con id {} y titulo '{}' al índice de lucene.", post.getId(), post.getTitle());
+		logger.debug("Aï¿½adiendo post con id {} y titulo '{}' al ï¿½ndice de lucene.", post.getId(), post.getTitle());
 		IndexWriter writer = null;
 		try {
-			// se crea el writer y el documento con la información del post
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			// se crea el writer y el documento con la informaciï¿½n del post
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LATEST, analyzer);
 			writer = new IndexWriter(directory, iwc);
 			Document doc = createDocument();
 	    	transferPostToDocument(post, doc);
         	// se indexa el documento
         	addDocumentToIndex(doc, writer);
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException insertando un documento en el índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException insertando un documento en el ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 		} catch(RuntimeException re) {
-			logger.error("Ha ocurrido una RuntimeExcepcion inesperada insertando un documento en el índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", re.getMessage());
+			logger.error("Ha ocurrido una RuntimeExcepcion inesperada insertando un documento en el ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", re.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 			throw re;
 		} finally {
@@ -160,15 +160,15 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public void removePostFromIndex(Long id) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
-		logger.debug("Borrando post con id {} del índice de lucene.", id);
+		logger.debug("Borrando post con id {} del ï¿½ndice de lucene.", id);
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y se borra el documento
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LATEST, analyzer);
 			writer = new IndexWriter(directory, iwc);
         	removeDocumentFromIndex(id, writer);
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException borrando un documento del índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException borrando un documento del ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 		} finally {
 			try { writer.close(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
@@ -178,22 +178,22 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public void addPageToIndex(Page page) {
 		if (page == null) throw new IllegalArgumentException("El parametro page no puede ser nulo.");
-		if (page.getId() == null) throw new IllegalArgumentException("El id de la página a indexar no puede ser nulo.");
-		logger.debug("Añadiendo page con id {} y titulo '{}' al índice de lucene.", page.getId(), page.getTitle());
+		if (page.getId() == null) throw new IllegalArgumentException("El id de la pï¿½gina a indexar no puede ser nulo.");
+		logger.debug("Aï¿½adiendo page con id {} y titulo '{}' al ï¿½ndice de lucene.", page.getId(), page.getTitle());
 		IndexWriter writer = null;
 		try {
-			// se crea el writer y el documento con la información de la página
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			// se crea el writer y el documento con la informaciï¿½n de la pï¿½gina
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LATEST, analyzer);
 			writer = new IndexWriter(directory, iwc);
 	    	Document doc = createDocument();
 	    	transferPageToDocument(page, doc);
         	// se indexa el documento
         	addDocumentToIndex(doc, writer);
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException insertando un documento en el índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException insertando un documento en el ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 		} catch(RuntimeException re) {
-			logger.error("Ha ocurrido una RuntimeExcepcion inesperada insertando un documento en el índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", re.getMessage());
+			logger.error("Ha ocurrido una RuntimeExcepcion inesperada insertando un documento en el ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", re.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 			throw re;
 		} finally {
@@ -204,16 +204,16 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public void removePageFromIndex(Long id) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
-		logger.debug("Borrando page con id {} del índice de lucene.", id);
+		logger.debug("Borrando page con id {} del ï¿½ndice de lucene.", id);
 		IndexWriter writer = null;
 		try {
 			// se crea el writer y se borra el documento
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LATEST, analyzer);
 			writer = new IndexWriter(directory, iwc);
         	removeDocumentFromIndex(id, writer);
         	writer.close();
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException borrando un documento del índice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException borrando un documento del ï¿½ndice de lucene. Es recomendable reindexar todo. RARO RARO. -> {}", ioe.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 		} finally {
 			try { writer.close(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
@@ -223,11 +223,11 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public void reindex() {
-		logger.debug("Recreando por completo el índice de lucene.");
+		logger.debug("Recreando por completo el ï¿½ndice de lucene.");
 		IndexWriter writer = null;
 		try {
 			// se crean los objetos de lucene
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			IndexWriterConfig iwc = new IndexWriterConfig(Version.LATEST, analyzer);
 			writer = new IndexWriter(directory, iwc);
 			writer.deleteAll();
 	    	Document doc = createDocument();
@@ -237,17 +237,17 @@ public class SearchServiceImpl implements SearchService {
 				transferPostToDocument(p, doc);
 	        	addDocumentToIndex(doc, writer);
 			}
-			// se reindexan todas las páginas
+			// se reindexan todas las pï¿½ginas
 			List<Page> allPages = pageDao.getAllPages();
 			for (Page p : allPages) {
 				transferPageToDocument(p, doc);
 	        	addDocumentToIndex(doc, writer);
 			}
 		} catch(IOException ioe) {
-			logger.error("Ha ocurrido una IOException reindexando todos los objetos. Hay que verificar la configuración. RARO RARO. -> {}", ioe.getMessage());
+			logger.error("Ha ocurrido una IOException reindexando todos los objetos. Hay que verificar la configuraciï¿½n. RARO RARO. -> {}", ioe.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 		} catch(RuntimeException re) {
-			logger.error("Ha ocurrido una RuntimeExcepcion inesperada reindexando todos los objetos. Hay que verificar la configuración. RARO RARO. -> {}", re.getMessage());
+			logger.error("Ha ocurrido una RuntimeExcepcion inesperada reindexando todos los objetos. Hay que verificar la configuraciï¿½n. RARO RARO. -> {}", re.getMessage());
 			try { writer.rollback(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
 			throw re;
 		} finally {
@@ -256,7 +256,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 
-	/** Métodos privados generales */
+	/** Mï¿½todos privados generales */
 	
 	private void transferPostToDocument(Post post, Document document) {
 		assert(post != null);
@@ -294,8 +294,8 @@ public class SearchServiceImpl implements SearchService {
 	private void addDocumentToIndex(Document document, IndexWriter indexWriter) throws IOException {
 		assert(document != null);
 		assert(indexWriter != null);
-		logger.debug("Escribiendo documento en el índice de lucene: {}", document);
-		// se inserta o actualiza el documento en el índice
+		logger.debug("Escribiendo documento en el ï¿½ndice de lucene: {}", document);
+		// se inserta o actualiza el documento en el ï¿½ndice
 		Term id = new Term(ID_FIELD_NAME, document.get(ID_FIELD_NAME));
 		indexWriter.updateDocument(id, document);
 	}
@@ -303,8 +303,8 @@ public class SearchServiceImpl implements SearchService {
 	private void removeDocumentFromIndex(Long id, IndexWriter indexWriter) throws IOException {
 		assert(id != null);
 		assert(indexWriter != null);
-		logger.debug("Borrando documento con id {} en el índice de lucene.", id);
-		// se inserta o actualiza el documento en el índice
+		logger.debug("Borrando documento con id {} en el ï¿½ndice de lucene.", id);
+		// se inserta o actualiza el documento en el ï¿½ndice
 		Term docId = new Term(ID_FIELD_NAME, id.toString());
 		indexWriter.deleteDocuments(docId);
 	}
