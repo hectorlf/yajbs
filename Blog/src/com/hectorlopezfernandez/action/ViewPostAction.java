@@ -6,8 +6,6 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,15 +39,10 @@ public class ViewPostAction implements ActionBean {
 		Alias alias = ctx.getAlias();
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
-		// se carga la página a mostrar
+		// se carga la pï¿½gina a mostrar
 		post = postService.getDetailedPost(id);
 		// si no existe, 404
 		if (post == null) return new ForwardResolution(Error404Action.class);
-		// si los comentarios están activados, se inicializa el captcha
-		if (!post.isCommentsClosed()) {
-			ReCaptcha rc = ReCaptchaFactory.newReCaptcha(prefs.getReCaptchaPublicKey(), prefs.getReCaptchaPrivateKey(), false);
-			ctx.setAttribute("reCaptchaHtml", rc.createRecaptchaHtml(null, null));
-		}
 		return new ForwardResolution("/WEB-INF/jsp/post.jsp");
 	}
 	

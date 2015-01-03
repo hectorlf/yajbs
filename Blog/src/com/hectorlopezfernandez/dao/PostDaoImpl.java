@@ -38,14 +38,14 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	/** ADMIN RELATED **/
 
-	// cuenta el número total de posts del sistema
+	// cuenta el nï¿½mero total de posts del sistema
 	@Override
 	public Long countAllPosts() {
 		String q = "select count(p.id) from Post p";
 		Long count = count(q, null);
 		return count;
 	}
-	// recupera todos los posts del sistema con paginación, ordenados por id descendentemente
+	// recupera todos los posts del sistema con paginaciï¿½n, ordenados por id descendentemente
 	@Override
 	public List<Post> getAllPosts(PaginationInfo pagination) {
 		if (pagination == null) throw new IllegalArgumentException("El parametro pagination no puede ser nulo.");
@@ -56,7 +56,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		if (posts.size() == 0) return Collections.emptyList();
 		return posts;
 	}
-	// cuenta el número total de posts asociados a una entrada de archivo
+	// cuenta el nï¿½mero total de posts asociados a una entrada de archivo
 	@Override
 	public int countAllPostsForArchiveEntry(Long id) {
 		if (id == null) throw new IllegalArgumentException("El id de la entrada de archivo a contar no puede ser nulo.");
@@ -109,13 +109,13 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 			Tag t = oldTagsIterator.next();
 			if (!newTagsIds.contains(t.getId())) oldTagsIterator.remove();
 		}
-		// por último se añaden los nuevos tags
+		// por ï¿½ltimo se aï¿½aden los nuevos tags
 		Iterator<Tag> newTagsIterator = post.getTags().iterator();
 		while (newTagsIterator.hasNext()) {
 			Tag t = newTagsIterator.next();
 			if (!oldTagsIds.contains(t.getId())) dbp.getTags().add(t);
 		}
-//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+//		flush(); // este flush deberï¿½a ir en un interceptor de AOP asociado a los servicios o a los actions
 	}
 	// borra un post de la base de datos
 	@Override
@@ -168,7 +168,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	@Override
 	public List<Post> listPublishedPosts(PaginationInfo pagination) {
 		if (pagination == null) throw new IllegalArgumentException("El parametro pagination no puede ser nulo.");
-		String q = "select p from Post p left join fetch p.author left join fetch p.comments where p.published = true order by p.publicationDateAsLong desc";
+		String q = "select p from Post p left join fetch p.author where p.published = true order by p.publicationDateAsLong desc";
 		List<Post> posts = null;
 		if (pagination.isEnabled()) {
 			// paginacion activada
@@ -182,7 +182,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return posts;
 	}
 
-	// cuenta el número de posts, filtrados por fecha
+	// cuenta el nï¿½mero de posts, filtrados por fecha
 	@Override
 	public Long countPublishedPosts(Integer year, Integer month) {
 		if (year == null) throw new IllegalArgumentException("El parametro year no puede ser nulo.");
@@ -204,7 +204,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	public List<Post> listPublishedPosts(Integer year, Integer month, PaginationInfo pagination) {
 		if (year == null) throw new IllegalArgumentException("El parametro year no puede ser nulo.");
 		if (pagination == null) throw new IllegalArgumentException("El parametro pagination no puede ser nulo.");
-		String q = "select p from Post p inner join p.archiveEntry ae left join fetch p.author left join fetch p.comments"
+		String q = "select p from Post p inner join p.archiveEntry ae left join fetch p.author"
 				+ " where p.published = true and ae.year = :year";
 		String w1 = " and ae.month = :month";
 		String o = " order by p.publicationDateAsLong desc";
@@ -232,7 +232,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	
 	
-	// cuenta el número de posts, filtrados por tag
+	// cuenta el nï¿½mero de posts, filtrados por tag
 	@Override
 	public Long countPublishedPostsByTag(Long id) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
@@ -247,7 +247,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	public List<Post> listPublishedPostsByTag(Long id, PaginationInfo pagination) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
 		if (pagination == null) throw new IllegalArgumentException("El parametro pagination no puede ser nulo.");
-		String q = "select p from Post p left join fetch p.author left join fetch p.comments inner join p.tags t"
+		String q = "select p from Post p left join fetch p.author inner join p.tags t"
 				+ " where p.published = true and t.id = :id order by p.publicationDateAsLong desc";
 		Map<String,Object> params = new HashMap<String,Object>(1);
 		params.put("id", id);
@@ -266,7 +266,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	
 	
-	// cuenta el número de posts, filtrados por autor
+	// cuenta el nï¿½mero de posts, filtrados por autor
 	@Override
 	public Long countPublishedPostsByAuthor(Long id) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
@@ -281,7 +281,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	public List<Post> listPublishedPostsByAuthor(Long id, PaginationInfo pagination) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
 		if (pagination == null) throw new IllegalArgumentException("El parametro pagination no puede ser nulo.");
-		String q = "select p from Post p left join p.author a left join fetch p.comments"
+		String q = "select p from Post p left join p.author a"
 				+ " where p.published = true and a.id = :id order by p.publicationDateAsLong desc";
 		Map<String,Object> params = new HashMap<String,Object>(1);
 		params.put("id", id);
@@ -299,13 +299,13 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	}
 
 
-	// recupera el listado de posts cuya fecha de publicación sea igual o mayor que el parámetro (es decir, que sean posts más nuevos)
+	// recupera el listado de posts cuya fecha de publicaciï¿½n sea igual o mayor que el parï¿½metro (es decir, que sean posts mï¿½s nuevos)
 	@Override
 	public List<Post> listPostsPublishedAfter(long milliseconds) {
-		logger.debug("Recuperando lista de todos los posts con fecha de publicación en milisegundos mayor que {}", milliseconds);
-		// nunca se va a encontrar nada si el número es negativo, no merece la pena lanzar excepciones
+		logger.debug("Recuperando lista de todos los posts con fecha de publicaciï¿½n en milisegundos mayor que {}", milliseconds);
+		// nunca se va a encontrar nada si el nï¿½mero es negativo, no merece la pena lanzar excepciones
 		if (milliseconds < 0) return Collections.emptyList();
-		// se recuperan sólo los ids para intentar ganar velocidad con la caché (los post que aparezcan en el feed serán los más recientes)
+		// se recuperan sï¿½lo los ids para intentar ganar velocidad con la cachï¿½ (los post que aparezcan en el feed serï¿½n los mï¿½s recientes)
 		String q = "select p.id from Post p where p.published = true and p.publicationDateAsLong >= :minPublicationDate";
 		Map<String,Object> params = new HashMap<String,Object>(1);
 		params.put("minPublicationDate", milliseconds);
@@ -330,14 +330,14 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	}
 	
 	// recupera un post por id, con su autor y sus comentarios cargados con eager fetch
-	// NOTA: se podría traer también la lista de tags, pero no se hace por limitaciones de sql
+	// NOTA: se podrï¿½a traer tambiï¿½n la lista de tags, pero no se hace por limitaciones de sql
 	@Override
 	public Post getDetailedPost(Long id) {
 		if (id == null) throw new IllegalArgumentException("El id del post a recuperar no puede ser nulo.");
 		logger.debug("Recuperando post detallado con id: {}", id);
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("id", id);
-		Post p = findUnique("select p from Post p left join fetch p.author left join fetch p.comments where p.id = :id", params, Post.class);
+		Post p = findUnique("select p from Post p left join fetch p.author where p.id = :id", params, Post.class);
 		return p;
 	}
 	
@@ -351,26 +351,13 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		params.put("month", Integer.valueOf(month));
 		params.put("titleUrl", titleUrl);
 		List<Long> ids = listIds("select p.id from Post p inner join p.archiveEntry ae where p.published = true and ae.year = :year and ae.month = :month and p.titleUrl = :titleUrl", params);
-		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios post para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
+		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios post para el nombre especificado. La columna de base de datos deberï¿½a tener una restricciï¿½n de unicidad que no lo habrï¿½a permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);
 		return id;
 	}
 
 
-
-
-	/** COMMENTS **/
-
-	// recupera una lista de propiedades individuales de los últimos comentarios, para presentar en el footer
-	@Override
-	public List<Object[]> findLastCommentFieldsForFooter(int numComments) {
-		if (numComments < 1) throw new IllegalArgumentException("El numero de comentarios recientes debe ser mayor que 0.");
-		logger.debug("Recuperando los campos necesarios de los {} comentarios más recientes.", numComments);
-		List<Object[]> fields = list("select c.id, c.author.displayName, c.post.title, c.post.titleUrl, c.post.publicationDateAsLong from Comment c order by c.id desc", null, 0, numComments);
-		if (fields.size() == 0) return Collections.emptyList();
-		return fields;
-	}
 
 
 	/** ARCHIVE ENTRIES **/
@@ -383,7 +370,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return entries;
 	}
 
-	// recupera una lista de propiedades individuales de todas las entradas de archivo, incluyendo el número de posts asociados a cada entrada
+	// recupera una lista de propiedades individuales de todas las entradas de archivo, incluyendo el nï¿½mero de posts asociados a cada entrada
 	@Override
 	public List<Object[]> listAllArchiveEntriesIncludingPublishedPostCount() {
 		logger.debug("Recuperando los campos necesarios de todas las entradas de archivo.");
@@ -392,11 +379,11 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return fields;
 	}
 
-	// recupera una lista de propiedades individuales de las últimas entradas de archivo, para presentar en el footer
+	// recupera una lista de propiedades individuales de las ï¿½ltimas entradas de archivo, para presentar en el footer
 	@Override
 	public List<Object[]> findLastArchiveEntryFieldsForFooter(int numEntries) {
-		if (numEntries < 1) throw new IllegalArgumentException("El parámetro numEntries debe ser mayor que 0.");
-		logger.debug("Recuperando los campos necesarios de las {} entradas de archivo más recientes.", numEntries);
+		if (numEntries < 1) throw new IllegalArgumentException("El parï¿½metro numEntries debe ser mayor que 0.");
+		logger.debug("Recuperando los campos necesarios de las {} entradas de archivo mï¿½s recientes.", numEntries);
 		List<Object[]> fields = list("select ae.year, ae.month from ArchiveEntry ae order by ae.id desc", null, 0, numEntries);
 		if (fields.size() == 0) return Collections.emptyList();
 		return fields;
@@ -405,8 +392,8 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 	// busca una entrada de archivo por su fecha y la devuelve. si no existe, la crea
 	@Override
 	public ArchiveEntry findArchiveEntryCreateIfNotExists(int year, int month) {
-		if (year < 0) throw new IllegalArgumentException("El parámetro year debe ser mayor que 0.");
-		if (month < 1 || month > 12) throw new IllegalArgumentException("El parámetro month debe ser mayor que 0 y menor que 13.");
+		if (year < 0) throw new IllegalArgumentException("El parï¿½metro year debe ser mayor que 0.");
+		if (month < 1 || month > 12) throw new IllegalArgumentException("El parï¿½metro month debe ser mayor que 0 y menor que 13.");
 		// se busca el ArchiveEntry solicitado, si existe se devuelve
 		Map<String,Object> params = new HashMap<String,Object>(2);
 		params.put("year", year);
@@ -416,7 +403,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 			ae = findUnique("select ae from ArchiveEntry ae where ae.year = :year and ae.month = :month", params, ArchiveEntry.class);
 		} catch(NoResultException nre) {
 			// no se hace nada, es un error posible y probable
-			logger.debug("No se ha encontrado un ArchiveEntry para el año {} y el mes {}. Se insertará un objeto nuevo.", year, month);
+			logger.debug("No se ha encontrado un ArchiveEntry para el aï¿½o {} y el mes {}. Se insertarï¿½ un objeto nuevo.", year, month);
 		}
 		if (ae != null) return ae;
 		// si no existe la entrada, se crea y se devuelve
@@ -428,7 +415,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		return ae;
 	}
 
-	// cuenta el número de posts asociados a una entrada de archivo
+	// cuenta el nï¿½mero de posts asociados a una entrada de archivo
 	@Override
 	public int countPublishedPostsForArchiveEntry(Long id) {
 		if (id == null) throw new IllegalArgumentException("El id de la entrada de archivo a contar no puede ser nulo.");

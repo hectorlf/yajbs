@@ -15,7 +15,6 @@
         <class>com.hectorlopezfernandez.model.Tag</class>
         <class>com.hectorlopezfernandez.model.Page</class>
         <class>com.hectorlopezfernandez.model.User</class>
-        <class>com.hectorlopezfernandez.model.Comment</class>
         <class>com.hectorlopezfernandez.model.Author</class>
         <class>com.hectorlopezfernandez.model.Host</class>
         <class>com.hectorlopezfernandez.model.Alias</class>

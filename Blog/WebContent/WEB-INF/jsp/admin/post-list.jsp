@@ -47,7 +47,7 @@
 	    				<td><c:forEach items="${post.tags}" var="tag" varStatus="tagStats"><c:if test="${tagStats.count > 1}">, </c:if>${tag.name}</c:forEach></td>
 	    				<td>${post.published}</td>
 	    				<td><joda:format value="${post.publicationDate}" style="SS" locale="es_ES"/></td>
-	    				<td><c:choose><c:when test="${post.commentsClosed}">Cerrados</c:when><c:otherwise>Abiertos</c:otherwise></c:choose> | ${fn:length(post.comments)} comentarios</td>
+	    				<td><c:choose><c:when test="${post.commentsClosed}">Cerrados</c:when><c:otherwise>Abiertos</c:otherwise></c:choose></td>
 	    				<td>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPostAction"><stripes:param name="id" value="${post.id}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_edit.png" title="Editar entrada"></stripes:link>
 	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePostAction"><stripes:param name="id" value="${post.id}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_trash.png" title="Borrar entrada"></stripes:link>

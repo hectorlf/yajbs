@@ -17,7 +17,7 @@ public interface AdminPostService {
 
 	// calcula los valores de paginacion para todos los posts del sistema
 	public PaginationInfo computePaginationOfPosts(Integer page);
-	// recupera todos los posts del sistema, usando paginación
+	// recupera todos los posts del sistema, usando paginaciï¿½n
 	public List<Post> getAllPosts(PaginationInfo pi);
 	
 	// persiste un nuevo post
@@ -35,8 +35,6 @@ public interface AdminPostService {
 	public void unpublishPost(Long id);
 	// cambia la fecha de publicacion de un post
 	public void changePostPublicationDate(Long id, DateTime publicationDate);
-	
-	/** COMMENTS **/
 	
 
 	/** ARCHIVE ENTRIES **/

@@ -13,8 +13,6 @@ import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
-import com.hectorlopezfernandez.model.Author;
-import com.hectorlopezfernandez.model.Comment;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.utils.HTMLUtils;
@@ -46,8 +44,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> getNewestPosts(int count) {
-		if (count < 1) throw new IllegalArgumentException("El número de posts a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando los últimos {} posts", count);
+		if (count < 1) throw new IllegalArgumentException("El nï¿½mero de posts a recuperar no puede ser menor que 1.");
+		logger.debug("Recuperando los ï¿½ltimos {} posts", count);
 		PaginationInfo pi = new PaginationInfo(1, count, count);
 		List<Post> posts = postDao.listPublishedPosts(pi);
 		return posts;
@@ -55,17 +53,17 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays) {
-		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antigüedad en días de los posts a recuperar no puede ser menor que 0.");
-		logger.debug("Recuperando los posts publicados hace menos de {} días", maxPostAgeInDays);
+		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antigï¿½edad en dï¿½as de los posts a recuperar no puede ser menor que 0.");
+		logger.debug("Recuperando los posts publicados hace menos de {} dï¿½as", maxPostAgeInDays);
 		long maxAge = System.currentTimeMillis() - ((long)maxPostAgeInDays * 24 * 60 * 60 * 1000);
 		List<Post> posts = postDao.listPostsPublishedAfter(maxAge);
 		if (posts.size() == 0) return Collections.emptyList();
 		List<SimplifiedPost> results = new ArrayList<SimplifiedPost>(posts.size());
 		for (Post p : posts) {
-			String title = p.getTitle(); // el título debería venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			String title = p.getTitle(); // el tï¿½tulo deberï¿½a venir ya codificado en entidades html, no se puede arriesgar a recodificar
 			String excerpt = HTMLUtils.parseTextForFeeds(p.getExcerpt());
-			String content = ""; // no se usa el contenido en la construcción del feed
-			String authorName = p.getAuthor().getDisplayName(); // el autor debería venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			String content = ""; // no se usa el contenido en la construcciï¿½n del feed
+			String authorName = p.getAuthor().getDisplayName(); // el autor deberï¿½a venir ya codificado en entidades html, no se puede arriesgar a recodificar
 			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, content, p.getPublicationDate(), authorName);
 			results.add(sp);
 		}
@@ -85,7 +83,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> listPostsForDate(Integer year, Integer month, PaginationInfo pi) {
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por fecha, página {}, y limitando a {} posts por página", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por fecha, pï¿½gina {}, y limitando a {} posts por pï¿½gina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPosts(year, month, pi);
 		return posts;
 	}
@@ -104,7 +102,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> listPostsForTag(Long id, PaginationInfo pi) {
 		//TODO o activar la paginacion o quitar el limite de elementos
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por tag, página {}, y limitando a {} posts por página", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por tag, pï¿½gina {}, y limitando a {} posts por pï¿½gina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPostsByTag(id, pi);
 		return posts;
 	}
@@ -123,7 +121,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> listPostsForAuthor(Long id, PaginationInfo pi) {
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por fecha, página {}, y limitando a {} posts por página", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por fecha, pï¿½gina {}, y limitando a {} posts por pï¿½gina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPostsByAuthor(id, pi);
 		return posts;
 	}
@@ -146,46 +144,20 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Long findPostId(String titleUrl, int year, int month) {
-		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El título del post a buscar no puede ser nulo.");
-		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por título url: {}", titleUrl); logger.debug("año: {}", year); logger.debug("mes: {}", month); }
+		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El tï¿½tulo del post a buscar no puede ser nulo.");
+		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por tï¿½tulo url: {}", titleUrl); logger.debug("aï¿½o: {}", year); logger.debug("mes: {}", month); }
 		Long id = postDao.findPublishedPostId(year, month, titleUrl);
 		return id;
 	}
 
 
 
-
-	/** COMMENTS **/
-	
-	@Override
-	public List<Comment> getRecentComments(int count) {
-		if (count < 1) throw new IllegalArgumentException("El número de comentarios a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando los últimos {} comentarios", count);
-		List<Object[]> fields = postDao.findLastCommentFieldsForFooter(count);
-		if (fields.size() == 0) return Collections.emptyList();
-		List<Comment> results = new ArrayList<Comment>(fields.size());
-		for (Object[] array : fields) {
-			Comment c = new Comment();
-			c.setId((Long)array[0]);
-			c.setAuthor(new Author());
-			c.getAuthor().setDisplayName((String)array[1]);
-			c.setPost(new Post());
-			c.getPost().setTitle((String)array[2]);
-			c.getPost().setTitleUrl((String)array[3]);
-			// el setter de la fecha AsLong también inicializa el campo DateTime
-			c.getPost().setPublicationDateAsLong(((Long)array[4]).longValue());
-			results.add(c);
-		}
-		return results;
-	}
-
-
 	/** ARCHIVE ENTRIES **/
 	
 	@Override
 	public List<ArchiveEntry> getRecentArchiveEntries(int count) {
-		if (count < 1) throw new IllegalArgumentException("El número de entradas de archivo a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando las últimas {} entradas en el archivo por meses.", count);
+		if (count < 1) throw new IllegalArgumentException("El nï¿½mero de entradas de archivo a recuperar no puede ser menor que 1.");
+		logger.debug("Recuperando las ï¿½ltimas {} entradas en el archivo por meses.", count);
 		List<Object[]> fields = postDao.findLastArchiveEntryFieldsForFooter(count);
 		if (fields.size() == 0) return Collections.emptyList();
 		List<ArchiveEntry> results = new ArrayList<ArchiveEntry>(fields.size());
@@ -200,7 +172,7 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public List<ArchiveEntry> getAllArchiveEntriesWithPublishedPostCount() {
-		logger.debug("Recuperando todas las entradas en el archivo por meses, incluyendo el número de posts asociados a cada entrada.");
+		logger.debug("Recuperando todas las entradas en el archivo por meses, incluyendo el nï¿½mero de posts asociados a cada entrada.");
 		List<Object[]> fields = postDao.listAllArchiveEntriesIncludingPublishedPostCount();
 		if (fields.size() == 0) return Collections.emptyList();
 		List<ArchiveEntry> results = new ArrayList<ArchiveEntry>(fields.size());

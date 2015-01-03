@@ -32,9 +32,6 @@ public class Author extends User {
 	@OneToMany(mappedBy="author")
 	private List<Post> posts;
 
-	@OneToMany(mappedBy="author")
-	private List<Comment> comments;
-
 	@ManyToMany
 	@JoinTable(name="authors_hosts",joinColumns=@JoinColumn(name="author_id", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="host_id", referencedColumnName="id"))
 	private Collection<Host> hosts;
@@ -54,13 +51,6 @@ public class Author extends User {
 	}
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public String getAbout() {

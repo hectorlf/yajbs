@@ -1,7 +1,6 @@
 package com.hectorlopezfernandez.model;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -13,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -70,9 +68,6 @@ public class Post extends PersistentObject {
 	@Basic(optional=false)
 	@Column(name="published")
 	private boolean published;
-
-	@OneToMany(mappedBy="post",orphanRemoval=true)
-	private List<Comment> comments;
 
 	@ManyToOne(fetch=FetchType.LAZY,optional=false)
 	@JoinColumn(name="host_id",nullable=false)
@@ -161,13 +156,6 @@ public class Post extends PersistentObject {
 	}
 	public void setAuthor(Author author) {
 		this.author = author;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public DateTime getPublicationDate() {
