@@ -1,7 +1,7 @@
 package com.hectorlopezfernandez.dto;
 
 /**
- * Almacena la información necesaria para mostrar la barra de paginación
+ * Almacena la informaciï¿½n necesaria para mostrar la barra de paginaciï¿½n
  */
 public final class PaginationInfo {
 
@@ -40,6 +40,8 @@ public final class PaginationInfo {
 	public PaginationInfo(int page, int numItems, int total) {
 		this.totalItemCount = total < 1 ? 1 : total;
 		this.itemsPerPage = numItems > total ? total : numItems;
+		// itemsPerPage nunca puede ser 0
+		if (itemsPerPage < 1) this.itemsPerPage = 1;
 		this.lastPage = (totalItemCount / itemsPerPage) + (totalItemCount % itemsPerPage > 0 ? 1 : 0);
 		this.currentPage = page;
 		this.currentPage = currentPage < firstPage ? firstPage : currentPage;
@@ -50,7 +52,7 @@ public final class PaginationInfo {
 		this.enabled = true;
 	}
 
-	// getters sintéticos
+	// getters sintï¿½ticos
 	
 	public boolean isOnFirstPage() {
 		return firstPage >= currentPage;
