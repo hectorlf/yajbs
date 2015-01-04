@@ -35,7 +35,7 @@ public class Page extends PersistentObject {
 	private String metaDescription;
 
 	@Basic(optional=false)
-	@Column(name="content",length=3000)
+	@Column(name="content",length=4000)
 	private String content;
 
 	// la configuracion de jpa va en el get
@@ -53,7 +53,7 @@ public class Page extends PersistentObject {
 	private Host host;
 
 
-	// getters & setters sintéticos
+	// getters & setters sintï¿½ticos
 
 	public void setPublicationDateAsLong(long publicationDateAsLong) {
 		this.publicationDateAsLong = publicationDateAsLong;

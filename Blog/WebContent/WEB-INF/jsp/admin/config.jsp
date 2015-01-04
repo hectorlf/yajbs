@@ -29,7 +29,21 @@
 				</article>
 				<div class="clear"></div>
 			</div>
-		</article><!-- end of stats article -->
+		</article>
+		
+		<div class="spacer"></div>
+		
+		<article class="module width_full">
+			<header><h3>Feeds de entradas</h3></header>
+			<div class="module_content">
+				<article>
+				<stripes:form beanclass="com.hectorlopezfernandez.action.admin.SaveConfigAction">
+					<stripes:submit name="reprocessFeeds" class="alt_btn">Reconstruir</stripes:submit>
+				</stripes:form>
+				</article>
+				<div class="clear"></div>
+			</div>
+		</article>
 		
 		<div class="spacer"></div>
 	</section>

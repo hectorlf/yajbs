@@ -36,7 +36,11 @@ public interface AdminPostService {
 	// cambia la fecha de publicacion de un post
 	public void changePostPublicationDate(Long id, DateTime publicationDate);
 	
+	// reprocesa los feeds, en caso de cambiar la forma de generarlos
+	public void reprocessFeeds();
 
+	
+	
 	/** ARCHIVE ENTRIES **/
 	
 }

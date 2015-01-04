@@ -20,6 +20,7 @@ import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.utils.HTMLUtils;
 
 public class AdminPostServiceImpl implements AdminPostService {
 
@@ -87,6 +88,8 @@ public class AdminPostServiceImpl implements AdminPostService {
 		post.setCreationDate(now);
 		post.setLastModificationDate(now);
 		post.setPublicationDate(now);
+		post.setFeedContent(HTMLUtils.parseTextForFeeds(post.getExcerpt()));
+		//TODO si los posts no se publican al crear, no se deben indexar en lucene
 		post.setPublished(false);
 		ArchiveEntry ae = postDao.findArchiveEntryCreateIfNotExists(now.getYear(), now.getMonthOfYear());
 		post.setArchiveEntry(ae);
@@ -116,6 +119,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		logger.debug("Modificando post con t�tulo: {}", post.getTitle());
 		DateTime now = new DateTime();
 		post.setLastModificationDate(now);
+		post.setFeedContent(HTMLUtils.parseTextForFeeds(post.getExcerpt()));
 		Host ownerHost = blogDao.getHost(ownerHostId);
 		post.setHost(ownerHost);
 		Author author = userDao.getAuthorById(authorId);
@@ -129,6 +133,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		}
 		postDao.modifyPost(post);
 		// se indexa el post modificado
+		//TODO comprobar si el post esta publicado antes de indexar
 		Post np = postDao.getPost(post.getId());
 		searchService.addPostToIndex(np);
 	}
@@ -184,6 +189,19 @@ public class AdminPostServiceImpl implements AdminPostService {
 	}
 
 
+	@Override
+	public void reprocessFeeds() {
+		logger.debug("Reprocesando los feeds de todas las entradas");
+		List<Post> posts = postDao.getAllPosts(PaginationInfo.DISABLED);
+		if (posts.size() == 0) return;
+		for (Post p : posts) {
+			String feedText = HTMLUtils.parseTextForFeeds(p.getExcerpt());
+			p.setFeedContent(feedText);
+		}
+	}
+	
+	
+	
 	/** ARCHIVE ENTRIES **/
 
 }

@@ -15,7 +15,6 @@ import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
-import com.hectorlopezfernandez.utils.HTMLUtils;
 
 public class PostServiceImpl implements PostService {
 
@@ -56,15 +55,15 @@ public class PostServiceImpl implements PostService {
 		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antig�edad en d�as de los posts a recuperar no puede ser menor que 0.");
 		logger.debug("Recuperando los posts publicados hace menos de {} d�as", maxPostAgeInDays);
 		long maxAge = System.currentTimeMillis() - ((long)maxPostAgeInDays * 24 * 60 * 60 * 1000);
+		//TODO cambiar esta llamada por una especifica que solo recupere los campos necesarios
 		List<Post> posts = postDao.listPostsPublishedAfter(maxAge);
 		if (posts.size() == 0) return Collections.emptyList();
 		List<SimplifiedPost> results = new ArrayList<SimplifiedPost>(posts.size());
 		for (Post p : posts) {
 			String title = p.getTitle(); // el t�tulo deber�a venir ya codificado en entidades html, no se puede arriesgar a recodificar
-			String excerpt = HTMLUtils.parseTextForFeeds(p.getExcerpt());
-			String content = ""; // no se usa el contenido en la construcci�n del feed
+			String excerpt = p.getFeedContent(); // el contenido del feed se obtiene ya procesado
 			String authorName = p.getAuthor().getDisplayName(); // el autor deber�a venir ya codificado en entidades html, no se puede arriesgar a recodificar
-			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, content, p.getPublicationDate(), authorName);
+			SimplifiedPost sp = new SimplifiedPost(p.getId(), title, p.getTitleUrl(), excerpt, null, p.getPublicationDate(), authorName);
 			results.add(sp);
 		}
 		return results;

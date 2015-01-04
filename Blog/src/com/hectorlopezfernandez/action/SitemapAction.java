@@ -42,6 +42,7 @@ public class SitemapAction implements ActionBean {
 		ctx.setAttribute("alias", alias);
 		Host prefs = alias.getHost();
 		ctx.setAttribute("preferences", prefs);
+		//TODO cambiar estas llamadas por unas que solo devuelvan los campos necesarios
 		posts = postService.getPublishedPosts();
 		pages = pageService.getAllPages();
 		return new ForwardResolution("/WEB-INF/jsp/sitemap.jsp");

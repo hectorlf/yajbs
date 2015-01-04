@@ -39,12 +39,17 @@ public class Post extends PersistentObject {
 	private String metaDescription;
 
 	@Basic(optional=false)
-	@Column(name="excerpt",length=500)
+	@Column(name="excerpt",length=600)
 	private String excerpt;
 
 	@Basic(optional=false)
-	@Column(name="content",length=3000)
+	@Column(name="content",length=4000)
 	private String content;
+
+	// se desnormaliza el texto que va a los feeds para no procesarlo una y otra vez, ya que no soporta utf8
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="feed_content",length=900)
+	private String feedContent;
 
 	// la configuracion de jpa va en el get
 	private long creationDateAsLong;
@@ -227,6 +232,13 @@ public class Post extends PersistentObject {
 	}
 	public void setPublished(boolean published) {
 		this.published = published;
+	}
+
+	public String getFeedContent() {
+		return feedContent;
+	}
+	public void setFeedContent(String feedContent) {
+		this.feedContent = feedContent;
 	}
 
 }

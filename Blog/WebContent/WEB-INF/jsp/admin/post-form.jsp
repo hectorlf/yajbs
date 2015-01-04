@@ -81,9 +81,9 @@ $(document).ready(function() {
 	$("#titleUrl").charCount(50);
 	$("#metaDescription").charCount(160);
 	$("#excerpt").markItUp(mySettings);
-	$("#excerpt").charCount(500);
+	$("#excerpt").charCount(600);
 	$("#content").markItUp(mySettings);
-	$("#content").charCount(3000);
+	$("#content").charCount(4000);
 });
 </script>
 

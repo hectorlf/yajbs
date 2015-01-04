@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
+import com.hectorlopezfernandez.service.AdminPostService;
 import com.hectorlopezfernandez.service.SearchService;
 
 @UrlBinding("/admin/saveConfig.action")
@@ -22,7 +23,11 @@ public class SaveConfigAction implements ActionBean {
 
 	private BlogActionBeanContext ctx;
 	
-	@Inject private SearchService searchService;
+	@Inject
+	private SearchService searchService;
+
+	@Inject
+	private AdminPostService adminPostService;
 
 	// campos que guarda el actionbean
 	
@@ -31,6 +36,13 @@ public class SaveConfigAction implements ActionBean {
 	public Resolution reindexLucene() {
 		logger.debug("Entrando a SaveConfigAction.reindexLucene");
 		searchService.reindex();
+		return new RedirectResolution(ConfigAction.class);
+	}
+
+	@HandlesEvent("reprocessFeeds")
+	public Resolution reprocessFeeds() {
+		logger.debug("Entrando a SaveConfigAction.reprocessFeeds");
+		adminPostService.reprocessFeeds();
 		return new RedirectResolution(ConfigAction.class);
 	}
 
@@ -54,6 +66,10 @@ public class SaveConfigAction implements ActionBean {
 
 	public void setSearchService(SearchService searchService) {
 		this.searchService = searchService;
+	}
+
+	public void setAdminPostService(AdminPostService adminPostService) {
+		this.adminPostService = adminPostService;
 	}
 
 }
