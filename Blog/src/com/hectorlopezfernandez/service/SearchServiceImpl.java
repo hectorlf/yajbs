@@ -126,8 +126,7 @@ public class SearchServiceImpl implements SearchService {
 	private SearchResult createSearchResultFromDocumentAndFormattedPassage(Document document, String passage) {
 		assert(document != null);
 		DateTime pubDate = new DateTime(Long.valueOf(document.get(PUBLICATION_DATE_AS_LONG_FIELD_NAME)));
-		String charEncodedPassage = HTMLUtils.parseTextFromHighlightedLucenePassage(passage);
-		SearchResult sr = new SearchResult(document.get(TYPE_FIELD_NAME), document.get(TITLE_FIELD_NAME), document.get(TITLE_URL_FIELD_NAME), charEncodedPassage, pubDate);
+		SearchResult sr = new SearchResult(document.get(TYPE_FIELD_NAME), document.get(TITLE_FIELD_NAME), document.get(TITLE_URL_FIELD_NAME), passage, pubDate);
 		return sr;
 	}
 

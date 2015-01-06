@@ -3,14 +3,15 @@ package com.hectorlopezfernandez.utils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.apache.commons.lang3.text.translate.AggregateTranslator;
-import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
-import org.apache.commons.lang3.text.translate.EntityArrays;
-import org.apache.commons.lang3.text.translate.LookupTranslator;
 import org.apache.html.dom.HTMLAnchorElementImpl;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.apache.html.dom.HTMLImageElementImpl;
+import org.apache.html.dom.HTMLLIElementImpl;
+import org.apache.html.dom.HTMLOListElementImpl;
 import org.apache.html.dom.HTMLParagraphElementImpl;
+import org.apache.html.dom.HTMLPreElementImpl;
+import org.apache.html.dom.HTMLQuoteElementImpl;
+import org.apache.html.dom.HTMLUListElementImpl;
 import org.apache.xerces.dom.TextImpl;
 import org.apache.xerces.xni.parser.XMLDocumentFilter;
 import org.cyberneko.html.filters.ElementRemover;
@@ -40,48 +41,51 @@ public final class HTMLUtils {
 	public static String parseTextForFeeds(String text) {
 		logger.debug("Procesando html para presentar en un feed: {}", text);
 		if (text == null || text.length() == 0) return "";
-		// se crean los elementos del parseador de nekohtml
-		ElementRemover remover = new ElementRemover();
-		remover.acceptElement("p", null);
-		remover.acceptElement("a", HREF_ATTRIBUTE);
-		remover.acceptElement("img", SRC_ATTRIBUTE);
-		DOMFragmentParser parser = new DOMFragmentParser();
-		HTMLDocument document = new HTMLDocumentImpl();
-		DocumentFragment fragment = document.createDocumentFragment();
-		try {
-			InputStream is = new ByteArrayInputStream(text.getBytes("UTF-8"));
-			InputSource inputSource = new InputSource(is);
-			parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { remover });
-			parser.setProperty("http://cyberneko.org/html/properties/default-encoding", "UTF-8");
-			parser.parse(inputSource, fragment);
-		} catch(Exception e) {
-			// en el remoto caso de que ocurra una excepci�n parseando el texto, se devuelve la cadena vac�a y a correr
-			// no tiene mucho sentido levantar excepci�n por esto
-			logger.error("Ha ocurrido un error parseando un texto html. RARO, RARO... {} - {}", e.getClass().getName(), e.getMessage());
-			return "";
-		}
-		// una vez parseado con �xito, se construye la salida
+		//TODO implementar un algoritmo correcto para eliminar retornos de carro manteniendo los <pre> ¿?
+		// se parsea el html
+		DocumentFragment fragment = parseHtml(text, getRemoverForFeeds());
+		if (fragment == null) return "";
+		// una vez parseado, se construye la salida
 		StringBuilder sb = new StringBuilder(text.length());
 		composeTextForFeeds(fragment, sb);
 		logger.debug("Resultado del parseo de html: {}", sb);
 		return sb.toString();
 	}
 	private static void composeTextForFeeds(Node node, StringBuilder output) {
-		//TODO si un tag a no tiene texto, no se debe imprimir en la salida
 		// se recorre el �rbol DOM, hay que comprobar si se trata de alg�n tag de los aceptados o un texto y escribirlo
 		// si un nodo es de texto, contiene todo el texto que hay entre dos elementos (bien sea el comienzo o fin del tag o un tag nuevo)
-		if (node instanceof HTMLParagraphElementImpl) output.append("<p>");
-		else if (node instanceof HTMLAnchorElementImpl) {
+		int currentSize = output.length();
+		if (node instanceof HTMLParagraphElementImpl) {
+			logger.debug("Nodo de parrafo");
+			output.append("<p>");
+		} else if (node instanceof HTMLAnchorElementImpl) {
 			logger.debug("Nodo de enlace: {}", ((HTMLAnchorElementImpl)node).getHref());
 			output.append("<a href=\"").append(((HTMLAnchorElementImpl)node).getHref()).append("\">");
+			currentSize = output.length();
 		} else if (node instanceof HTMLImageElementImpl) {
 			logger.debug("Nodo de imagen: {}", ((HTMLImageElementImpl) node).getSrc());
 			output.append("<img src=\"").append(((HTMLImageElementImpl) node).getSrc()).append("\"/>");
-		}
-		//IMPORTANTE como esto va a un feed que muestra html y nekohtml deshace la codificaci�n, se recodifican las entidades html del texto
-		else if (node instanceof TextImpl) {
+		} else if (node instanceof HTMLUListElementImpl) {
+			logger.debug("Nodo de lista no numerada");
+			output.append("<ul>");
+		} else if (node instanceof HTMLOListElementImpl) {
+			logger.debug("Nodo de lista numerada");
+			output.append("<ol>");
+		} else if (node instanceof HTMLLIElementImpl) {
+			logger.debug("Nodo de elemento de lista");
+			output.append("<li>");
+		} else if (node instanceof TextImpl) {
+			//IMPORTANTE como esto va a un feed que muestra html y nekohtml deshace la codificaci�n, se recodifican las entidades html del texto
 			logger.debug("Nodo de texto: {}", node.getNodeValue());
 			output.append(Reform.HtmlEncode(node.getNodeValue()));
+		} else if (node instanceof HTMLQuoteElementImpl) {
+			logger.debug("Nodo de bloque de cita");
+			output.append("<blockquote>");
+		} else if (node instanceof HTMLPreElementImpl) {
+			logger.debug("Nodo de bloque pre");
+			output.append("<pre>");
+		} else {
+			logger.debug("Encontrado tag no reconocido: {} - {} - {}", node.getClass(), node.getNodeName(), node.getNodeValue());
 		}
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -90,7 +94,17 @@ public final class HTMLUtils {
 		}
 		// una vez recorrido el �rbol en profundidad, se escriben los elementos finales de los tags que lo llevan
 		if (node instanceof HTMLParagraphElementImpl) output.append("</p>");
-		else if (node instanceof HTMLAnchorElementImpl) output.append("</a>");
+		else if (node instanceof HTMLAnchorElementImpl) {
+			// caso especial, si un tag a no tiene texto despues de parsear, no se imprime
+			if (output.length() == currentSize) {
+				output.setLength(output.lastIndexOf("<a href=\""));
+			} else output.append("</a>");
+		}
+		else if (node instanceof HTMLUListElementImpl) output.append("</ul>");
+		else if (node instanceof HTMLOListElementImpl) output.append("</ol>");
+		else if (node instanceof HTMLLIElementImpl) output.append("</li>");
+		else if (node instanceof HTMLQuoteElementImpl) output.append("</blockquote>");
+		else if (node instanceof HTMLPreElementImpl) output.append("</pre>");
 	}
 
 	
@@ -100,32 +114,12 @@ public final class HTMLUtils {
 	public static String parseTextForLucene(String text) {
 		logger.debug("Procesando html para indexar en lucene: {}", text);
 		if (text == null || text.length() == 0) return "";
-		//HACK! para evitar que se peguen los textos al coincidir algunos tags, se insertan espacios de forma paranoica
-		StringBuilder sb = new StringBuilder(text);
-		int i = 0;
-		while (i > -1) {
-			i = sb.indexOf("</", i);
-			if (i > 0) {
-				sb.insert(i, " ");
-				i += 3;
-			}
-		}
-		logger.debug("Resultado de la inserci�n de blancos: {}", sb);
-		// se crean los elementos del parseador de nekohtml
-		ElementRemover remover = new ElementRemover();
-		DOMFragmentParser parser = new DOMFragmentParser();
-		HTMLDocument document = new HTMLDocumentImpl();
-		DocumentFragment fragment = document.createDocumentFragment();
-		try {
-			InputStream is = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
-			InputSource inputSource = new InputSource(is);
-			parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { remover });
-			parser.parse(inputSource, fragment);
-		} catch(Exception e) {
-			throw new RuntimeException("Ha ocurrido un error parseando un texto html. RARO, RARO... " + e.getClass().getName() + " - " + e.getMessage());
-		}
-		// una vez parseado con �xito, se construye la salida
-		sb.setLength(0);
+		//TODO eliminar los retornos de carro ¿?
+		// se parsea el html
+		DocumentFragment fragment = parseHtml(text, getRemoverForLucene());
+		if (fragment == null) return "";
+		// una vez parseado, se construye la salida
+		StringBuilder sb = new StringBuilder(text.length());
 		composeTextForLucene(fragment, sb);
 		logger.debug("Resultado del parseo de html: {}", sb);
 		return sb.toString();
@@ -135,39 +129,61 @@ public final class HTMLUtils {
 		if (node instanceof TextImpl) output.append(node.getNodeValue());
 		Node child = node.getFirstChild();
 		while (child != null) {
-			composeTextForFeeds(child, output);
+			composeTextForLucene(child, output);
 			child = child.getNextSibling();
+		}
+		if (node instanceof HTMLParagraphElementImpl || node instanceof HTMLLIElementImpl) {
+			if (output.length() > 0 && output.charAt(output.length() - 1) != ' ') output.append(" ");
 		}
 	}
 
-	/**
-	 * Codifica las entidades html pero no las etiquetas. Espec�fico para el retorno de pasajes resaltados por la busqueda de lucene.
-	 */
-	public static String parseTextFromHighlightedLucenePassage(String text) {
-		return ESCAPE_HTML4_CHARACTERS.translate(text);
-	}
-		
-	
-	
-	// Helpers
-	
-	/**
-	 * Translator copiado de Commons Lang para codificar s�lo los caract�res, no las etiquetas
-	 */
-	public static final CharSequenceTranslator ESCAPE_HTML4_CHARACTERS = 
-			new AggregateTranslator(
-					new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE()),
-					new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE())
-			);
 
-	/**
-	 * Translator copiado de Commons Lang para decodificar s�lo los caract�res, no las etiquetas
-	 */
-//	public static final CharSequenceTranslator UNESCAPE_HTML4_CHARACTERS = 
-//			new AggregateTranslator(
-//					new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE()),
-//					new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE()),
-//					new NumericEntityUnescaper()
-//			);
+
+
+	// Helpers
+
+	private static ElementRemover getRemoverForFeeds() {
+		ElementRemover remover = new ElementRemover();
+		remover.acceptElement("p", null);
+//		remover.acceptElement("em", null);
+//		remover.acceptElement("strong", null);
+//		remover.acceptElement("del", null);
+		remover.acceptElement("blockquote", null);
+		remover.acceptElement("pre", null);
+		remover.acceptElement("ul", null);
+		remover.acceptElement("ol", null);
+		remover.acceptElement("li", null);
+		remover.acceptElement("a", HREF_ATTRIBUTE);
+		remover.acceptElement("img", SRC_ATTRIBUTE);
+		remover.removeElement("script");
+		return remover;
+	}
+	private static ElementRemover getRemoverForLucene() {
+		ElementRemover remover = new ElementRemover();
+		remover.acceptElement("p", null);
+		remover.acceptElement("li", null);
+		remover.removeElement("img");
+		remover.removeElement("script");
+		return remover;
+	}
+	private static DocumentFragment parseHtml(String html, final ElementRemover remover) {
+		assert html != null && html.length() > 0 && remover != null;
+		DOMFragmentParser parser = new DOMFragmentParser();
+		HTMLDocument document = new HTMLDocumentImpl();
+		DocumentFragment fragment = document.createDocumentFragment();
+		try {
+			InputStream is = new ByteArrayInputStream(html.getBytes("UTF-8"));
+			InputSource inputSource = new InputSource(is);
+			parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { remover });
+			parser.setProperty("http://cyberneko.org/html/properties/default-encoding", "UTF-8");
+			parser.parse(inputSource, fragment);
+		} catch(Exception e) {
+			// en el remoto caso de que ocurra una excepci�n parseando el texto, se devuelve la cadena vac�a y a correr
+			// no tiene mucho sentido levantar excepci�n por esto
+			logger.error("Ha ocurrido un error parseando un texto html. RARO, RARO... {} - {}", e.getClass().getName(), e.getMessage());
+			return null;
+		}
+		return fragment;
+	}
 
 }
