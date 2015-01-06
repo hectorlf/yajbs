@@ -89,7 +89,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		post.setLastModificationDate(now);
 		post.setPublicationDate(now);
 		post.setFeedContent(HTMLUtils.parseTextForFeeds(post.getExcerpt()));
-		//TODO si los posts no se publican al crear, no se deben indexar en lucene
+		// el post se crea como no publicado, por lo que no se indexa en lucene
 		post.setPublished(false);
 		ArchiveEntry ae = postDao.findArchiveEntryCreateIfNotExists(now.getYear(), now.getMonthOfYear());
 		post.setArchiveEntry(ae);
@@ -104,10 +104,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 			}
 			post.setTags(tags);
 		}
-		Long nId = postDao.savePost(post);
-		// se indexa el post creado
-		Post np = postDao.getPost(nId);
-		searchService.addPostToIndex(np);
+		postDao.savePost(post);
 	}
 
 	@Override
@@ -132,10 +129,9 @@ public class AdminPostServiceImpl implements AdminPostService {
 			post.setTags(tags);
 		}
 		postDao.modifyPost(post);
-		// se indexa el post modificado
-		//TODO comprobar si el post esta publicado antes de indexar
+		// se indexa el post modificado, si esta publicado
 		Post np = postDao.getPost(post.getId());
-		searchService.addPostToIndex(np);
+		if (np.isPublished()) searchService.addPostToIndex(np);
 	}
 
 	@Override
@@ -184,8 +180,8 @@ public class AdminPostServiceImpl implements AdminPostService {
 		p.setArchiveEntry(newAe);
 		int remainingPostCount = postDao.countAllPostsForArchiveEntry(oldAe.getId());
 		if (remainingPostCount < 1) postDao.deleteArchiveEntry(oldAe.getId());
-		// se indexa el post modificado
-		searchService.addPostToIndex(p);
+		// se indexa el post modificado, si esta publicado
+		if (p.isPublished()) searchService.addPostToIndex(p);
 	}
 
 
