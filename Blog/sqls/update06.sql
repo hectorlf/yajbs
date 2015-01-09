@@ -25,12 +25,10 @@ USE `blog_db`;
 -- Se elimina todo lo relacionado con los comentarios de posts
 --
 
-ALTER TABLE `posts`
+ALTER TABLE `hosts`
+	DROP COLUMN `recent_comments_per_index_page`,
 	DROP COLUMN `recaptcha_public_key`,
 	DROP COLUMN `recaptcha_private_key`;
-
-ALTER TABLE `hosts`
-	DROP COLUMN `recent_comments_per_index_page`;
 
 DROP TABLE IF EXISTS `comments`;
 
