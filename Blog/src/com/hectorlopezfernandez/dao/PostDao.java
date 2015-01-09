@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Post;
 
@@ -69,8 +70,8 @@ public interface PostDao {
 	public Long findPublishedPostId(int year, int month, String titleUrl);
 	
 	
-	// recupera el listado de posts cuya fecha de publicaci�n sea igual o mayor que el par�metro (es decir, que sean posts m�s nuevos)
-	public List<Post> listPostsPublishedAfter(long millisecondsFrom1970);
+	// metodo especifico para recuperar en una sola consulta todo lo necesario para mostrar los feeds
+	public List<SimplifiedPost> listPostsForFeedPublishedAfter(long millisecondsFrom1970);
 
 	
 	

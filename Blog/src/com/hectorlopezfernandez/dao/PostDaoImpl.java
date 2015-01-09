@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Post;
@@ -302,20 +303,28 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 
 	// recupera el listado de posts cuya fecha de publicaci�n sea igual o mayor que el par�metro (es decir, que sean posts m�s nuevos)
 	@Override
-	public List<Post> listPostsPublishedAfter(long milliseconds) {
-		logger.debug("Recuperando lista de todos los posts con fecha de publicaci�n en milisegundos mayor que {}", milliseconds);
+	public List<SimplifiedPost> listPostsForFeedPublishedAfter(long milliseconds) {
+		logger.debug("Recuperando posts para el feed con fecha de publicaci�n en milisegundos mayor que {}", milliseconds);
 		// nunca se va a encontrar nada si el n�mero es negativo, no merece la pena lanzar excepciones
 		if (milliseconds < 0) return Collections.emptyList();
-		// se recuperan s�lo los ids para intentar ganar velocidad con la cach� (los post que aparezcan en el feed ser�n los m�s recientes)
-		String q = "select p.id from Post p where p.published = true and p.publicationDateAsLong >= :minPublicationDate";
+		// al guardar el contenido para los feeds en una propiedad lazy, nunca se guarda en cache, 
+		// asi que hay que recuperarlo a proposito para no hacer n+1 consultas
+		// NOTA: el orden de las propiedades importa!
+		String q = "select p.id, p.title, p.titleUrl, p.feedContent, p.publicationDateAsLong, a.displayName from Post p left join p.author a where p.published = true and p.publicationDateAsLong >= :minPublicationDate";
 		Map<String,Object> params = new HashMap<String,Object>(1);
 		params.put("minPublicationDate", milliseconds);
-		List<Long> ids = listIds(q, params);
-		if (ids.size() == 0) return Collections.emptyList();
-		List<Post> posts = new ArrayList<Post>(ids.size());
-		for (Long id : ids) {
-			Post p = get(id, Post.class);
-			posts.add(p);
+		List<Object[]> fields = list(q, params);
+		if (fields.size() == 0) return Collections.emptyList();
+		List<SimplifiedPost> posts = new ArrayList<SimplifiedPost>(fields.size());
+		for (Object[] field : fields) {
+			Long id = (Long)field[0];
+			String title = (String)field[1];; // el t�tulo deber�a venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			String titleUrl = (String)field[2];
+			String excerpt = (String)field[3]; // el contenido del feed se obtiene ya procesado
+			DateTime publicationDate = new DateTime(((Long)field[4]).longValue());
+			String authorName = (String)field[5]; // el autor deber�a venir ya codificado en entidades html, no se puede arriesgar a recodificar
+			SimplifiedPost sp = new SimplifiedPost(id, title, titleUrl, excerpt, null, publicationDate, authorName);
+			posts.add(sp);
 		}
 		return posts;
 	}
