@@ -328,6 +328,25 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		}
 		return posts;
 	}
+
+
+	// recupera los datos necesarios para el sitemap
+	@Override
+	public List<SimplifiedPost> getPostsForSitemap() {
+		String q = "select p.id, p.titleUrl, p.publicationDateAsLong, p.lastModificationDateAsLong from Post p where p.published = true";
+		List<Object[]> fields = list(q, null);
+		if (fields.size() == 0) return Collections.emptyList();
+		List<SimplifiedPost> posts = new ArrayList<SimplifiedPost>(fields.size());
+		for (Object[] field : fields) {
+			Long id = (Long)field[0];
+			String titleUrl = (String)field[1];
+			DateTime publicationDate = new DateTime(((Long)field[2]).longValue());
+			DateTime lastModificationDate = new DateTime(((Long)field[3]).longValue());
+			SimplifiedPost sp = new SimplifiedPost(id, null, titleUrl, null, null, publicationDate, lastModificationDate, null);
+			posts.add(sp);
+		}
+		return posts;
+	}
 	
 
 	// recupera un post por id

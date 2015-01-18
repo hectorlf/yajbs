@@ -2,6 +2,7 @@ package com.hectorlopezfernandez.dao;
 
 import java.util.List;
 
+import com.hectorlopezfernandez.dto.SimplifiedPage;
 import com.hectorlopezfernandez.model.Page;
 
 public interface PageDao {
@@ -28,5 +29,9 @@ public interface PageDao {
 
 	// borra una página
 	public void deletePage(Long id);
+
+
+	// recupera todos los datos necesarios para el sitemap
+	List<SimplifiedPage> getPagesForSitemap();
 
 }

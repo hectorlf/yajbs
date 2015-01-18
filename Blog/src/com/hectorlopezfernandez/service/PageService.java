@@ -3,6 +3,7 @@ package com.hectorlopezfernandez.service;
 import java.util.List;
 
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPage;
 import com.hectorlopezfernandez.model.Page;
 
 public interface PageService {
@@ -29,5 +30,9 @@ public interface PageService {
 
 	// borra una pagina
 	public void deletePage(Long id);
+
+
+	// recupera los datos necesarios para el sitemap
+	public List<SimplifiedPage> getPagesForSitemap();
 
 }

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PageDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
+import com.hectorlopezfernandez.dto.SimplifiedPage;
 import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
 
@@ -115,6 +116,13 @@ public class PageServiceImpl implements PageService {
 		pageDao.deletePage(id);
 		// se borra del índice la pagina
 		searchService.removePageFromIndex(id);
+	}
+
+	
+	@Override
+	public List<SimplifiedPage> getPagesForSitemap() {
+		List<SimplifiedPage> pages = pageDao.getPagesForSitemap();
+		return pages;
 	}
 
 }

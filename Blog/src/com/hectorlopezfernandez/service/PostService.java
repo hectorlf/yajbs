@@ -49,6 +49,10 @@ public interface PostService {
 	public Long findPostId(String titleUrl, int year, int month);
 
 
+	// metodo especifico para construir el sitemap
+	List<SimplifiedPost> getPostsForSitemap();
+
+
 	/** ARCHIVE ENTRIES **/
 	
 	// recupera una lista de objetos ArchiveEntry que guardan los meses en los que ha habido posts

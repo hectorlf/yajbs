@@ -73,6 +73,9 @@ public interface PostDao {
 	// metodo especifico para recuperar en una sola consulta todo lo necesario para mostrar los feeds
 	public List<SimplifiedPost> listPostsForFeedPublishedAfter(long millisecondsFrom1970);
 
+
+	// metodo especifico para construir el sitemap
+	List<SimplifiedPost> getPostsForSitemap();
 	
 	
 	/** ARCHIVE ENTRIES **/

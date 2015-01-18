@@ -13,6 +13,7 @@ public final class SimplifiedPost {
 	private String excerpt;
 	private String content;
 	private DateTime publicationDate;
+	private DateTime lastModificationDate;
 	private String authorName;
 
 
@@ -26,6 +27,11 @@ public final class SimplifiedPost {
 		this.content = content;
 		this.publicationDate = publicationDate;
 		this.authorName = authorName;
+	}
+
+	public SimplifiedPost(Long id, String title, String titleUrl, String excerpt, String content, DateTime publicationDate, DateTime lastModificationDate, String authorName) {
+		this(id, title, titleUrl, excerpt, content, publicationDate, authorName);
+		this.lastModificationDate = lastModificationDate;
 	}
 
 	// getters sintéticos
@@ -53,6 +59,10 @@ public final class SimplifiedPost {
 
 	public DateTime getPublicationDate() {
 		return publicationDate;
+	}
+
+	public DateTime getLastModificationDate() {
+		return lastModificationDate;
 	}
 
 	public Long getId() {

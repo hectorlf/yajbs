@@ -140,6 +140,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 
+	@Override
+	public List<SimplifiedPost> getPostsForSitemap() {
+		return postDao.getPostsForSitemap();
+	}
+
 
 	/** ARCHIVE ENTRIES **/
 	

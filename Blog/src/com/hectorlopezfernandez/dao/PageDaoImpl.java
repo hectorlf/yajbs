@@ -1,5 +1,6 @@
 package com.hectorlopezfernandez.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hectorlopezfernandez.dto.SimplifiedPage;
 import com.hectorlopezfernandez.exception.DataIntegrityException;
 import com.hectorlopezfernandez.model.Page;
 
@@ -106,6 +109,23 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		logger.debug("Borrando page con id {} de la base de datos", id);
 		Page p = getReference(id, Page.class);
 		delete(p);
+	}
+
+
+	@Override
+	public List<SimplifiedPage> getPagesForSitemap() {
+		String q = "select p.id, p.titleUrl, p.lastModificationDateAsLong from Page p";
+		List<Object[]> fields = list(q, null);
+		if (fields.size() == 0) return Collections.emptyList();
+		List<SimplifiedPage> pages = new ArrayList<SimplifiedPage>(fields.size());
+		for (Object[] field : fields) {
+			Long id = (Long)field[0];
+			String titleUrl = (String)field[1];
+			DateTime lastModificationDate = new DateTime(((Long)field[2]).longValue());
+			SimplifiedPage sp = new SimplifiedPage(id, titleUrl, lastModificationDate);
+			pages.add(sp);
+		}
+		return pages;
 	}
 
 }
