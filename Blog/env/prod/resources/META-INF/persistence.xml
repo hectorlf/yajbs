@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+    <!-- Configuracion del EntityManagerFactory -->
+    <persistence-unit name="blogDataPersistence" transaction-type="RESOURCE_LOCAL">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<non-jta-data-source>java:comp/env/jdbc/BlogDB</non-jta-data-source>
+
+        <!-- Clases mapeadas -->
+        <class>com.hectorlopezfernandez.model.PersistentObject</class>
+        <class>com.hectorlopezfernandez.model.Language</class>
+        <class>com.hectorlopezfernandez.model.Post</class>
+        <class>com.hectorlopezfernandez.model.ArchiveEntry</class>
+        <class>com.hectorlopezfernandez.model.Tag</class>
+        <class>com.hectorlopezfernandez.model.Page</class>
+        <class>com.hectorlopezfernandez.model.User</class>
+        <class>com.hectorlopezfernandez.model.Author</class>
+        <class>com.hectorlopezfernandez.model.Host</class>
+        <class>com.hectorlopezfernandez.model.Alias</class>
+        <class>com.hectorlopezfernandez.model.Theme</class>
+        
+
+		<!-- Configuracion especifica para openjpa -->
+        <properties>
+            <property name="openjpa.jdbc.DBDictionary" value="mysql"/>
+            <property name="openjpa.Log" value="commons"/>
+            <property name="openjpa.DataCache" value="true(CacheSize=100, SoftReferenceSize=50)"/>
+            <property name="openjpa.QueryCache" value="true(CacheSize=10, SoftReferenceSize=10)"/>
+        </properties>
+    </persistence-unit>
+    
+</persistence>

@@ -1,0 +1,129 @@
+subprojects {
+
+   apply plugin: 'java'
+
+   tasks.withType(JavaCompile) {
+      options.incremental = true
+      sourceCompatibility = '1.7'
+      targetCompatibility = '1.7'
+   }
+
+   repositories {
+      mavenCentral()
+      flatDir { dirs '../lib' }
+   }
+
+   dependencies {
+      compile 'org.slf4j:slf4j-api:'
+      compile 'ch.qos.logback:logback-classic:'
+
+      runtime 'org.slf4j:jcl-over-slf4j:'
+      runtime 'org.slf4j:log4j-over-slf4j:'
+   }
+
+   configurations.all {
+      resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+         switch(details.requested.group) {
+            case 'org.apache.openjpa':
+               details.useVersion '2.3.0'
+               break
+
+            case 'org.hsqldb':
+               details.useVersion '2.3.2'
+               break
+            
+            case 'javax.inject':
+               details.useVersion '1'
+               break
+
+            case 'org.slf4j':
+               details.useVersion '1.7.10'
+               break
+
+            case 'ch.qos.logback':
+               details.useVersion '1.1.2'
+               break
+
+            case 'org.apache.lucene':
+               details.useVersion '5.0.0'
+               break
+
+            case 'com.google.inject':
+               details.useVersion '4.0-beta5'
+               break
+
+            case 'net.sourceforge.stripes':
+               details.useVersion '1.5.8'
+               break
+
+            case 'joda-time':
+               if (details.requested.name == 'joda-time') details.useVersion '2.7'
+               else if (details.requested.name == 'joda-time-jsptags') details.useVersion '1.1.1'
+               break
+
+            case 'commons-lang':
+               details.useVersion '2.6'
+               break
+
+            case 'commons-pool':
+               details.useVersion '1.6'
+               break
+
+            case 'commons-beanutils':
+               details.useVersion '1.8.3'
+               break
+
+            case 'commons-collections':
+               details.useVersion '3.2.1'
+               break
+
+            case 'org.apache.commons':
+               if (details.requested.name == 'commons-lang3') details.useVersion '3.3.2'
+               break
+
+            case 'org.apache.shiro':
+               details.useVersion '1.2.3'
+               break
+
+            case 'org.owasp.antisamy':
+               details.useVersion '1.5.3'
+               break
+
+            case 'com.google.guava':
+               details.useVersion '18.0'
+               break
+
+            case 'net.sourceforge.nekohtml':
+               details.useVersion '1.9.21'
+               break
+
+            case 'org.apache.taglibs':
+               details.useVersion '1.2.1'
+               break
+         }
+      }
+   }
+
+
+
+   // marker task for production specific builds
+   task release {
+	   outputs.upToDateWhen { false }
+   }
+
+   // jetty-runner alias
+   task run {
+	   outputs.upToDateWhen { false }
+   }
+
+}
+
+
+
+
+
+// Gradle wrapper task
+// Only used when in need to reinstall the wrapper
+task wrapper(type: Wrapper) {
+   gradleVersion = '2.3'
+}

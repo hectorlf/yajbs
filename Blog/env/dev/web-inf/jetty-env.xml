@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+	<Set name="contextPath">/</Set>
+	<New id="datasource" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg></Arg>
+		<Arg>jdbc/BlogDB</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp2.BasicDataSource">
+				<Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+				<Set name="url">jdbc:mysql://localhost:3306/blog_db</Set>
+				<Set name="username">blog</Set>
+				<Set name="password">blog</Set>
+			</New>
+		</Arg>
+	</New>
+</Configure>

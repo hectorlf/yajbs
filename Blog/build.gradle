@@ -1,0 +1,140 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+
+// project defs
+
+def entitiesBasePackage = 'com.hectorlopezfernandez.model'
+
+
+configurations {
+   weave
+   jettyRunner
+   jettyRuntimeClasspath
+}
+
+dependencies {
+   // some common dependencies are configured in the root build.gradle
+    
+   providedCompile 'commons-logging:commons-logging:1.2'
+   providedCompile 'log4j:log4j:1.2.17'
+   providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+
+   providedRuntime 'junit:junit:3.8.1'
+   providedRuntime 'commons-httpclient:commons-httpclient:3.1'
+
+   compile 'javax.inject:javax.inject:'
+   compile 'com.google.inject:guice:'
+   compile 'net.sourceforge.stripes:stripes:'
+   compile 'org.apache.openjpa:openjpa:'
+   compile 'org.apache.lucene:lucene-core:'
+   compile 'org.apache.lucene:lucene-analyzers-common:'
+   compile 'org.apache.lucene:lucene-queryparser:'
+   compile 'org.apache.lucene:lucene-highlighter:'
+   compile 'joda-time:joda-time:'
+   compile 'joda-time:joda-time-jsptags:'
+   compile 'org.apache.commons:commons-lang3:'
+   compile 'org.apache.shiro:shiro-web:'
+   compile 'net.sourceforge.nekohtml:nekohtml:'
+   compile 'org.owasp.antisamy:antisamy:'
+   compile 'com.google.guava:guava:'
+   compile 'org.apache.taglibs:taglibs-standard-spec:'
+
+   runtime 'commons-lang:commons-lang:'
+   runtime 'commons-pool:commons-pool:'
+   runtime 'commons-beanutils:commons-beanutils-core:'
+   runtime 'commons-collections:commons-collections:'
+   runtime 'org.apache.taglibs:taglibs-standard-impl:'
+
+   weave 'org.apache.openjpa:openjpa:'
+   weave 'org.slf4j:jcl-over-slf4j:'
+   weave 'joda-time:joda-time:'
+   weave 'ch.qos.logback:logback-classic:'
+   
+   jettyRunner 'org.eclipse.jetty:jetty-runner:9.3.0.M1'
+   jettyRuntimeClasspath 'org.apache.commons:commons-dbcp2:2.0.1'
+   jettyRuntimeClasspath 'mysql:mysql-connector-java:5.1.34'
+}
+
+compileJava {
+	destinationDir file("$buildDir/compiled-classes")
+}
+
+war {
+   from 'WebContent'
+   webInf { from "$buildDir/env-dependent-web-inf" } // adds a file-set to the WEB-INF dir.
+}
+
+
+
+// environment dependent resources
+
+task processDevelopmentResources(type: Copy, dependsOn: processResources) {
+   from 'env/dev/resources'
+   into processResources.destinationDir
+   onlyIf { !gradle.taskGraph.hasTask(release) }
+}
+task processDevelopmentWebInf(type: Sync, dependsOn: processResources) {
+   from 'env/dev/web-inf'
+   into "$buildDir/env-dependent-web-inf"
+   onlyIf { !gradle.taskGraph.hasTask(release) }
+}
+task processReleaseResources(type: Copy, dependsOn: processResources) {
+   from 'env/prod/resources'
+   into processResources.destinationDir
+   onlyIf { gradle.taskGraph.hasTask(release) }
+}
+task processReleaseWebInf(type: Sync, dependsOn: processResources) {
+   from 'env/prod/web-inf'
+   into "$buildDir/env-dependent-web-inf"
+   onlyIf { gradle.taskGraph.hasTask(release) }
+}
+
+
+// jpa weaving
+
+task copyNonPersistentClasses(type: Copy, dependsOn: compileJava) {
+   from("$buildDir/compiled-classes")
+   into sourceSets.main.output.classesDir
+   exclude '**/' + entitiesBasePackage.replaceAll('\\.','/') + '/**'
+   includeEmptyDirs = false
+}
+task copyPersistentClasses(type: Copy, dependsOn: compileJava) {
+   from("$buildDir/compiled-classes")
+   into "$buildDir/unwoven-persistent-classes"
+   include '**/' + entitiesBasePackage.replaceAll('\\.','/') + '/**'
+   includeEmptyDirs = false
+}
+task weaveJpaEntities(type: JavaExec, dependsOn: [copyPersistentClasses,processDevelopmentResources,processDevelopmentWebInf,processReleaseResources,processReleaseWebInf]) {
+   main = 'org.apache.openjpa.enhance.PCEnhancer'
+   classpath configurations.weave.incoming.files
+   doFirst {
+      classpath copyPersistentClasses.destinationDir
+      args '-tcl'
+      args 'false'
+      args '-d'
+      args sourceSets.main.output.classesDir.absolutePath
+      args '-p'
+      args fileTree(processResources.destinationDir).matching({pattern -> pattern.include('**/META-INF/persistence.xml')}).singleFile.absolutePath
+   }
+
+   inputs.files fileTree(copyPersistentClasses.destinationDir),fileTree(processResources.destinationDir).matching({pattern -> pattern.include('**/META-INF/persistence.xml')})
+   outputs.dir sourceSets.main.output.classesDir
+}
+classes.dependsOn copyNonPersistentClasses,weaveJpaEntities
+
+
+
+// local jetty run
+ 
+task deployOnJetty(type: JavaExec, dependsOn: assemble) {
+   classpath configurations.jettyRunner.incoming.files
+   main = '-jar'
+   args configurations.jettyRunner.incoming.files.asFileTree.matching({pattern -> pattern.include('**/jetty-runner*.jar')}).singleFile.absolutePath
+   configurations.jettyRuntimeClasspath.incoming.files.asFileTree.visit({
+      fileDetails -> if (!fileDetails.directory) { args '--jar'; args fileDetails.file.absolutePath }
+   })
+   args war.archivePath
+}
+
+run.dependsOn deployOnJetty
