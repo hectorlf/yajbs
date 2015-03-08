@@ -70,7 +70,7 @@ subprojects {
                break
 
             case 'commons-beanutils':
-               details.useVersion '1.8.3'
+               details.useVersion '1.9.2'
                break
 
             case 'commons-collections':
@@ -98,7 +98,7 @@ subprojects {
                break
 
             case 'org.apache.taglibs':
-               details.useVersion '1.2.1'
+               details.useVersion '1.2.3'
                break
          }
       }
