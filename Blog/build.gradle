@@ -42,7 +42,7 @@ dependencies {
 
    runtime 'commons-lang:commons-lang:'
    runtime 'commons-pool:commons-pool:'
-   runtime 'commons-beanutils:commons-beanutils-core:'
+   runtime 'commons-beanutils:commons-beanutils:'
    runtime 'commons-collections:commons-collections:'
    runtime 'org.apache.taglibs:taglibs-standard-impl:'
 
