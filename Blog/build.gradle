@@ -126,15 +126,32 @@ classes.dependsOn copyNonPersistentClasses,weaveJpaEntities
 
 
 // local jetty run
- 
-task deployOnJetty(type: JavaExec, dependsOn: assemble) {
+
+task deployOnLocalJetty(type: JavaExec, dependsOn: assemble) {
    classpath configurations.jettyRunner.incoming.files
    main = '-jar'
    args configurations.jettyRunner.incoming.files.asFileTree.matching({pattern -> pattern.include('**/jetty-runner*.jar')}).singleFile.absolutePath
    configurations.jettyRuntimeClasspath.incoming.files.asFileTree.visit({
       fileDetails -> if (!fileDetails.directory) { args '--jar'; args fileDetails.file.absolutePath }
    })
+   args '--stop-port'
+   args '8181'
+   args '--stop-key'
+   args 'abc123'
+   args '--out'
+   args "$buildDir/jetty-output.log"
+   args '--config'
+   args "$buildDir/jetty.xml"
    args war.archivePath
+
+   doFirst {
+      copy {
+         from "$rootDir/jetty/jetty.xml"; into "$buildDir"; expand(keystorePath: "$buildDir/key.store")
+      }
+      copy {
+         from "$rootDir/jetty/key.store"; into "$buildDir"
+      }
+   }
 }
 
-run.dependsOn deployOnJetty
+run.dependsOn deployOnLocalJetty
