@@ -37,11 +37,11 @@ subprojects {
                break
 
             case 'org.slf4j':
-               details.useVersion '1.7.10'
+               details.useVersion '1.7.12'
                break
 
             case 'ch.qos.logback':
-               details.useVersion '1.1.2'
+               details.useVersion '1.1.3'
                break
 
             case 'org.apache.lucene':
@@ -78,7 +78,7 @@ subprojects {
                break
 
             case 'org.apache.commons':
-               if (details.requested.name == 'commons-lang3') details.useVersion '3.3.2'
+               if (details.requested.name == 'commons-lang3') details.useVersion '3.4'
                break
 
             case 'org.apache.shiro':
@@ -98,7 +98,7 @@ subprojects {
                break
 
             case 'org.apache.taglibs':
-               details.useVersion '1.2.3'
+               details.useVersion '1.2.5'
                break
          }
       }
