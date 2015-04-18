@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
 import com.hectorlopezfernandez.model.Author;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.UserService;
 
@@ -31,6 +31,7 @@ public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
 	public final static String PARAM_ID = "id";
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject	private UserService userService;
 	@Inject	private PostService postService;
 	
@@ -47,14 +48,13 @@ public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
 		logger.debug("Entrando a ViewAuthorAction.execute");
 		if (id == null) return new ForwardResolution(Error404Action.class);
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se carga el autor
 		author = userService.getAuthorById(id);
 		if (author == null) return new ForwardResolution(Error404Action.class);
 		// se cargan los posts relacionados, si hay
-		paginationInfo = postService.computePaginationOfPostsForAuthor(id, page, prefs);
+		paginationInfo = postService.computePaginationOfPostsForAuthor(id, page);
 		posts = postService.listPostsForAuthor(id, paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/author.jsp");
 	}
@@ -106,6 +106,10 @@ public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

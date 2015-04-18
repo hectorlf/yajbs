@@ -38,7 +38,6 @@ public class SavePostAction implements ActionBean {
 	private String excerpt;
 	private String content; 
 	private boolean commentsAllowed;
-	private Long hostId;
 	private Long authorId;
 	private Set<Long> tagIds;
 
@@ -55,8 +54,8 @@ public class SavePostAction implements ActionBean {
 		p.setMetaDescription(StringEscapeUtils.escapeHtml4(metaDescription));
 		p.setTitle(StringEscapeUtils.escapeHtml4(title));
 		p.setTitleUrl(titleUrl);
-		if (id == null) postService.savePost(p, hostId, authorId, tagIds);
-		else postService.modifyPost(p, hostId, authorId, tagIds);
+		if (id == null) postService.savePost(p, authorId, tagIds);
+		else postService.modifyPost(p, authorId, tagIds);
 		// TODO encontrar otra forma de actualizar la cuenta de posts etiquetados en un tag
 		tagDao.updateTagRefCounts();
 		return new RedirectResolution(ListPostsAction.class);
@@ -107,10 +106,6 @@ public class SavePostAction implements ActionBean {
 
 	public void setCommentsAllowed(boolean commentsAllowed) {
 		this.commentsAllowed = commentsAllowed;
-	}
-
-	public void setHostId(Long hostId) {
-		this.hostId = hostId;
 	}
 
 	public void setAuthorId(Long authorId) {

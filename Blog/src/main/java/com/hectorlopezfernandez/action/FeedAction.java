@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 
 @UrlBinding("/feed.atom")
@@ -26,6 +26,7 @@ public class FeedAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(FeedAction.class);
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private PostService postService;
 	
 	// campos que guarda el actionbean
@@ -36,13 +37,11 @@ public class FeedAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a FeedAction.execute");
-		Alias alias = ctx.getAlias();
-		ctx.setAttribute("alias", alias);
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		int maxPostAge = prefs.getMaxPostAgeInDaysForFeeds() == null ? 0 : prefs.getMaxPostAgeInDaysForFeeds().intValue();
 		posts = postService.getNewestPostsForFeed(maxPostAge);
-		// se comparan las fechas para obtener la más reciente y mostrarla como fecha de última actualización
+		// se comparan las fechas para obtener la mï¿½s reciente y mostrarla como fecha de ï¿½ltima actualizaciï¿½n
 		lastModificationDate = new DateTime(0);
 		if (posts.size() > 0) {
 			for (SimplifiedPost sp : posts) {
@@ -74,6 +73,10 @@ public class FeedAction implements ActionBean {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

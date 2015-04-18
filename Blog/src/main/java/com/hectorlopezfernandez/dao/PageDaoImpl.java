@@ -47,38 +47,38 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("titleUrl", titleUrl);
 		List<Long> ids = listIds("select p.id from Page p where p.titleUrl = :titleUrl", params);
-		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varias páginas para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
+		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varias pï¿½ginas para el nombre especificado. La columna de base de datos deberï¿½a tener una restricciï¿½n de unicidad que no lo habrï¿½a permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);
 		return id;
 	}
 
-	// cuenta el número total de páginas del sistema
+	// cuenta el nï¿½mero total de pï¿½ginas del sistema
 	@Override
 	public Long countAllPages() {
 		String q = "select count(p.id) from Page p";
 		Long count = count(q, null);
 		return count;
 	}
-	// recupera todas las páginas del sistema con paginación, ordenadas por id descendentemente
+	// recupera todas las pï¿½ginas del sistema con paginaciï¿½n, ordenadas por id descendentemente
 	@Override
 	public List<Page> getAllPages(int firstResult, int maxResults) {
-		logger.debug("Recuperando {} elementos de todas las páginas del sistema. Primer elemento: {}", maxResults, firstResult);
+		logger.debug("Recuperando {} elementos de todas las pï¿½ginas del sistema. Primer elemento: {}", maxResults, firstResult);
 		List<Page> pages = find("select p from Page p order by p.id desc", null, Page.class, firstResult, maxResults);
 		if (pages.size() == 0) return Collections.emptyList();
 		return pages;
 	}
-	// recupera todas las páginas del sistema
+	// recupera todas las pï¿½ginas del sistema
 	@Override
 	public List<Page> getAllPages() {
-		logger.debug("Recuperando todas las páginas del sistema");
+		logger.debug("Recuperando todas las pï¿½ginas del sistema");
 		List<Page> pages = find("select p from Page p order by p.id desc", null, Page.class);
 		if (pages.size() == 0) return Collections.emptyList();
 		return pages;
 	}
 	
 	
-	// inserta una página en la base de datos y devuelve el id generado
+	// inserta una pï¿½gina en la base de datos y devuelve el id generado
 	@Override
 	public Long savePage(Page page) {
 		if (page == null) throw new IllegalArgumentException("El objeto page a persistir no puede ser nulo.");
@@ -87,22 +87,21 @@ public class PageDaoImpl extends BaseDaoImpl implements PageDao {
 		return id;
 	}
 
-	// modifica una página en la base de datos
+	// modifica una pï¿½gina en la base de datos
 	@Override
 	public void modifyPage(Page page) {
 		if (page == null) throw new IllegalArgumentException("El objeto page a persistir no puede ser nulo.");
 		logger.debug("Modificando page con titulo '{}' en base de datos", page.getTitle());
 		Page p = getPage(page.getId());
 		p.setContent(page.getContent());
-		if (!p.getHost().getId().equals(page.getHost().getId())) p.setHost(page.getHost());
 		p.setLastModificationDate(page.getLastModificationDate());
 		p.setMetaDescription(page.getMetaDescription());
 		p.setTitle(page.getTitle());
 		p.setTitleUrl(page.getTitleUrl());
-//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+//		flush(); // este flush deberï¿½a ir en un interceptor de AOP asociado a los servicios o a los actions
 	}
 
-	// borra una página de la base de datos
+	// borra una pï¿½gina de la base de datos
 	@Override
 	public void deletePage(Long id) {
 		if (id == null) throw new IllegalArgumentException("El id de la pagina a borrar no puede ser nulo.");

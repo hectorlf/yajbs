@@ -32,7 +32,6 @@ public class SavePageAction implements ActionBean {
 	private String titleUrl;
 	private String metaDescription;
 	private String content;
-	private Long hostId;
 
 	
 	@DefaultHandler
@@ -44,8 +43,8 @@ public class SavePageAction implements ActionBean {
 		p.setMetaDescription(StringEscapeUtils.escapeHtml4(metaDescription));
 		p.setTitle(StringEscapeUtils.escapeHtml4(title));
 		p.setTitleUrl(titleUrl);
-		if (id == null) pageService.savePage(p, hostId);
-		else pageService.modifyPage(p, hostId);
+		if (id == null) pageService.savePage(p);
+		else pageService.modifyPage(p);
 		return new RedirectResolution(ListPagesAction.class);
 	}
 	
@@ -78,10 +77,6 @@ public class SavePageAction implements ActionBean {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public void setHostId(Long hostId) {
-		this.hostId = hostId;
 	}
 
 }

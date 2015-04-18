@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PageService;
 
 @UrlBinding("/viewPage.action")
@@ -24,6 +24,7 @@ public class ViewPageAction implements ActionBean {
 	public final static String PARAM_ID = "id";
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject	private PageService pageService;
 	
 	// campos que guarda el actionbean
@@ -36,10 +37,9 @@ public class ViewPageAction implements ActionBean {
 		logger.debug("Entrando a ViewPageAction.execute");
 		if (id == null) return new ForwardResolution(Error404Action.class);
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
-		// se carga la página a mostrar
+		// se carga la pï¿½gina a mostrar
 		page = pageService.getPage(id);
 		// si no existe, 404
 		if (page == null) return new ForwardResolution(Error404Action.class);
@@ -70,6 +70,10 @@ public class ViewPageAction implements ActionBean {
 
 	public void setPageService(PageService pageService) {
 		this.pageService = pageService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

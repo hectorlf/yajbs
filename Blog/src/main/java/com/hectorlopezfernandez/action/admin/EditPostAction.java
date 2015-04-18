@@ -17,11 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Author;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.AdminPostService;
-import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.TagService;
 import com.hectorlopezfernandez.service.UserService;
 
@@ -31,7 +29,6 @@ public class EditPostAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(EditPostAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private BlogService blogService;
 	@Inject private AdminPostService postService;
 	@Inject private TagService tagService;
 	@Inject private UserService userService;
@@ -45,10 +42,8 @@ public class EditPostAction implements ActionBean {
 	private String excerpt;
 	private String content;
 	private boolean commentsAllowed;
-	private Long hostId; // current host
 	private Long authorId; // current author
 	private List<Long> selectedTagsIds; // currently selected tags, if any
-	private List<Host> hosts;
 	private List<Author> authors;
 	private List<Tag> tags;
 	private boolean editing = true; // es modificacion
@@ -63,7 +58,6 @@ public class EditPostAction implements ActionBean {
 		excerpt = p.getExcerpt();
 		content = p.getContent();
 		commentsAllowed = !p.isCommentsClosed();
-		hostId = getContext().getAlias().getHost().getId();
 		authorId = getContext().getLoggedUser().getId();
 		selectedTagsIds = new ArrayList<Long>();
 		if (p.getTags() != null && p.getTags().size() > 0) {
@@ -71,7 +65,6 @@ public class EditPostAction implements ActionBean {
 				selectedTagsIds.add(t.getId());
 			}
 		}
-		hosts = blogService.getAllHosts();
 		authors = userService.getAllAuthors();
 		tags = tagService.getAllTags();
 		return new ForwardResolution("/WEB-INF/jsp/admin/post-form.jsp");
@@ -86,10 +79,6 @@ public class EditPostAction implements ActionBean {
 	@Override
 	public void setContext(ActionBeanContext ctx) {
 		this.ctx = (BlogActionBeanContext)ctx;
-	}
-
-	public void setBlogService(BlogService blogService) {
-		this.blogService = blogService;
 	}
 
 	public void setPostService(AdminPostService postService) {
@@ -109,14 +98,6 @@ public class EditPostAction implements ActionBean {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getHostId() {
-		return hostId;
-	}
-
-	public List<Host> getHosts() {
-		return hosts;
 	}
 
 	public List<Author> getAuthors() {

@@ -88,7 +88,6 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		dbp.setContent(post.getContent());
 		dbp.setExcerpt(post.getExcerpt());
 		dbp.setFeedContent(post.getFeedContent());
-		if (!dbp.getHost().getId().equals(post.getHost().getId())) dbp.setHost(post.getHost());
 		dbp.setLastModificationDate(post.getLastModificationDate());
 		dbp.setMetaDescription(post.getMetaDescription());
 		dbp.setTitle(post.getTitle());

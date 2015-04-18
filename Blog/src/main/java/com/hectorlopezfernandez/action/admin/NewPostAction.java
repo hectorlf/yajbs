@@ -16,9 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Author;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Tag;
-import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.TagService;
 import com.hectorlopezfernandez.service.UserService;
 
@@ -28,16 +26,13 @@ public class NewPostAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(NewPostAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private BlogService blogService;
 	@Inject private TagService tagService;
 	@Inject private UserService userService;
 	
 	// campos que guarda el actionbean
 
 	private boolean commentsAllowed;
-	private Long hostId; // current host
 	private Long authorId; // current author
-	private List<Host> hosts;
 	private List<Author> authors;
 	private List<Tag> tags;
 	private boolean editing = false; // es nuevo post
@@ -45,10 +40,8 @@ public class NewPostAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a NewPostAction.execute");
-		commentsAllowed = false; // TODO esto quizás debería salir de las preferencias del host
-		hostId = getContext().getAlias().getHost().getId();
+		commentsAllowed = false; // TODO esto quizï¿½s deberï¿½a salir de las preferencias del host
 		authorId = getContext().getLoggedUser().getId();
-		hosts = blogService.getAllHosts();
 		authors = userService.getAllAuthors();
 		tags = tagService.getAllTags();
 		return new ForwardResolution("/WEB-INF/jsp/admin/post-form.jsp");
@@ -65,10 +58,6 @@ public class NewPostAction implements ActionBean {
 		this.ctx = (BlogActionBeanContext)ctx;
 	}
 
-	public void setBlogService(BlogService blogService) {
-		this.blogService = blogService;
-	}
-
 	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
 	}
@@ -77,20 +66,12 @@ public class NewPostAction implements ActionBean {
 		this.userService = userService;
 	}
 
-	public List<Host> getHosts() {
-		return hosts;
-	}
-
 	public List<Author> getAuthors() {
 		return authors;
 	}
 
 	public List<Tag> getTags() {
 		return tags;
-	}
-
-	public Long getHostId() {
-		return hostId;
 	}
 
 	public boolean isCommentsAllowed() {

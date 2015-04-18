@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 
 public class ListPostsAction implements ActionBean, ValidationErrorHandler {
@@ -30,6 +30,7 @@ public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 	public final static String PARAM_MONTH = "month";
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private PostService postService;
 	
 	// campos que guarda el actionbean
@@ -54,11 +55,10 @@ public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 			return new ForwardResolution(Error404Action.class);
 		}
 		// se recuperan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se realiza la busqueda de posts
-		paginationInfo = postService.computePaginationOfPostsForDate(year, month, page, prefs);
+		paginationInfo = postService.computePaginationOfPostsForDate(year, month, page);
 		posts = postService.listPostsForDate(year, month, paginationInfo);
 		return new ForwardResolution("/WEB-INF/jsp/post-list.jsp");
 	}
@@ -115,6 +115,10 @@ public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

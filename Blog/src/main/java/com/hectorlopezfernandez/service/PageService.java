@@ -11,22 +11,22 @@ public interface PageService {
 	// recupera una pagina por id
 	public Page getPage(Long id);
 
-	// recupera el id de una pagina por el título adaptado a url
+	// recupera el id de una pagina por el titulo adaptado a url
 	public Long findPageId(String titleUrl);
 
-	// calcula los valores de paginacion para todas las páginas del sistema
+	// calcula los valores de paginacion para todas las pï¿½ginas del sistema
 	public PaginationInfo computePaginationOfPages(Integer page);
-	// recupera todas las paginas del sistema usando paginación, ordenadas por id descendentemente
+	// recupera todas las paginas del sistema usando paginaciï¿½n, ordenadas por id descendentemente
 	public List<Page> getAllPages(PaginationInfo pi);
 	// recupera todas las paginas del sistema
 	public List<Page> getAllPages();
 
 	
 	// guarda una nueva pagina
-	public void savePage(Page p, Long ownerHostId);
+	public void savePage(Page p);
 
 	// modifica una pagina existente
-	public void modifyPage(Page p, Long ownerHostId);
+	public void modifyPage(Page p);
 
 	// borra una pagina
 	public void deletePage(Long id);

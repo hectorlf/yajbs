@@ -10,14 +10,12 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dao.TagDao;
 import com.hectorlopezfernandez.dao.UserDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Author;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.utils.HTMLUtils;
@@ -28,22 +26,19 @@ public class AdminPostServiceImpl implements AdminPostService {
 
 	private final PostDao postDao;
 	private final TagDao tagDao;
-	private final BlogDao blogDao;
 	private final UserDao userDao;
 	private final SearchService searchService;
 	
 	/* Constructores */
 	
 	@Inject
-	public AdminPostServiceImpl(PostDao postDao, TagDao tagDao, BlogDao blogDao, UserDao userDao, SearchService searchService) {
+	public AdminPostServiceImpl(PostDao postDao, TagDao tagDao, UserDao userDao, SearchService searchService) {
 		if (postDao == null) throw new IllegalArgumentException("El parametro postDao no puede ser nulo.");
 		if (tagDao == null) throw new IllegalArgumentException("El parametro tagDao no puede ser nulo.");
-		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
 		if (userDao == null) throw new IllegalArgumentException("El parametro userDao no puede ser nulo.");
 		if (searchService == null) throw new IllegalArgumentException("El parametro searchService no puede ser nulo.");
 		this.postDao = postDao;
 		this.tagDao = tagDao;
-		this.blogDao = blogDao;
 		this.userDao = userDao;
 		this.searchService = searchService;
 	}
@@ -78,10 +73,9 @@ public class AdminPostServiceImpl implements AdminPostService {
 	}
 
 	@Override
-	public void savePost(Post post, Long ownerHostId, Long authorId, Set<Long> tagIds) {
+	public void savePost(Post post, Long authorId, Set<Long> tagIds) {
 		if (post == null) throw new IllegalArgumentException("El post a guardar no puede ser nulo.");
 		if (post.getId() != null) throw new IllegalArgumentException("El id de un post nuevo debe ser nulo, y este no lo es: " + post.getId().toString());
-		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado al post no puede ser nulo.");
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
 		logger.debug("Guardando nuevo post con t�tulo: {}", post.getTitle());
 		DateTime now = new DateTime();
@@ -93,8 +87,6 @@ public class AdminPostServiceImpl implements AdminPostService {
 		post.setPublished(false);
 		ArchiveEntry ae = postDao.findArchiveEntryCreateIfNotExists(now.getYear(), now.getMonthOfYear());
 		post.setArchiveEntry(ae);
-		Host ownerHost = blogDao.getHost(ownerHostId);
-		post.setHost(ownerHost);
 		Author author = userDao.getAuthorById(authorId);
 		post.setAuthor(author);
 		if (tagIds != null && tagIds.size() > 0) {
@@ -108,17 +100,14 @@ public class AdminPostServiceImpl implements AdminPostService {
 	}
 
 	@Override
-	public void modifyPost(Post post, Long ownerHostId, Long authorId, Set<Long> tagIds) {
+	public void modifyPost(Post post, Long authorId, Set<Long> tagIds) {
 		if (post == null) throw new IllegalArgumentException("El post a modificar no puede ser nulo.");
 		if (post.getId() == null) throw new IllegalArgumentException("El id de un post modificado no puede ser nulo.");
-		if (ownerHostId == null) throw new IllegalArgumentException("El id del Host asociado al post no puede ser nulo.");
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
 		logger.debug("Modificando post con t�tulo: {}", post.getTitle());
 		DateTime now = new DateTime();
 		post.setLastModificationDate(now);
 		post.setFeedContent(HTMLUtils.parseTextForFeeds(post.getExcerpt()));
-		Host ownerHost = blogDao.getHost(ownerHostId);
-		post.setHost(ownerHost);
 		Author author = userDao.getAuthorById(authorId);
 		post.setAuthor(author);
 		if (tagIds != null && tagIds.size() > 0) {

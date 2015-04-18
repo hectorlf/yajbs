@@ -1,5 +1,5 @@
 <%@page session="false"%><%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><!DOCTYPE html>
-<c:set var="pageName" value="${actionBean.page.title}"/><c:set var="blogTitle" value="${preferences.title}"/><c:set var="blogTagline" value="${preferences.tagline}"/><c:set var="alias" value="${actionBean.context.alias}"/><c:set var="page" value="${actionBean.page}"/><c:set var="metaDescription" value="${actionBean.page.metaDescription}"/>
+<c:set var="pageName" value="${actionBean.page.title}"/><c:set var="blogTitle" value="${preferences.title}"/><c:set var="blogTagline" value="${preferences.tagline}"/><c:set var="page" value="${actionBean.page}"/><c:set var="metaDescription" value="${actionBean.page.metaDescription}"/>
 <html>
 
 <%@include file="/WEB-INF/jsp/fragments/head.jsp"%>

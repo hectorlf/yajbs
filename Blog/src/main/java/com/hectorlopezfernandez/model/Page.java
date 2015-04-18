@@ -5,9 +5,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -47,10 +44,6 @@ public class Page extends PersistentObject {
 	private long lastModificationDateAsLong;
 	@Transient
 	private DateTime lastModificationDate;
-
-	@ManyToOne(fetch=FetchType.LAZY,optional=false)
-	@JoinColumn(name="host_id",nullable=false)
-	private Host host;
 
 
 	// getters & setters sint�ticos
@@ -123,13 +116,6 @@ public class Page extends PersistentObject {
 	}
 	public void setMetaDescription(String metaDescription) {
 		this.metaDescription = metaDescription;
-	}
-
-	public Host getHost() {
-		return host;
-	}
-	public void setHost(Host host) {
-		this.host = host;
 	}
 
 }

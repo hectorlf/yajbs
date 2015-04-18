@@ -1,27 +1,16 @@
 package com.hectorlopezfernandez.model;
 
-import java.util.Set;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="hosts")
-public class Host extends PersistentObject {
+@Table(name="preferences")
+public class Preferences extends PersistentObject {
+	
+	public static final Long ID = Long.valueOf(1);
 
-	@OneToMany(mappedBy="host")
-	private Set<Alias> aliases;
-	
-	@OneToOne(fetch=FetchType.LAZY,optional=false)
-	@JoinColumn(name="active_theme_id",nullable=false)
-	private Theme activeTheme;
-	
 	@Basic(optional=false)
 	@Column(name="title",length=50,nullable=false)
 	private String title;
@@ -53,13 +42,6 @@ public class Host extends PersistentObject {
 
 	// getters & setters
 	
-	public Set<Alias> getAliases() {
-		return aliases;
-	}
-	public void setAliases(Set<Alias> aliases) {
-		this.aliases = aliases;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -86,27 +68,6 @@ public class Host extends PersistentObject {
 	}
 	public void setPostsPerIndexPage(Integer postsPerIndexPage) {
 		this.postsPerIndexPage = postsPerIndexPage;
-	}
-
-	public Theme getActiveTheme() {
-		return activeTheme;
-	}
-	public void setActiveTheme(Theme activeTheme) {
-		this.activeTheme = activeTheme;
-	}
-
-	public Integer getArchiveEntriesPerIndexPage() {
-		return archiveEntriesPerIndexPage;
-	}
-	public void setArchiveEntriesPerIndexPage(Integer archiveEntriesPerIndexPage) {
-		this.archiveEntriesPerIndexPage = archiveEntriesPerIndexPage;
-	}
-
-	public Integer getPopularTagsPerIndexPage() {
-		return popularTagsPerIndexPage;
-	}
-	public void setPopularTagsPerIndexPage(Integer popularTagsPerIndexPage) {
-		this.popularTagsPerIndexPage = popularTagsPerIndexPage;
 	}
 
 	public Integer getMaxPostAgeInDaysForFeeds() {

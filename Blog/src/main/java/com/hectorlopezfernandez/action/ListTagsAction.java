@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.TagService;
 
 public class ListTagsAction implements ActionBean {
@@ -23,6 +23,7 @@ public class ListTagsAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(ListTagsAction.class);
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private TagService tagService;
 	
 	// campos que guarda el actionbean
@@ -33,8 +34,7 @@ public class ListTagsAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a ListTagsAction.execute");
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se recupera la lista completa de tags
 		tags = tagService.getAllTags();
@@ -61,6 +61,10 @@ public class ListTagsAction implements ActionBean {
 
 	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

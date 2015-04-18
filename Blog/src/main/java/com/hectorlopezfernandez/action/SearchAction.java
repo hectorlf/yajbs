@@ -20,8 +20,8 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SearchResult;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.SearchService;
 import com.hectorlopezfernandez.utils.StringLengthLimiterTag;
 
@@ -31,6 +31,7 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 	private final static Logger logger = LoggerFactory.getLogger(SearchAction.class);
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private SearchService searchService;
 	
 	// campos que guarda el actionbean
@@ -45,11 +46,10 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 	public Resolution execute() {
 		logger.debug("Entrando a SearchAction.execute");
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		paginationInfo = searchService.computePagination(page);
-		// si el texto de búsqueda es vacio, no llamamos al servicio de búsqueda
+		// si el texto de bï¿½squeda es vacio, no llamamos al servicio de bï¿½squeda
 		if (q == null || q.trim().length() == 0) {
 			results = Collections.emptyList();
 		} else {
@@ -106,6 +106,10 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 
 	public void setSearchService(SearchService searchService) {
 		this.searchService = searchService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

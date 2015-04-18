@@ -16,8 +16,8 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.SimplifiedPage;
 import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PageService;
 import com.hectorlopezfernandez.service.PostService;
 
@@ -27,6 +27,7 @@ public class SitemapAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(SitemapAction.class);
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private PostService postService;
 	@Inject private PageService pageService;
 	
@@ -38,9 +39,7 @@ public class SitemapAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a SitemapAction.execute");
-		Alias alias = ctx.getAlias();
-		ctx.setAttribute("alias", alias);
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		posts = postService.getPostsForSitemap();
 		pages = pageService.getPagesForSitemap();
@@ -72,6 +71,10 @@ public class SitemapAction implements ActionBean {
 
 	public void setPageService(PageService pageService) {
 		this.pageService = pageService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

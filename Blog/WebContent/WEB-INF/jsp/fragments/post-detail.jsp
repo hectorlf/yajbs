@@ -13,15 +13,15 @@
 	
 	        <section class="share">
 	            <p class="info prompt">Compartir esta entrada</p>
-	            <a href="https://twitter.com/share?text=${post.title}&url=https://${alias.name}${postUrl}"
+	            <a href="https://twitter.com/share?text=${post.title}&url=https://www.hectorlopezfernandez.com${postUrl}"
 	                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
 	                <i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span>
 	            </a>
-	            <a href="https://www.facebook.com/sharer/sharer.php?u=https://${alias.name}${postUrl}"
+	            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.hectorlopezfernandez.com${postUrl}"
 	                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
 	                <i class="fa fa-2x fa-fw fa-facebook-square"></i> <span class="hidden">Facebook</span>
 	            </a>
-	            <a href="https://plus.google.com/share?url=https://${alias.name}${postUrl}"
+	            <a href="https://plus.google.com/share?url=https://www.hectorlopezfernandez.com${postUrl}"
 	               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
 	                <i class="fa fa-2x fa-fw fa-google-plus-square"></i> <span class="hidden">Google+</span>
 	            </a>

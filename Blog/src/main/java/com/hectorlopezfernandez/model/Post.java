@@ -75,10 +75,6 @@ public class Post extends PersistentObject {
 	private boolean published;
 
 	@ManyToOne(fetch=FetchType.LAZY,optional=false)
-	@JoinColumn(name="host_id",nullable=false)
-	private Host host;
-	
-	@ManyToOne(fetch=FetchType.LAZY,optional=false)
 	@JoinColumn(name="author_id",nullable=false)
 	private Author author;
 
@@ -218,13 +214,6 @@ public class Post extends PersistentObject {
 	}
 	public void setMetaDescription(String metaDescription) {
 		this.metaDescription = metaDescription;
-	}
-
-	public Host getHost() {
-		return host;
-	}
-	public void setHost(Host host) {
-		this.host = host;
 	}
 
 	public boolean isPublished() {

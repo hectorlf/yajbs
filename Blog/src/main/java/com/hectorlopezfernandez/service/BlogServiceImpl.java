@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.dao.BlogDao;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Language;
-import com.hectorlopezfernandez.model.Theme;
+import com.hectorlopezfernandez.model.Preferences;
 
 public class BlogServiceImpl implements BlogService {
 
@@ -30,52 +28,17 @@ public class BlogServiceImpl implements BlogService {
 	/* Metodos */
 
 	@Override
-	public Alias getAlias(Long id) {
-		logger.debug("Recuperando alias por id");
-		Alias a = blogDao.getAlias(id);
-		return a;
-	}
-
-	@Override
-	public Alias getAliasByName(String hostname) {
-		logger.debug("Recuperando alias por nombre");
-		Alias a = blogDao.getAliasByName(hostname);
-		return a;
-	}
-	
-	@Override
-	public Long getAliasIdByName(String hostname) {
-		logger.debug("Recuperando id de alias por nombre");
-		Long id = blogDao.getAliasIdByName(hostname);
-		return id;
-	}
-
-	@Override
-	public Host getHost(Long id) {
-		logger.debug("Recuperando host por id");
-		Host h = blogDao.getHost(id);
-		return h;
-	}
-	
-	@Override
-	public List<Host> getAllHosts() {
-		logger.debug("Recuperando todos los host del sistema");
-		List<Host> hosts = blogDao.getAllHosts();
-		return hosts;
-	}
-
-	@Override
-	public Theme getTheme(Long id) {
-		logger.debug("Recuperando theme por id");
-		Theme t = blogDao.getTheme(id);
-		return t;
-	}
-
-	@Override
 	public List<Language> getAllLanguages() {
 		logger.debug("Recuperando todos los idiomas del sistema");
 		List<Language> languages = blogDao.getAllLanguages();
 		return languages;
+	}
+
+	@Override
+	public Preferences getPreferences() {
+		logger.debug("Recuperando preferencias");
+		Preferences p = blogDao.getPreferences();
+		return p;
 	}
 
 }

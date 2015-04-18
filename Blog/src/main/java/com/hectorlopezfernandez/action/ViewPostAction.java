@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
+import com.hectorlopezfernandez.model.Preferences;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 
 @UrlBinding("/viewPost.action")
@@ -24,6 +24,7 @@ public class ViewPostAction implements ActionBean {
 	public final static String PARAM_ID = "id";
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private PostService postService;
 	
 	// campos que guarda el actionbean
@@ -36,8 +37,7 @@ public class ViewPostAction implements ActionBean {
 		logger.debug("Entrando a ViewPostAction.execute");
 		if (id == null) return new ForwardResolution(Error404Action.class);
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se carga la p�gina a mostrar
 		post = postService.getDetailedPost(id);
@@ -70,6 +70,10 @@ public class ViewPostAction implements ActionBean {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }

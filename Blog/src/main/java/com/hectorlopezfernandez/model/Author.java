@@ -1,14 +1,10 @@
 package com.hectorlopezfernandez.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,10 +27,6 @@ public class Author extends User {
 
 	@OneToMany(mappedBy="author")
 	private List<Post> posts;
-
-	@ManyToMany
-	@JoinTable(name="authors_hosts",joinColumns=@JoinColumn(name="author_id", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="host_id", referencedColumnName="id"))
-	private Collection<Host> hosts;
 
 
 	// getters & setters

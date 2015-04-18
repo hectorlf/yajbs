@@ -9,24 +9,27 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hectorlopezfernandez.dao.BlogDao;
 import com.hectorlopezfernandez.dao.PostDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.dto.SimplifiedPost;
 import com.hectorlopezfernandez.model.ArchiveEntry;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
 
 public class PostServiceImpl implements PostService {
 
 	private final static Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
+	private final BlogDao blogDao;
 	private final PostDao postDao;
 	
 	/* Constructores */
 	
 	@Inject
-	public PostServiceImpl(PostDao postDao) {
+	public PostServiceImpl(BlogDao blogDao, PostDao postDao) {
+		if (blogDao == null) throw new IllegalArgumentException("El parametro blogDao no puede ser nulo.");
 		if (postDao == null) throw new IllegalArgumentException("El parametro postDao no puede ser nulo.");
+		this.blogDao = blogDao;
 		this.postDao = postDao;
 	}
 	
@@ -60,12 +63,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer page, Host preferences) {
-		if (preferences == null) throw new IllegalArgumentException("El parametro preferences no puede ser nulo.");
+	public PaginationInfo computePaginationOfPostsForDate(Integer year, Integer month, Integer page) {
 		Long postCount = postDao.countPublishedPosts(year, month);
 		int total = postCount == null ? 0 : postCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = preferences.getPostsPerIndexPage().intValue();
+		int itemsPerPage = blogDao.getPreferences().getPostsPerIndexPage().intValue();
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}
@@ -78,12 +80,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PaginationInfo computePaginationOfPostsForTag(Long id, Integer page, Host preferences) {
-		if (preferences == null) throw new IllegalArgumentException("El parametro preferences no puede ser nulo.");
+	public PaginationInfo computePaginationOfPostsForTag(Long id, Integer page) {
 		Long postCount = postDao.countPublishedPostsByTag(id);
 		int total = postCount == null ? 0 : postCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = preferences.getPostsPerIndexPage().intValue();
+		int itemsPerPage = blogDao.getPreferences().getPostsPerIndexPage().intValue();
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}
@@ -97,13 +98,12 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PaginationInfo computePaginationOfPostsForAuthor(Long id, Integer page, Host preferences) {
+	public PaginationInfo computePaginationOfPostsForAuthor(Long id, Integer page) {
 		if (id == null) throw new IllegalArgumentException("El parametro id no puede ser nulo.");
-		if (preferences == null) throw new IllegalArgumentException("El parametro preferences no puede ser nulo.");
 		Long postCount = postDao.countPublishedPostsByAuthor(id);
 		int total = postCount == null ? 0 : postCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = preferences.getPostsPerIndexPage().intValue();
+		int itemsPerPage = blogDao.getPreferences().getPostsPerIndexPage().intValue();
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}

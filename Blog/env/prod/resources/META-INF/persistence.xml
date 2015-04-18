@@ -16,9 +16,7 @@
         <class>com.hectorlopezfernandez.model.Page</class>
         <class>com.hectorlopezfernandez.model.User</class>
         <class>com.hectorlopezfernandez.model.Author</class>
-        <class>com.hectorlopezfernandez.model.Host</class>
-        <class>com.hectorlopezfernandez.model.Alias</class>
-        <class>com.hectorlopezfernandez.model.Theme</class>
+        <class>com.hectorlopezfernandez.model.Preferences</class>
         
 
 		<!-- Configuracion especifica para openjpa -->

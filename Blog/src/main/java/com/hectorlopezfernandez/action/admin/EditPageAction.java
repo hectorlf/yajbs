@@ -1,7 +1,5 @@
 package com.hectorlopezfernandez.action.admin;
 
-import java.util.List;
-
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -15,9 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Page;
-import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PageService;
 
 @UrlBinding("/admin/editPage.action")
@@ -26,7 +22,6 @@ public class EditPageAction implements ActionBean {
 	private final static Logger logger = LoggerFactory.getLogger(EditPageAction.class);
 
 	private BlogActionBeanContext ctx;
-	@Inject private BlogService blogService;
 	@Inject private PageService pageService;
 	
 	// campos que guarda el actionbean
@@ -36,9 +31,7 @@ public class EditPageAction implements ActionBean {
 	private String titleUrl;
 	private String metaDescription;
 	private String content;
-	private Long hostId; // current host
-	private List<Host> hosts;
-	private boolean editing = true; // es modificación
+	private boolean editing = true; // es modificaciï¿½n
 	
 	@DefaultHandler
 	public Resolution execute() {
@@ -48,8 +41,6 @@ public class EditPageAction implements ActionBean {
 		titleUrl = p.getTitleUrl();
 		metaDescription = StringEscapeUtils.unescapeHtml4(p.getMetaDescription());
 		content = p.getContent();
-		hostId = p.getHost().getId();
-		hosts = blogService.getAllHosts();
 		return new ForwardResolution("/WEB-INF/jsp/admin/page-form.jsp");
 	}
 	
@@ -62,10 +53,6 @@ public class EditPageAction implements ActionBean {
 	@Override
 	public void setContext(ActionBeanContext ctx) {
 		this.ctx = (BlogActionBeanContext)ctx;
-	}
-
-	public void setBlogService(BlogService blogService) {
-		this.blogService = blogService;
 	}
 
 	public Long getId() {
@@ -89,14 +76,6 @@ public class EditPageAction implements ActionBean {
 
 	public String getContent() {
 		return content;
-	}
-
-	public List<Host> getHosts() {
-		return hosts;
-	}
-
-	public Long getHostId() {
-		return hostId;
 	}
 
 	public boolean isEditing() {

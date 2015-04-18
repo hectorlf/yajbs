@@ -19,10 +19,10 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
-import com.hectorlopezfernandez.model.Alias;
-import com.hectorlopezfernandez.model.Host;
 import com.hectorlopezfernandez.model.Post;
+import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.TagService;
 
@@ -32,6 +32,7 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 	public final static String PARAM_NAME = "name";
 
 	private BlogActionBeanContext ctx;
+	@Inject private BlogService blogService;
 	@Inject private PostService postService;
 	@Inject private TagService tagService;
 	
@@ -48,8 +49,7 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 		logger.debug("Entrando a ListTagPostsAction.execute");
 		if (name == null || name.length() == 0) return new ForwardResolution(Error404Action.class);
 		// se cargan las preferencias
-		Alias alias = ctx.getAlias();
-		Host prefs = alias.getHost();
+		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se busca el tag por nombre y, si existe, los post asociados
 		//TODO REVISAR ESTO
@@ -57,7 +57,7 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 		if (tagId != null) {
 			Tag tag = tagService.getTag(tagId);
 			tagName = tag.getName();
-			paginationInfo = postService.computePaginationOfPostsForTag(tagId, page, prefs);
+			paginationInfo = postService.computePaginationOfPostsForTag(tagId, page);
 			posts = postService.listPostsForTag(tagId, paginationInfo);
 		} else {
 			// si el tag no existe, se procesa la cadena de entrada, por si los hackers
@@ -117,6 +117,10 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 
 	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
+	}
+
+	public void setBlogService(BlogService blogService) {
+		this.blogService = blogService;
 	}
 
 }
