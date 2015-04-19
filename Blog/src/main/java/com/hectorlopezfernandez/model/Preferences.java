@@ -28,14 +28,6 @@ public class Preferences extends PersistentObject {
 	private Integer postsPerIndexPage;
 
 	@Basic
-	@Column(name="archive_items_per_index_page")
-	private Integer archiveEntriesPerIndexPage;
-
-	@Basic
-	@Column(name="popular_tags_per_index_page")
-	private Integer popularTagsPerIndexPage;
-
-	@Basic
 	@Column(name="feeds_max_post_age_in_days")
 	private Integer maxPostAgeInDaysForFeeds;
 

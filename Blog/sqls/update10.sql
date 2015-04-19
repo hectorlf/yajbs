@@ -26,14 +26,19 @@ USE `blog_db`;
 --
 
 ALTER TABLE `posts`
-	DROP CONSTRAINT `FK_posts_hosts`,
+	DROP FOREIGN KEY `FK_posts_hosts`,
 	DROP KEY `FK_posts_hosts`,
 	DROP COLUMN `host_id`;
 
 ALTER TABLE `pages`
-	DROP CONSTRAINT `FK_pages_hosts`,
+	DROP FOREIGN KEY `FK_pages_hosts`,
 	DROP KEY `FK_pages_hosts`,
 	DROP COLUMN `host_id`;
+
+ALTER TABLE `hosts`
+	DROP FOREIGN KEY `FK_hosts_themes`,
+	DROP KEY `FK_hosts_themes`,
+	DROP COLUMN `active_theme_id`;
 
 DROP TABLE IF EXISTS `aliases`;
 DROP TABLE IF EXISTS `themes`;
