@@ -28,10 +28,6 @@ subprojects {
                details.useVersion '2.3.0'
                break
 
-            case 'org.hsqldb':
-               details.useVersion '2.3.2'
-               break
-            
             case 'javax.inject':
                details.useVersion '1'
                break
@@ -49,7 +45,7 @@ subprojects {
                break
 
             case 'com.google.inject':
-               details.useVersion '4.0-beta5'
+               details.useVersion '4.0'
                break
 
             case 'net.sourceforge.stripes':
