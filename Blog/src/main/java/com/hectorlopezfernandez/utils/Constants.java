@@ -17,7 +17,7 @@ public final class Constants {
 	public static final String DEFAULT_LOCALE_SELECTED = "request_context_default_locale_selected";
 	
 	// constantes sobre la aplicacion
-	public static final String APPLICATION_TAG = "YAJBS 0.8.0";
+	public static final String APPLICATION_TAG = "YAJBS 0.8.1";
 
 	// objetos de base de datos prefijados
 	public static final Long ADMIN_USER_ID = Long.valueOf(1);
