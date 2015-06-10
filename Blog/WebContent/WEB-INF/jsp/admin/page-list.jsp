@@ -41,8 +41,8 @@
 	    				<td>${page.titleUrl}</td>
 	    				<td><joda:format value="${page.publicationDate}" style="SS" locale="es_ES"/></td>
 	    				<td>
-	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPageAction"><stripes:param name="id" value="${page.id}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_edit.png" title="Editar p&aacute;gina"></stripes:link>
-	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePageAction"><stripes:param name="id" value="${page.id}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_trash.png" title="Borrar p&aacute;gina"></stripes:link>
+	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.EditPageAction"><stripes:param name="id" value="${page.id}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_edit.png" title="Editar p&aacute;gina"></stripes:link>
+	    					<stripes:link beanclass="com.hectorlopezfernandez.action.admin.DeletePageAction"><stripes:param name="id" value="${page.id}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_trash.png" title="Borrar p&aacute;gina"></stripes:link>
 	    				</td>
 					</tr>
 </c:forEach>
@@ -52,23 +52,23 @@
 	   					<td colspan="8">
 	   						<c:choose>
 	   							<c:when test="${actionBean.paginationInfo.onFirstPage}">
-	   								<img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_first_disabled.png" title="Primera p&aacute;gina" align="absmiddle">
-	   								<img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_previous_disabled.png" title="P&aacute;gina anterior" align="absmiddle">
+	   								<img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_first_disabled.png" title="Primera p&aacute;gina" align="absmiddle">
+	   								<img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_previous_disabled.png" title="P&aacute;gina anterior" align="absmiddle">
 	   							</c:when>
 	   							<c:otherwise>
-	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.firstPage}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_first.png" title="Primera p&aacute;gina" align="absmiddle"></stripes:link>
-	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.previousPage}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_previous.png" title="P&aacute;gina anterior" align="absmiddle"></stripes:link>
+	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.firstPage}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_first.png" title="Primera p&aacute;gina" align="absmiddle"></stripes:link>
+	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.previousPage}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_previous.png" title="P&aacute;gina anterior" align="absmiddle"></stripes:link>
 	   							</c:otherwise>
 	   						</c:choose>
 	   						${actionBean.paginationInfo.currentPage}
 	   						<c:choose>
 	   							<c:when test="${actionBean.paginationInfo.onLastPage}">
-	   								<img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_next_disabled.png" title="P&aacute;gina siguiente" align="absmiddle">
-	   								<img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_last_disabled.png" title="&Uacute;ltima p&aacute;gina" align="absmiddle">
+	   								<img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_next_disabled.png" title="P&aacute;gina siguiente" align="absmiddle">
+	   								<img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_last_disabled.png" title="&Uacute;ltima p&aacute;gina" align="absmiddle">
 	   							</c:when>
 	   							<c:otherwise>
-	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.nextPage}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_next.png" title="P&aacute;gina siguiente" align="absmiddle"></stripes:link>
-	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.lastPage}"/><img src="//d9xqzluw8al1.cloudfront.net/admin/images/icn_last.png" title="&Uacute;ltima p&aacute;gina" align="absmiddle"></stripes:link>
+	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.nextPage}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_next.png" title="P&aacute;gina siguiente" align="absmiddle"></stripes:link>
+	   								<stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction"><stripes:param name="page" value="${actionBean.paginationInfo.lastPage}"/><img src="https://d9xqzluw8al1.cloudfront.net/admin/images/icn_last.png" title="&Uacute;ltima p&aacute;gina" align="absmiddle"></stripes:link>
 	   							</c:otherwise>
 	   						</c:choose>
 						</td>

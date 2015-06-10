@@ -13,6 +13,6 @@
 
     <title>${pageName} - ${blogTitle}</title>
     <c:if test="${not empty metaDescription}"><meta name="description" content="${metaDescription}" /></c:if>
-	<link rel="shortcut icon" href="//d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
+	<link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
     <meta name="generator" content="<%=Constants.APPLICATION_TAG%>"/>
 </head>
