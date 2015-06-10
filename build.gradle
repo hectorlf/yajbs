@@ -25,7 +25,7 @@ subprojects {
       resolutionStrategy.eachDependency { DependencyResolveDetails details ->
          switch(details.requested.group) {
             case 'org.apache.openjpa':
-               details.useVersion '2.3.0'
+               details.useVersion '2.4.0'
                break
 
             case 'javax.inject':
