@@ -41,7 +41,7 @@ subprojects {
                break
 
             case 'org.apache.lucene':
-               details.useVersion '5.2.0'
+               details.useVersion '5.2.1'
                break
 
             case 'com.google.inject':
