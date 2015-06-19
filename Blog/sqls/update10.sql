@@ -56,7 +56,7 @@ CREATE TABLE `preferences` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `preferences` VALUES (1, 'Las pataletas de HÃ©ctor', 'un blog sobre historias de terror y software', 0, 3, 30);
+INSERT INTO `preferences` VALUES (1, 'Las pataletas de Héctor', 'un blog sobre historias de terror y software', 0, 3, 30);
 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
