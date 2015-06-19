@@ -20,4 +20,9 @@
     <function-class>com.hectorlopezfernandez.utils.StringLengthLimiterTag</function-class>
     <function-signature>java.lang.String limitLength(java.lang.String,int)</function-signature>
   </function>
+  <tag>
+  	<name>flush</name>
+  	<tag-class>com.hectorlopezfernandez.utils.FlushTag</tag-class>
+  	<body-content>empty</body-content>
+  </tag>
 </taglib>

@@ -19,6 +19,7 @@ dependencies {
    providedCompile 'commons-logging:commons-logging:1.2'
    providedCompile 'log4j:log4j:1.2.17'
    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+   providedCompile 'javax.servlet.jsp:jsp-api:2.2'
 
    providedRuntime 'junit:junit:3.8.1'
    providedRuntime 'commons-httpclient:commons-httpclient:3.1'

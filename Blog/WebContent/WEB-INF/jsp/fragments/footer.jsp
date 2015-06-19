@@ -1,4 +1,4 @@
-<%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%-- flush before footer --%><h:flush/>
 	<footer class="site-footer">
     	<div>
         	<section class="footer-description">

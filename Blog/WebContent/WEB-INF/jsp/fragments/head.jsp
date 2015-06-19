@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@page import="com.hectorlopezfernandez.utils.Constants"%><head>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%><%@page import="com.hectorlopezfernandez.utils.Constants"%><%@taglib prefix="h" uri="http://www.hectorlopezfernandez.com/jsp/tags"%><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -16,3 +16,4 @@
 	<link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
     <meta name="generator" content="<%=Constants.APPLICATION_TAG%>"/>
 </head>
+<%-- flush head as soon as possible --%><h:flush/>
