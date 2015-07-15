@@ -14,92 +14,42 @@ subprojects {
    }
 
    dependencies {
-      compile 'org.slf4j:slf4j-api:'
-      compile 'ch.qos.logback:logback-classic:'
+      compile 'org.slf4j:slf4j-api'
+      compile 'ch.qos.logback:logback-classic'
 
-      runtime 'org.slf4j:jcl-over-slf4j:'
-      runtime 'org.slf4j:log4j-over-slf4j:'
+      runtime 'org.slf4j:jcl-over-slf4j'
+      runtime 'org.slf4j:log4j-over-slf4j'
    }
 
    configurations.all {
-      resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-         switch(details.requested.group) {
-            case 'org.apache.openjpa':
-               details.useVersion '2.4.0'
-               break
-
-            case 'javax.inject':
-               details.useVersion '1'
-               break
-
-            case 'org.slf4j':
-               details.useVersion '1.7.12'
-               break
-
-            case 'ch.qos.logback':
-               details.useVersion '1.1.3'
-               break
-
-            case 'org.apache.lucene':
-               details.useVersion '5.2.1'
-               break
-
-            case 'com.google.inject':
-               details.useVersion '4.0'
-               break
-
-            case 'net.sourceforge.stripes':
-               details.useVersion '1.5.8'
-               break
-
-            case 'joda-time':
-               if (details.requested.name == 'joda-time') details.useVersion '2.8'
-               else if (details.requested.name == 'joda-time-jsptags') details.useVersion '1.1.1'
-               break
-
-            case 'commons-lang':
-               details.useVersion '2.6'
-               break
-
-            case 'commons-pool':
-               details.useVersion '1.6'
-               break
-
-            case 'commons-beanutils':
-               details.useVersion '1.9.2'
-               break
-
-            case 'commons-collections':
-               details.useVersion '3.2.1'
-               break
-
-            case 'org.apache.commons':
-               if (details.requested.name == 'commons-lang3') details.useVersion '3.4'
-               break
-
-            case 'org.apache.shiro':
-               details.useVersion '1.2.3'
-               break
-
-            case 'org.owasp.antisamy':
-               details.useVersion '1.5.3'
-               break
-
-            case 'com.google.guava':
-               details.useVersion '18.0'
-               break
-
-            case 'net.sourceforge.nekohtml':
-               details.useVersion '1.9.21'
-               break
-
-            case 'org.apache.taglibs':
-               details.useVersion '1.2.5'
-               break
-         }
+      resolutionStrategy.dependencySubstitution {
+         substitute module('org.slf4j:slf4j-api') with module('org.slf4j:slf4j-api:1.7.12')
+         substitute module('org.slf4j:jcl-over-slf4j') with module('org.slf4j:jcl-over-slf4j:1.7.12')
+         substitute module('org.slf4j:log4j-over-slf4j') with module('org.slf4j:log4j-over-slf4j:1.7.12')
+         substitute module('ch.qos.logback:logback-classic') with module('ch.qos.logback:logback-classic:1.1.3')
+         substitute module('javax.inject:javax.inject') with module('javax.inject:javax.inject:1')
+         substitute module('com.google.inject:guice') with module('com.google.inject:guice:4.0')
+         substitute module('net.sourceforge.stripes:stripes') with module('net.sourceforge.stripes:stripes:1.5.8')
+         substitute module('org.apache.openjpa:openjpa') with module('org.apache.openjpa:openjpa:2.4.0')
+         substitute module('org.apache.lucene:lucene-core') with module('org.apache.lucene:lucene-core:5.2.1')
+         substitute module('org.apache.lucene:lucene-analyzers-common') with module('org.apache.lucene:lucene-analyzers-common:5.2.1')
+         substitute module('org.apache.lucene:lucene-queryparser') with module('org.apache.lucene:lucene-queryparser:5.2.1')
+         substitute module('org.apache.lucene:lucene-highlighter') with module('org.apache.lucene:lucene-highlighter:5.2.1')
+         substitute module('joda-time:joda-time') with module('joda-time:joda-time:2.8.1')
+         substitute module('joda-time:joda-time-jsptags') with module('joda-time:joda-time-jsptags:1.1.1')
+         substitute module('org.apache.shiro:shiro-web') with module('org.apache.shiro:shiro-web:1.2.3')
+         substitute module('net.sourceforge.nekohtml:nekohtml') with module('net.sourceforge.nekohtml:nekohtml:1.9.21')
+         substitute module('org.owasp.antisamy:antisamy') with module('org.owasp.antisamy:antisamy:1.5.3')
+         substitute module('com.google.guava:guava') with module('com.google.guava:guava:18.0')
+         substitute module('org.apache.taglibs:taglibs-standard-spec') with module('org.apache.taglibs:taglibs-standard-spec:1.2.5')
+         substitute module('org.apache.taglibs:taglibs-standard-impl') with module('org.apache.taglibs:taglibs-standard-impl:1.2.5')
+         substitute module('commons-lang:commons-lang') with module('commons-lang:commons-lang:2.6')
+         substitute module('org.apache.commons:commons-lang3') with module('org.apache.commons:commons-lang3:3.4')
+         substitute module('commons-pool:commons-pool') with module('commons-pool:commons-pool:1.6')
+         substitute module('commons-beanutils:commons-beanutils') with module('commons-beanutils:commons-beanutils:1.9.2')
+         substitute module('commons-collections:commons-collections') with module('commons-collections:commons-collections:3.2.1')
       }
    }
-
 
 
    // marker task for production specific builds
@@ -121,5 +71,5 @@ subprojects {
 // Gradle wrapper task
 // Only used when in need to reinstall the wrapper
 task wrapper(type: Wrapper) {
-   gradleVersion = '2.4'
+   gradleVersion = '2.5'
 }
