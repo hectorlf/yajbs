@@ -52,7 +52,7 @@ dependencies {
    weave 'joda-time:joda-time'
    weave 'ch.qos.logback:logback-classic'
    
-   jettyRunner 'org.eclipse.jetty:jetty-runner:9.2.+'
+   jettyRunner 'org.eclipse.jetty:jetty-runner:9.2.10.v20150310'
    jettyRuntimeClasspath 'org.apache.commons:commons-dbcp2:2.1'
    jettyRuntimeClasspath 'mysql:mysql-connector-java:5.1.35'
 }
