@@ -40,7 +40,7 @@ subprojects {
          substitute module('org.apache.shiro:shiro-web') with module('org.apache.shiro:shiro-web:1.2.4')
          substitute module('net.sourceforge.nekohtml:nekohtml') with module('net.sourceforge.nekohtml:nekohtml:1.9.21')
          substitute module('org.owasp.antisamy:antisamy') with module('org.owasp.antisamy:antisamy:1.5.3')
-         substitute module('com.google.guava:guava') with module('com.google.guava:guava:18.0')
+         substitute module('com.google.guava:guava') with module('com.google.guava:guava:19.0')
          substitute module('org.apache.taglibs:taglibs-standard-spec') with module('org.apache.taglibs:taglibs-standard-spec:1.2.5')
          substitute module('org.apache.taglibs:taglibs-standard-impl') with module('org.apache.taglibs:taglibs-standard-impl:1.2.5')
          substitute module('commons-lang:commons-lang') with module('commons-lang:commons-lang:2.6')
