@@ -3,7 +3,7 @@ package com.hectorlopezfernandez.dto;
 import org.joda.time.DateTime;
 
 /**
- * Almacena la información básica de una pagina
+ * Almacena la informacion basica de una pagina
  */
 public final class SimplifiedPage {
 

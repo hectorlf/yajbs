@@ -40,7 +40,7 @@ public class NewPostAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a NewPostAction.execute");
-		commentsAllowed = false; // TODO esto quiz�s deber�a salir de las preferencias del host
+		commentsAllowed = false; // TODO esto quizas deberia salir de las preferencias del host
 		authorId = getContext().getLoggedUser().getId();
 		authors = userService.getAllAuthors();
 		tags = tagService.getAllTags();

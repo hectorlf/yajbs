@@ -49,7 +49,7 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		paginationInfo = searchService.computePagination(page);
-		// si el texto de b�squeda es vacio, no llamamos al servicio de b�squeda
+		// si el texto de busqueda es vacio, no llamamos al servicio de busqueda
 		if (q == null || q.trim().length() == 0) {
 			results = Collections.emptyList();
 		} else {

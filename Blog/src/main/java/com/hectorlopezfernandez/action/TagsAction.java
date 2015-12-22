@@ -29,7 +29,7 @@ public class TagsAction implements ActionBean {
 		logger.debug("Entrando a TagsAction.execute");
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
-		// si overhead contiene algo, la url no puede ser válida y se manda un 404
+		// si overhead contiene algo, la url no puede ser valida y se manda un 404
 		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
 		// si no se ha indicado un nombre de tag, se manda al listado
 		if (name == null || name.length() == 0) return new ForwardResolution(ListTagsAction.class);

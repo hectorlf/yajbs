@@ -3,7 +3,7 @@ package com.hectorlopezfernandez.dto;
 import org.joda.time.DateTime;
 
 /**
- * Almacena la información necesaria para mostrar un resultado de búsqueda
+ * Almacena la informacion necesaria para mostrar un resultado de busqueda
  */
 public final class SearchResult {
 
@@ -27,7 +27,7 @@ public final class SearchResult {
 		this.publicationDate = publicationDate;
 	}
 
-	// getters sintéticos
+	// getters sinteticos
 	
 	public int getYear() {
 		return publicationDate.getYear();

@@ -36,15 +36,15 @@ public class ArchiveAction implements ActionBean {
 		logger.debug("month: {}", month);
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
-		// si overhead contiene algo, la url no puede ser válida y se manda un 404
+		// si overhead contiene algo, la url no puede ser valida y se manda un 404
 		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
 		// si no se ha recibido ningun parametro, se envia al archivo de fechas
 		if (year == null && month == null && name == null)
 			return new ForwardResolution(ListArchiveEntriesAction.class);
-		// el nombre, mes y año son campos incrementalmente obligatorios (no puede estar relleno el nombre si no hay mes y año)
+		// el nombre, mes y anio son campos incrementalmente obligatorios (no puede estar relleno el nombre si no hay mes y anio)
 		if ((name != null && (month == null || year == null)) || (month != null && year == null))
 			return new ForwardResolution(Error404Action.class);
-		// los campos de la fecha, de existir, deben ser convertibles a número (si no, 404)
+		// los campos de la fecha, de existir, deben ser convertibles a numero (si no, 404)
 		int y = 0, m = 0;
 		try {
 			y = Integer.parseInt(year);
@@ -54,12 +54,12 @@ public class ArchiveAction implements ActionBean {
 		}
 		// si no se ha indicado un nombre de post, es una busqueda por fecha
 		if (name == null || name.length() == 0) {
-			// se muestra el listado de post con los parámetros recibidos (el año tiene que estar relleno por narices)
+			// se muestra el listado de post con los parametros recibidos (el anio tiene que estar relleno por narices)
 			ForwardResolution fr = new ForwardResolution(ListPostsAction.class).addParameter(ListPostsAction.PARAM_YEAR, y);
 			if (month != null) fr.addParameter(ListPostsAction.PARAM_MONTH, m);
 			return fr;
 		}
-		// todos los campos estan rellenos, se busca un post por nombre y fecha y, si no existe, se envía un 404
+		// todos los campos estan rellenos, se busca un post por nombre y fecha y, si no existe, se envia un 404
 		Long postId = postService.findPostId(name, y, m);
 		if (postId == null) return new ForwardResolution(Error404Action.class);
 		// se muestra el post encontrado

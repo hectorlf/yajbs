@@ -30,8 +30,8 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<Tag> getPopularTags(int count) {
-		if (count < 1) throw new IllegalArgumentException("El número de etiquetas a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando las {} etiquetas más populares.", count);
+		if (count < 1) throw new IllegalArgumentException("El numero de etiquetas a recuperar no puede ser menor que 1.");
+		logger.debug("Recuperando las {} etiquetas mas populares.", count);
 		List<Tag> results = tagDao.findMostPopularTagsForFooter(count);
 		if (results.size() == 0) return Collections.emptyList();
 		return results;
@@ -42,14 +42,14 @@ public class TagServiceImpl implements TagService {
 		Long tagCount = tagDao.countAllTags();
 		int total = tagCount == null ? 0 : tagCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = 10; // TODO esto quizás debería salir de alguna preferencia global
+		int itemsPerPage = 10; // TODO esto quizas deberia salir de alguna preferencia global
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}
 	@Override
 	public List<Tag> getAllTags(PaginationInfo pi) {
-		if (pi == null) throw new IllegalArgumentException("El objeto de paginación no puede ser nulo.");
-		logger.debug("Recuperando todos los tags del sistema, con paginación. Página solicitada: {}", pi.getCurrentPage());
+		if (pi == null) throw new IllegalArgumentException("El objeto de paginacion no puede ser nulo.");
+		logger.debug("Recuperando todos los tags del sistema, con paginacion. Pagina solicitada: {}", pi.getCurrentPage());
 		List<Tag> tags = tagDao.getAllTags(pi.getFirstItem(), pi.getItemsPerPage());
 		return tags;
 	}

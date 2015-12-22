@@ -36,7 +36,7 @@ public final class HTMLUtils {
 
 	/**
 	 * Elimina todos los tags de html excepto <p>, <a> con su href e <img> con su src.
-	 * Espec�fico para los feeds atom.
+	 * Especifico para los feeds atom.
 	 */
 	public static String parseTextForFeeds(String text) {
 		logger.debug("Procesando html para presentar en un feed: {}", text);
@@ -52,7 +52,7 @@ public final class HTMLUtils {
 		return sb.toString();
 	}
 	private static void composeTextForFeeds(Node node, StringBuilder output) {
-		// se recorre el �rbol DOM, hay que comprobar si se trata de alg�n tag de los aceptados o un texto y escribirlo
+		// se recorre el arbol DOM, hay que comprobar si se trata de algun tag de los aceptados o un texto y escribirlo
 		// si un nodo es de texto, contiene todo el texto que hay entre dos elementos (bien sea el comienzo o fin del tag o un tag nuevo)
 		int currentSize = output.length();
 		if (node instanceof HTMLParagraphElementImpl) {
@@ -75,7 +75,7 @@ public final class HTMLUtils {
 			logger.debug("Nodo de elemento de lista");
 			output.append("<li>");
 		} else if (node instanceof TextImpl) {
-			//IMPORTANTE como esto va a un feed que muestra html y nekohtml deshace la codificaci�n, se recodifican las entidades html del texto
+			//IMPORTANTE como esto va a un feed que muestra html y nekohtml deshace la codificacion, se recodifican las entidades html del texto
 			logger.debug("Nodo de texto: {}", node.getNodeValue());
 			output.append(Reform.HtmlEncode(node.getNodeValue()));
 		} else if (node instanceof HTMLQuoteElementImpl) {
@@ -92,7 +92,7 @@ public final class HTMLUtils {
 			composeTextForFeeds(child, output);
 			child = child.getNextSibling();
 		}
-		// una vez recorrido el �rbol en profundidad, se escriben los elementos finales de los tags que lo llevan
+		// una vez recorrido el arbol en profundidad, se escriben los elementos finales de los tags que lo llevan
 		if (node instanceof HTMLParagraphElementImpl) output.append("</p>");
 		else if (node instanceof HTMLAnchorElementImpl) {
 			// caso especial, si un tag a no tiene texto despues de parsear, no se imprime
@@ -109,7 +109,7 @@ public final class HTMLUtils {
 
 	
 	/**
-	 * Elimina todos los tags de html. Espec�fico para la indexaci�n en lucene.
+	 * Elimina todos los tags de html. Especifico para la indexacion en lucene.
 	 */
 	public static String parseTextForLucene(String text) {
 		logger.debug("Procesando html para indexar en lucene: {}", text);
@@ -125,7 +125,7 @@ public final class HTMLUtils {
 		return sb.toString();
 	}
 	private static void composeTextForLucene(Node node, StringBuilder output) {
-		// se recorre el �rbol DOM y se recoge �nicamente el texto sin ning�n tag
+		// se recorre el arbol DOM y se recoge unicamente el texto sin ningun tag
 		if (node instanceof TextImpl) output.append(node.getNodeValue());
 		Node child = node.getFirstChild();
 		while (child != null) {
@@ -178,8 +178,8 @@ public final class HTMLUtils {
 			parser.setProperty("http://cyberneko.org/html/properties/default-encoding", "UTF-8");
 			parser.parse(inputSource, fragment);
 		} catch(Exception e) {
-			// en el remoto caso de que ocurra una excepci�n parseando el texto, se devuelve la cadena vac�a y a correr
-			// no tiene mucho sentido levantar excepci�n por esto
+			// en el remoto caso de que ocurra una excepcion parseando el texto, se devuelve la cadena vacia y a correr
+			// no tiene mucho sentido levantar excepcion por esto
 			logger.error("Ha ocurrido un error parseando un texto html. RARO, RARO... {} - {}", e.getClass().getName(), e.getMessage());
 			return null;
 		}

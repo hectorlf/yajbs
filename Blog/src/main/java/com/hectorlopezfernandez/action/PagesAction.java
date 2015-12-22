@@ -33,14 +33,14 @@ public class PagesAction implements ActionBean {
 		logger.debug("Entrando a PagesAction.execute");
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
-		// si overhead contiene algo, la url no puede ser válida y se manda un 404
+		// si overhead contiene algo, la url no puede ser valida y se manda un 404
 		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
 		// si no se ha especificado un nombre de pagina, se manda un 404
 		if (name == null || name.length() == 0) return new ForwardResolution(Error404Action.class);
-		// se busca una página que tenga el nombre indicado y, si no existe, se envía un 404
+		// se busca una pagina que tenga el nombre indicado y, si no existe, se envia un 404
 		Long pageId = pageService.findPageId(name);
 		if (pageId == null) return new ForwardResolution(Error404Action.class);
-		// se carga la página por id
+		// se carga la pagina por id
 		ForwardResolution fr = new ForwardResolution(ViewPageAction.class);
 		fr.addParameter(ViewPageAction.PARAM_ID, pageId);
 		return fr;

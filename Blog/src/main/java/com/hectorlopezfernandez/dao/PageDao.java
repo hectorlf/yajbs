@@ -7,27 +7,27 @@ import com.hectorlopezfernandez.model.Page;
 
 public interface PageDao {
 
-	// recupera una página por id
+	// recupera una pagina por id
 	public Page getPage(Long id);
 	
-	// recupera el id de una página por el título adaptado a url
+	// recupera el id de una pagina por el titulo adaptado a url
 	public Long findPageId(String titleUrl);
 
-	// cuenta el número total de páginas en el sistema
+	// cuenta el numero total de paginas en el sistema
 	public Long countAllPages();
-	// recupera todas las páginas del sistema con paginación, sin ningún eager fecth y ordenadas por id descendente
+	// recupera todas las paginas del sistema con paginacion, sin ningun eager fecth y ordenadas por id descendente
 	public List<Page> getAllPages(int firstResult, int maxResults);
-	// recupera todas las páginas del sistema
+	// recupera todas las paginas del sistema
 	public List<Page> getAllPages();
 	
 	
-	// persiste una página y devuelve el id generado
+	// persiste una pagina y devuelve el id generado
 	public Long savePage(Page p);
 
-	// modifica una página
+	// modifica una pagina
 	public void modifyPage(Page p);
 
-	// borra una página
+	// borra una pagina
 	public void deletePage(Long id);
 
 

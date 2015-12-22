@@ -29,7 +29,7 @@ public class EditTagAction implements ActionBean {
 	private Long id;
 	private String name;
 	private String nameUrl;
-	private boolean editing = true; // es modificación
+	private boolean editing = true; // es modificacion
 	
 	@DefaultHandler
 	public Resolution execute() {

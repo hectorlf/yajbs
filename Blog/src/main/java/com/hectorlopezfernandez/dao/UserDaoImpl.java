@@ -60,7 +60,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("username", username);
 		List<Long> ids = listIds("select a.id from Author a where a.username = :username", params);
-		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios autores para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
+		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios autores para el nombre especificado. La columna de base de datos deberia tener una restriccion de unicidad que no lo habria permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);
 		return id;

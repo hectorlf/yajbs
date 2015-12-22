@@ -32,11 +32,11 @@ public class AuthorsAction implements ActionBean {
 		logger.debug("Entrando a AuthorsAction.execute");
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
-		// si overhead contiene algo, la url no puede ser válida y se manda un 404
+		// si overhead contiene algo, la url no puede ser valida y se manda un 404
 		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
 		// si no hay nombre de autor, se muestra la lista de autores del sistema
 		if (name == null || name.length() == 0) return new ForwardResolution(ListAuthorsAction.class);
-		// se busca el id del autor por nombre y, si no existe, se envía un 404
+		// se busca el id del autor por nombre y, si no existe, se envia un 404
 		Long id = userService.findAuthorId(name);
 		if (id == null) return new ForwardResolution(Error404Action.class);
 		// se envia al detalle del autor

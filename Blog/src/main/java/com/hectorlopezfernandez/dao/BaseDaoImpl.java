@@ -23,7 +23,7 @@ public abstract class BaseDaoImpl {
 	private final EntityManager em;
 	
 	protected BaseDaoImpl(EntityManager em) {
-		if (em == null) throw new IllegalArgumentException("Se ha intentado crear un dao con una referencia nula al EntityManager de persistencia. Se debería revisar la configuración y el AppInitializerContextListener.");
+		if (em == null) throw new IllegalArgumentException("Se ha intentado crear un dao con una referencia nula al EntityManager de persistencia. Se deberia revisar la configuracion y el AppInitializerContextListener.");
 		this.em = em;
 	}
 	
@@ -59,7 +59,7 @@ public abstract class BaseDaoImpl {
 		assert(firstResult >= 0);
 		assert(maxResults > 1);
 		logger.debug("Listando entidades {} mediante JPQL: {}", cls.getSimpleName(), query);
-		logger.debug("Rango de {} elementos partiendo del elemento número {}", maxResults, firstResult);
+		logger.debug("Rango de {} elementos partiendo del elemento numero {}", maxResults, firstResult);
 		TypedQuery<T> q = em.createQuery(query, cls).setFirstResult(firstResult).setMaxResults(maxResults);
 		setParameters(q, namedParams);
 		List<T> results = q.getResultList();
@@ -96,7 +96,7 @@ public abstract class BaseDaoImpl {
 		assert(firstResult >= 0);
 		assert(maxResults > 1);
 		logger.debug("Listando campos individuales mediante JPQL: {}", query);
-		logger.debug("Rango de {} elementos partiendo del elemento número {}", maxResults, firstResult);
+		logger.debug("Rango de {} elementos partiendo del elemento numero {}", maxResults, firstResult);
 		TypedQuery<Object[]> q = em.createQuery(query, Object[].class).setFirstResult(firstResult).setMaxResults(maxResults);
 		setParameters(q, namedParams);
 		List<Object[]> results = q.getResultList();
@@ -137,7 +137,7 @@ public abstract class BaseDaoImpl {
 	}
 
 
-	/* MÉTODOS DE UTILIDAD */
+	/* METODOS DE UTILIDAD */
 	
 	private void setParameters(Query q, Map<String,Object> namedParams) {
 		if (q == null || namedParams == null || namedParams.size() == 0) return;

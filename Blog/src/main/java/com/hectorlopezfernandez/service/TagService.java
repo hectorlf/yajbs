@@ -12,7 +12,7 @@ public interface TagService {
 
 	// calcula los valores de paginacion para todos los tags del sistema
 	public PaginationInfo computePaginationOfTags(Integer page);
-	// recupera todos los tags del sistema, usando paginación
+	// recupera todos los tags del sistema, usando paginacion
 	public List<Tag> getAllTags(PaginationInfo pi);
 	// recupera una lista con todos los Tag del sistema
 	public List<Tag> getAllTags();

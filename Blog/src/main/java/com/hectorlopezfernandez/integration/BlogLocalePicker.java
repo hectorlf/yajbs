@@ -70,7 +70,7 @@ public class BlogLocalePicker implements LocalePicker {
     	}
     	
     	// si no hay ningun idioma preseleccionado, se utiliza el lenguaje del navegador
-    	// se inserta un atributo en la request para que el actioncontext pueda saber que el locale se seleccionó por defecto
+    	// se inserta un atributo en la request para que el actioncontext pueda saber que el locale se selecciono por defecto
     	request.setAttribute(Constants.DEFAULT_LOCALE_SELECTED, Boolean.TRUE);
 
         Enumeration<Locale> preferredLocales = request.getLocales();
@@ -86,7 +86,7 @@ public class BlogLocalePicker implements LocalePicker {
     }
 
 	/**
-	 * Siempre se usará UTF-8
+	 * Siempre se usara UTF-8
 	 */
 	public String pickCharacterEncoding(HttpServletRequest request, Locale locale) {
 		return "utf-8";

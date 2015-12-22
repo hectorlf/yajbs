@@ -21,7 +21,7 @@ public class NewPageAction implements ActionBean {
 	
 	// campos que guarda el actionbean
 	
-	private boolean editing = false; // es nueva p�gina
+	private boolean editing = false; // es nueva pagina
 	
 	@DefaultHandler
 	public Resolution execute() {

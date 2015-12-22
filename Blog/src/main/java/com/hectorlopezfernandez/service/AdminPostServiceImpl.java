@@ -60,14 +60,14 @@ public class AdminPostServiceImpl implements AdminPostService {
 		Long postCount = postDao.countAllPosts();
 		int total = postCount == null ? 0 : postCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = 10; // TODO esto quiz�s deber�a salir de alguna preferencia global
+		int itemsPerPage = 10; // TODO esto quizas deberia salir de alguna preferencia global
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}
 	@Override
 	public List<Post> getAllPosts(PaginationInfo pi) {
-		if (pi == null) throw new IllegalArgumentException("El objeto de paginaci�n no puede ser nulo.");
-		logger.debug("Recuperando todos los posts del sistema, con paginaci�n. P�gina solicitada: {}", pi.getCurrentPage());
+		if (pi == null) throw new IllegalArgumentException("El objeto de paginacion no puede ser nulo.");
+		logger.debug("Recuperando todos los posts del sistema, con paginacion. Pagina solicitada: {}", pi.getCurrentPage());
 		List<Post> posts = postDao.getAllPosts(pi);
 		return posts;
 	}
@@ -77,7 +77,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		if (post == null) throw new IllegalArgumentException("El post a guardar no puede ser nulo.");
 		if (post.getId() != null) throw new IllegalArgumentException("El id de un post nuevo debe ser nulo, y este no lo es: " + post.getId().toString());
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
-		logger.debug("Guardando nuevo post con t�tulo: {}", post.getTitle());
+		logger.debug("Guardando nuevo post con titulo: {}", post.getTitle());
 		DateTime now = new DateTime();
 		post.setCreationDate(now);
 		post.setLastModificationDate(now);
@@ -104,7 +104,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		if (post == null) throw new IllegalArgumentException("El post a modificar no puede ser nulo.");
 		if (post.getId() == null) throw new IllegalArgumentException("El id de un post modificado no puede ser nulo.");
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
-		logger.debug("Modificando post con t�tulo: {}", post.getTitle());
+		logger.debug("Modificando post con titulo: {}", post.getTitle());
 		DateTime now = new DateTime();
 		post.setLastModificationDate(now);
 		post.setFeedContent(HTMLUtils.parseTextForFeeds(post.getExcerpt()));
@@ -133,7 +133,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		postDao.deletePost(id);
 		int remainingPostCount = postDao.countAllPostsForArchiveEntry(ae.getId());
 		if (remainingPostCount < 1) postDao.deleteArchiveEntry(ae.getId());
-		// se borra del �ndice el post
+		// se borra del indice el post
 		searchService.removePostFromIndex(id);
 	}
 
@@ -152,7 +152,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		if (id == null) throw new IllegalArgumentException("El id del post a despublicar no puede ser nulo.");
 		logger.debug("Despublicando post con id: {}", id);
 		postDao.unpublishPost(id);
-		// se borra el post del �ndice
+		// se borra el post del indice
 		searchService.removePostFromIndex(id);
 	}
 	

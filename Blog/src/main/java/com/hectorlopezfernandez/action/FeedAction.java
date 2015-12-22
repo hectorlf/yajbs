@@ -41,7 +41,7 @@ public class FeedAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		int maxPostAge = prefs.getMaxPostAgeInDaysForFeeds() == null ? 0 : prefs.getMaxPostAgeInDaysForFeeds().intValue();
 		posts = postService.getNewestPostsForFeed(maxPostAge);
-		// se comparan las fechas para obtener la m�s reciente y mostrarla como fecha de �ltima actualizaci�n
+		// se comparan las fechas para obtener la mas reciente y mostrarla como fecha de ultima actualizacion
 		lastModificationDate = new DateTime(0);
 		if (posts.size() > 0) {
 			for (SimplifiedPost sp : posts) {

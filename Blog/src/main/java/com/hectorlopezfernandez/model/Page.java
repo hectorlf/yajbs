@@ -46,7 +46,7 @@ public class Page extends PersistentObject {
 	private DateTime lastModificationDate;
 
 
-	// getters & setters sint�ticos
+	// getters & setters sinteticos
 
 	public void setPublicationDateAsLong(long publicationDateAsLong) {
 		this.publicationDateAsLong = publicationDateAsLong;

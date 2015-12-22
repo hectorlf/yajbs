@@ -34,16 +34,16 @@ public class PageServiceImpl implements PageService {
 
 	@Override
 	public Page getPage(Long id) {
-		if (id == null) throw new IllegalArgumentException("El id de la p�gina a recuperar no puede ser nulo.");
-		logger.debug("Recuperando p�gina por id: {}", id);
+		if (id == null) throw new IllegalArgumentException("El id de la pagina a recuperar no puede ser nulo.");
+		logger.debug("Recuperando pagina por id: {}", id);
 		Page p = pageDao.getPage(id);
 		return p;
 	}
 
 	@Override
 	public Long findPageId(String titleUrl) {
-		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El t�tulo de la p�gina a buscar no puede ser nulo.");
-		logger.debug("Buscando id de p�gina por t�tulo url: {}", titleUrl);
+		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El titulo de la pagina a buscar no puede ser nulo.");
+		logger.debug("Buscando id de pagina por titulo url: {}", titleUrl);
 		Long id = pageDao.findPageId(titleUrl);
 		return id;
 	}
@@ -53,19 +53,19 @@ public class PageServiceImpl implements PageService {
 		Long pageCount = pageDao.countAllPages();
 		int total = pageCount == null ? 0 : pageCount.intValue();
 		int currentPage = page == null ? 0 : page.intValue();
-		int itemsPerPage = 10; // TODO esto quiz�s deber�a salir de alguna preferencia global
+		int itemsPerPage = 10; // TODO esto quizas deberia salir de alguna preferencia global
 		PaginationInfo pi = new PaginationInfo(currentPage, itemsPerPage, total);
 		return pi;
 	}
 	@Override
 	public List<Page> getAllPages(PaginationInfo pi) {
-		logger.debug("Recuperando todas las p�ginas del sistema, con paginaci�n. P�gina solicitada: {}", pi.getCurrentPage());
+		logger.debug("Recuperando todas las paginas del sistema, con paginacion. Pagina solicitada: {}", pi.getCurrentPage());
 		List<Page> pages = pageDao.getAllPages(pi.getFirstItem(), pi.getItemsPerPage());
 		return pages;
 	}
 	@Override
 	public List<Page> getAllPages() {
-		logger.debug("Recuperando todas las p�ginas del sistema");
+		logger.debug("Recuperando todas las paginas del sistema");
 		List<Page> pages = pageDao.getAllPages();
 		return pages;
 	}
@@ -73,9 +73,9 @@ public class PageServiceImpl implements PageService {
 	
 	@Override
 	public void savePage(Page page) {
-		if (page == null) throw new IllegalArgumentException("La p�gina a guardar no puede ser nula.");
-		if (page.getId() != null) throw new IllegalArgumentException("El id de una p�gina nueva debe ser nulo, y este no lo es: " + page.getId().toString());
-		logger.debug("Guardando nueva p�gina con t�tulo: {}", page.getTitle());
+		if (page == null) throw new IllegalArgumentException("La pagina a guardar no puede ser nula.");
+		if (page.getId() != null) throw new IllegalArgumentException("El id de una pagina nueva debe ser nulo, y este no lo es: " + page.getId().toString());
+		logger.debug("Guardando nueva pagina con titulo: {}", page.getTitle());
 		DateTime now = new DateTime();
 		page.setLastModificationDate(now);
 		page.setPublicationDate(now);
@@ -87,9 +87,9 @@ public class PageServiceImpl implements PageService {
 
 	@Override
 	public void modifyPage(Page page) {
-		if (page == null) throw new IllegalArgumentException("La p�gina a guardar no puede ser nula.");
-		if (page.getId() == null) throw new IllegalArgumentException("El id de una p�gina modificada no puede ser nulo.");
-		logger.debug("Modificando p�gina con t�tulo: {}", page.getTitle());
+		if (page == null) throw new IllegalArgumentException("La pagina a guardar no puede ser nula.");
+		if (page.getId() == null) throw new IllegalArgumentException("El id de una pagina modificada no puede ser nulo.");
+		logger.debug("Modificando pagina con titulo: {}", page.getTitle());
 		DateTime now = new DateTime();
 		page.setLastModificationDate(now);
 		pageDao.modifyPage(page);
@@ -100,10 +100,10 @@ public class PageServiceImpl implements PageService {
 
 	@Override
 	public void deletePage(Long id) {
-		if (id == null) throw new IllegalArgumentException("El id de la p�gina a borrar no puede ser nulo.");
-		logger.debug("Borrando p�gina con id: {}", id);
+		if (id == null) throw new IllegalArgumentException("El id de la pagina a borrar no puede ser nulo.");
+		logger.debug("Borrando pagina con id: {}", id);
 		pageDao.deletePage(id);
-		// se borra del �ndice la pagina
+		// se borra del indice la pagina
 		searchService.removePageFromIndex(id);
 	}
 

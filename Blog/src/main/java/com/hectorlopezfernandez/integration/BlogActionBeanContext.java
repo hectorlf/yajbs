@@ -9,7 +9,7 @@ import com.hectorlopezfernandez.utils.Constants;
 public class BlogActionBeanContext extends ActionBeanContext {
 
 	// recupera el usuario logueado para la peticion (en caso de que no se haya autenticado,
-	// se rellena con el usuario an�nimo)
+	// se rellena con el usuario anonimo)
 	public User getLoggedUser() {
 		User u = (User)getRequest().getAttribute(Constants.LOGGED_USER_REQUEST_ATTRIBUTE_NAME);
 		return u;
@@ -23,7 +23,7 @@ public class BlogActionBeanContext extends ActionBeanContext {
 		return getRequest().getAttribute(key);
 	}
 	
-	// atributos del flash scope (esto permitir� que la sesi�n dure una request m�s)
+	// atributos del flash scope (esto permitira que la sesion dure una request mas)
 	public void setFlashAttribute(String key, Object value) {
 		FlashScope.getCurrent(getRequest(), true).put(key, value);
 		getRequest().setAttribute(Constants.STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME, Boolean.TRUE);

@@ -3,7 +3,7 @@ package com.hectorlopezfernandez.dto;
 import org.joda.time.DateTime;
 
 /**
- * Almacena la información básica de un post
+ * Almacena la informacion basica de un post
  */
 public final class SimplifiedPost {
 
@@ -34,7 +34,7 @@ public final class SimplifiedPost {
 		this.lastModificationDate = lastModificationDate;
 	}
 
-	// getters sintéticos
+	// getters sinteticos
 	
 	public int getYear() {
 		return publicationDate.getYear();

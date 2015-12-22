@@ -9,27 +9,27 @@ import com.hectorlopezfernandez.model.Post;
 
 public interface SearchService {
 
-	// calcula los valores de paginacion para una búsqueda
+	// calcula los valores de paginacion para una busqueda
 	public PaginationInfo computePagination(Integer page);
-	// realiza una busqueda según un texto de entrada y devuelve una lista de resultados
+	// realiza una busqueda segun un texto de entrada y devuelve una lista de resultados
 	public List<SearchResult> search(String query);
 
 	
-	// añade un post al índice de búsquedas
+	// aniade un post al indice de busquedas
 	public void addPostToIndex(Post post);
-	// borra un post del índice de búsquedas
+	// borra un post del indice de busquedas
 	public void removePostFromIndex(Long id);
 
-	// añade una página al índice de búsquedas
+	// aniade una pagina al indice de busquedas
 	public void addPageToIndex(Page page);
-	// borra una página del índice de búsquedas
+	// borra una pagina del indice de busquedas
 	public void removePageFromIndex(Long id);
 
 
 
 	/** Metodos de mantenimiento */
 
-	// borra el índice y lo vuelve a crear
+	// borra el indice y lo vuelve a crear
 	public void reindex();
 
 }

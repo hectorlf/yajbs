@@ -28,7 +28,7 @@ public class AppInitializerContextListener implements ServletContextListener {
 		logger.debug("Creando contexto de la aplicacion");
 		ServletContext sc = sce.getServletContext();
 		// se abre el indice de lucene
-		// si no se pudiera abrir por algún motivo, se crea un RAMDirectory para que no falle
+		// si no se pudiera abrir por algun motivo, se crea un RAMDirectory para que no falle
 		Directory dir = null;
 		try {
 			File ld = new File(Constants.LUCENE_DIRECTORY_FILE_PATH);
@@ -39,10 +39,10 @@ public class AppInitializerContextListener implements ServletContextListener {
 			dir = new RAMDirectory();
 		}
 		sc.setAttribute(Constants.LUCENE_DIRECTORY_CONTEXT_ATTRIBUTE_NAME, dir);
-		// se crea el inyector de Guice usado para construir los action e inyectar dependencias y se añade al contexto
+		// se crea el inyector de Guice usado para construir los action e inyectar dependencias y se aniade al contexto
 		Injector i = Guice.createInjector(new GuiceBindingModule(new GuiceEntityManagerProvider(), dir));
 		sc.setAttribute(Constants.ROOT_GUICE_INJECTOR_CONTEXT_ATTRIBUTE_NAME, i);
-		// se crea el entitymanager de jpa y se añade al contexto
+		// se crea el entitymanager de jpa y se aniade al contexto
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogDataPersistence");
 		sc.setAttribute(Constants.JPA_ENTITY_MANAGER_FACTORY_CONTEXT_ATTRIBUTE_NAME, emf);
 	}

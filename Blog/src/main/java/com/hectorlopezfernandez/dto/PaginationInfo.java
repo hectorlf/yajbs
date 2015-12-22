@@ -1,7 +1,7 @@
 package com.hectorlopezfernandez.dto;
 
 /**
- * Almacena la informaci�n necesaria para mostrar la barra de paginaci�n
+ * Almacena la informacion necesaria para mostrar la barra de paginacion
  */
 public final class PaginationInfo {
 
@@ -52,7 +52,7 @@ public final class PaginationInfo {
 		this.enabled = true;
 	}
 
-	// getters sint�ticos
+	// getters sinteticos
 	
 	public boolean isOnFirstPage() {
 		return firstPage >= currentPage;

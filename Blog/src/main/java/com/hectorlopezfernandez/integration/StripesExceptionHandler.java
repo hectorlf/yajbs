@@ -22,7 +22,7 @@ public class StripesExceptionHandler extends DefaultExceptionHandler {
 
 	public Resolution handleActionBeanNotFound(ActionBeanNotFoundException abnfe, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("No se ha encontrado un ActionBean para la url, se muestra la pagina de error 404: {}", abnfe.getMessage());
-		// se marca la transacción para rollback
+		// se marca la transaccion para rollback
 		EntityManager em = PersistenceThreadLocalHelper.get();
 		if (em != null) {
 			EntityTransaction et = em.getTransaction();
@@ -34,9 +34,9 @@ public class StripesExceptionHandler extends DefaultExceptionHandler {
 
 	public Resolution handleGeneric(Exception e, HttpServletRequest request, HttpServletResponse response) {
 		// general exception handling
-		logger.error("Ha ocurrido una excepción no controlada, se muestra la pagina de error 500: {} - {}", e.getClass().getName(), e.getMessage());
+		logger.error("Ha ocurrido una excepcion no controlada, se muestra la pagina de error 500: {} - {}", e.getClass().getName(), e.getMessage());
 		e.printStackTrace();
-		// se marca la transacción para rollback
+		// se marca la transaccion para rollback
 		EntityManager em = PersistenceThreadLocalHelper.get();
 		if (em != null) {
 			EntityTransaction et = em.getTransaction();

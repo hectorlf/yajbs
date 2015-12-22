@@ -31,7 +31,7 @@ public class PersistenceSessionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		logger.debug("Entrando en PersistenceSessionFilter.doFilter");
 		// se comprueba si existe un EntityManager asociado a la request, lo cual indicaria que ya se ha entrado antes al filtro
-		//IMPORTANTE: en el fondo, este atributo de request sólo sirve para demarcar, ya que el EntityManager se guarda y recupera de un ThreadLocal
+		//IMPORTANTE: en el fondo, este atributo de request solo sirve para demarcar, ya que el EntityManager se guarda y recupera de un ThreadLocal
 		Object em = request.getAttribute(Constants.JPA_ENTITY_MANAGER_REQUEST_ATTRIBUTE_NAME);
 		if (em == null) doFirstTimeFilter(request, response, filterChain);
 		else doRecurringFilter(request, response, filterChain);
@@ -42,10 +42,10 @@ public class PersistenceSessionFilter implements Filter {
 		logger.debug("No se ha detectado un EntityManager para esta request. Suponemos que es la primera vez que se pasa por el filtro, e inicializamos Guice y JPA.");
 		// se crea el EntityManager para esta peticion y se guarda asociado a la request
 		EntityManagerFactory emf = (EntityManagerFactory)request.getServletContext().getAttribute(Constants.JPA_ENTITY_MANAGER_FACTORY_CONTEXT_ATTRIBUTE_NAME);
-		if (emf == null) throw new RuntimeException("No se ha encontrado el EntityManagerFactory en el contexto de servlet o no está abierto. Esto indica un fallo de configuracion y debe revisarse el log de arranque y el AppInitializerContextListener.");
+		if (emf == null) throw new RuntimeException("No se ha encontrado el EntityManagerFactory en el contexto de servlet o no esta abierto. Esto indica un fallo de configuracion y debe revisarse el log de arranque y el AppInitializerContextListener.");
 		EntityManager em = emf.createEntityManager();
 		PersistenceThreadLocalHelper.set(em);
-		//IMPORTANTE: en el fondo, este atributo de request sólo sirve para demarcar, ya que el EntityManager se guarda y recupera de un ThreadLocal
+		//IMPORTANTE: en el fondo, este atributo de request solo sirve para demarcar, ya que el EntityManager se guarda y recupera de un ThreadLocal
 		request.setAttribute(Constants.JPA_ENTITY_MANAGER_REQUEST_ATTRIBUTE_NAME, em);
 		// una vez inicializado, se continua con la cadena de filtros
 		try {

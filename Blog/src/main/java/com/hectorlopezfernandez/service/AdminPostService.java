@@ -17,7 +17,7 @@ public interface AdminPostService {
 
 	// calcula los valores de paginacion para todos los posts del sistema
 	public PaginationInfo computePaginationOfPosts(Integer page);
-	// recupera todos los posts del sistema, usando paginaci�n
+	// recupera todos los posts del sistema, usando paginacion
 	public List<Post> getAllPosts(PaginationInfo pi);
 	
 	// persiste un nuevo post

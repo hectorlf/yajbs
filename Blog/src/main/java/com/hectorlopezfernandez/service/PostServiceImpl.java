@@ -46,8 +46,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> getNewestPosts(int count) {
-		if (count < 1) throw new IllegalArgumentException("El n�mero de posts a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando los �ltimos {} posts", count);
+		if (count < 1) throw new IllegalArgumentException("El numero de posts a recuperar no puede ser menor que 1.");
+		logger.debug("Recuperando los ultimos {} posts", count);
 		PaginationInfo pi = new PaginationInfo(1, count, count);
 		List<Post> posts = postDao.listPublishedPosts(pi);
 		return posts;
@@ -55,8 +55,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<SimplifiedPost> getNewestPostsForFeed(int maxPostAgeInDays) {
-		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antig�edad en d�as de los posts a recuperar no puede ser menor que 0.");
-		logger.debug("Recuperando los posts publicados hace menos de {} d�as", maxPostAgeInDays);
+		if (maxPostAgeInDays < 0) throw new IllegalArgumentException("La antiguedad en dias de los posts a recuperar no puede ser menor que 0.");
+		logger.debug("Recuperando los posts publicados hace menos de {} dias", maxPostAgeInDays);
 		long maxAge = System.currentTimeMillis() - ((long)maxPostAgeInDays * 24 * 60 * 60 * 1000);
 		List<SimplifiedPost> posts = postDao.listPostsForFeedPublishedAfter(maxAge);
 		return posts;
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> listPostsForDate(Integer year, Integer month, PaginationInfo pi) {
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por fecha, p�gina {}, y limitando a {} posts por p�gina", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por fecha, pagina {}, y limitando a {} posts por pagina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPosts(year, month, pi);
 		return posts;
 	}
@@ -92,7 +92,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> listPostsForTag(Long id, PaginationInfo pi) {
 		//TODO o activar la paginacion o quitar el limite de elementos
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por tag, p�gina {}, y limitando a {} posts por p�gina", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por tag, pagina {}, y limitando a {} posts por pagina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPostsByTag(id, pi);
 		return posts;
 	}
@@ -110,7 +110,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> listPostsForAuthor(Long id, PaginationInfo pi) {
 		if (pi == null) throw new IllegalArgumentException("El parametro pi no puede ser nulo.");
-		logger.debug("Recuperando posts por fecha, p�gina {}, y limitando a {} posts por p�gina", pi.getCurrentPage(), pi.getItemsPerPage());
+		logger.debug("Recuperando posts por fecha, pagina {}, y limitando a {} posts por pagina", pi.getCurrentPage(), pi.getItemsPerPage());
 		List<Post> posts = postDao.listPublishedPostsByAuthor(id, pi);
 		return posts;
 	}
@@ -133,8 +133,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Long findPostId(String titleUrl, int year, int month) {
-		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El t�tulo del post a buscar no puede ser nulo.");
-		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por t�tulo url: {}", titleUrl); logger.debug("a�o: {}", year); logger.debug("mes: {}", month); }
+		if (titleUrl == null || titleUrl.length() == 0) throw new IllegalArgumentException("El titulo del post a buscar no puede ser nulo.");
+		if (logger.isDebugEnabled()) { logger.debug("Buscando id de post por titulo url: {}", titleUrl); logger.debug("anio: {}", year); logger.debug("mes: {}", month); }
 		Long id = postDao.findPublishedPostId(year, month, titleUrl);
 		return id;
 	}
@@ -150,8 +150,8 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public List<ArchiveEntry> getRecentArchiveEntries(int count) {
-		if (count < 1) throw new IllegalArgumentException("El n�mero de entradas de archivo a recuperar no puede ser menor que 1.");
-		logger.debug("Recuperando las �ltimas {} entradas en el archivo por meses.", count);
+		if (count < 1) throw new IllegalArgumentException("El numero de entradas de archivo a recuperar no puede ser menor que 1.");
+		logger.debug("Recuperando las ultimas {} entradas en el archivo por meses.", count);
 		List<Object[]> fields = postDao.findLastArchiveEntryFieldsForFooter(count);
 		if (fields.size() == 0) return Collections.emptyList();
 		List<ArchiveEntry> results = new ArrayList<ArchiveEntry>(fields.size());
@@ -166,7 +166,7 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public List<ArchiveEntry> getAllArchiveEntriesWithPublishedPostCount() {
-		logger.debug("Recuperando todas las entradas en el archivo por meses, incluyendo el n�mero de posts asociados a cada entrada.");
+		logger.debug("Recuperando todas las entradas en el archivo por meses, incluyendo el numero de posts asociados a cada entrada.");
 		List<Object[]> fields = postDao.listAllArchiveEntriesIncludingPublishedPostCount();
 		if (fields.size() == 0) return Collections.emptyList();
 		List<ArchiveEntry> results = new ArrayList<ArchiveEntry>(fields.size());

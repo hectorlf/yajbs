@@ -39,7 +39,7 @@ public class ViewPageAction implements ActionBean {
 		// se cargan las preferencias
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
-		// se carga la p�gina a mostrar
+		// se carga la pagina a mostrar
 		page = pageService.getPage(id);
 		// si no existe, 404
 		if (page == null) return new ForwardResolution(Error404Action.class);

@@ -15,11 +15,11 @@ public interface TagDao {
 	// recupera el id de un tag por el nombre adaptado a url
 	public Long findTagId(String nameUrl);
 
-	// cuenta el número total de tags en el sistema
+	// cuenta el numero total de tags en el sistema
 	public Long countAllTags();
-	// recupera todos los tags del sistema con paginación y ordenados por id descendente
+	// recupera todos los tags del sistema con paginacion y ordenados por id descendente
 	public List<Tag> getAllTags(int firstResult, int maxResults);
-	// recupera todos los tags del sistema, sin ningún eager fecth
+	// recupera todos los tags del sistema, sin ningun eager fecth
 	public List<Tag> getAllTags();
 	
 	

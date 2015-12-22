@@ -31,7 +31,7 @@ public class EditPageAction implements ActionBean {
 	private String titleUrl;
 	private String metaDescription;
 	private String content;
-	private boolean editing = true; // es modificaci�n
+	private boolean editing = true; // es modificacion
 	
 	@DefaultHandler
 	public Resolution execute() {

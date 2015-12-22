@@ -14,9 +14,9 @@ public interface PageService {
 	// recupera el id de una pagina por el titulo adaptado a url
 	public Long findPageId(String titleUrl);
 
-	// calcula los valores de paginacion para todas las p�ginas del sistema
+	// calcula los valores de paginacion para todas las paginas del sistema
 	public PaginationInfo computePaginationOfPages(Integer page);
-	// recupera todas las paginas del sistema usando paginaci�n, ordenadas por id descendentemente
+	// recupera todas las paginas del sistema usando paginacion, ordenadas por id descendentemente
 	public List<Page> getAllPages(PaginationInfo pi);
 	// recupera todas las paginas del sistema
 	public List<Page> getAllPages();

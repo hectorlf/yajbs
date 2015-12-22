@@ -39,9 +39,9 @@ public class BlogAuthorizingRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken upt = (UsernamePasswordToken)token;
-		logger.debug("Petición de login recibida para el usuario: {}", upt.getUsername());
+		logger.debug("Peticion de login recibida para el usuario: {}", upt.getUsername());
 		if (upt.getUsername() == null || upt.getUsername().length() == 0) throw new AuthenticationException("El nombre de usuario no puede estar vacio");
-		if (upt.getPassword() == null || upt.getPassword().length == 0) throw new AuthenticationException("La contraseña no puede estar vacia");
+		if (upt.getPassword() == null || upt.getPassword().length == 0) throw new AuthenticationException("La contrasenia no puede estar vacia");
 		User u = null;
 		try {
 			u = findLogin(upt);
@@ -58,8 +58,8 @@ public class BlogAuthorizingRealm extends AuthorizingRealm {
 		AuthenticationInfo ai = new SimpleAuthenticationInfo(u.getId(), u.getPassword(), ByteSource.Util.bytes(u.getUsername()), "BlogAuthorizingRealm");
 		boolean matched = getCredentialsMatcher().doCredentialsMatch(token, ai);
 		if (!matched) {
-			logger.debug("La contraseña introducida no es correcta para el login: {}", upt.getUsername());
-			throw new AuthenticationException("Contraseña incorrecta para el login: " + upt.getUsername());
+			logger.debug("La contrasenia introducida no es correcta para el login: {}", upt.getUsername());
+			throw new AuthenticationException("Contrasenia incorrecta para el login: " + upt.getUsername());
 		}
 		logger.debug("Usuario autenticado correctamente para el login: {}", upt.getUsername());
 		return ai;

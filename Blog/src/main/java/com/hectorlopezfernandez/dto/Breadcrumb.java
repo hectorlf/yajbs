@@ -3,7 +3,7 @@ package com.hectorlopezfernandez.dto;
 import net.sourceforge.stripes.action.ActionBean;
 
 /**
- * Almacena la información necesaria para mostrar el breadcrum de administración
+ * Almacena la informacion necesaria para mostrar el breadcrum de administracion
  */
 public final class Breadcrumb {
 

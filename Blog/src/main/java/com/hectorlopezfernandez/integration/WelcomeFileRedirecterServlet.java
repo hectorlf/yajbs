@@ -42,7 +42,7 @@ public class WelcomeFileRedirecterServlet implements Servlet {
 	@Override
 	public void service(ServletRequest arg0, ServletResponse arg1) throws ServletException, IOException {
 		logger.debug("Entrando a WelcomeFileRedirecterServlet.service");
-		if (!(arg1 instanceof HttpServletResponse)) throw new ServletException("Se ha recibido un ServletResponse que no es http, y no se puede responder la petición.");
+		if (!(arg1 instanceof HttpServletResponse)) throw new ServletException("Se ha recibido un ServletResponse que no es http, y no se puede responder la peticion.");
 		HttpServletResponse response = (HttpServletResponse)arg1;
 		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 		response.sendRedirect("index.action");

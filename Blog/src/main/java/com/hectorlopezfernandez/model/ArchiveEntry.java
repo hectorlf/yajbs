@@ -23,7 +23,7 @@ public class ArchiveEntry extends PersistentObject {
 	@Transient
 	private int count;
 
-	// getters sintéticos
+	// getters sinteticos
 	
 	public DateTime getDate() {
 		DateTime dt = new DateTime(year, month, 1, 0, 0);

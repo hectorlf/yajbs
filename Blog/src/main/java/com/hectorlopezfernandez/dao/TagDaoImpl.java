@@ -30,8 +30,8 @@ public class TagDaoImpl extends BaseDaoImpl implements TagDao {
 	// recupera una lista de tags populares, para presentar en el footer
 	@Override
 	public List<Tag> findMostPopularTagsForFooter(int numTags) {
-		if (numTags < 1) throw new IllegalArgumentException("El parámetro numTags debe ser mayor que 0.");
-		logger.debug("Recuperando las {} etiquetas más populares.", numTags);
+		if (numTags < 1) throw new IllegalArgumentException("El parametro numTags debe ser mayor que 0.");
+		logger.debug("Recuperando las {} etiquetas mas populares.", numTags);
 		List<Tag> tags = find("select t from Tag t order by t.count desc", null, Tag.class, 0, numTags);
 		if (tags.size() == 0) return Collections.emptyList();
 		return tags;
@@ -52,20 +52,20 @@ public class TagDaoImpl extends BaseDaoImpl implements TagDao {
 		Map<String,Object> params = new HashMap<String, Object>(1);
 		params.put("nameUrl", nameUrl);
 		List<Long> ids = listIds("select t.id from Tag t where t.nameUrl = :nameUrl", params);
-		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios tags para el nombre especificado. La columna de base de datos debería tener una restricción de unicidad que no lo habría permitido.");
+		if (ids.size() > 1) throw new DataIntegrityException("Se han encontrado varios tags para el nombre especificado. La columna de base de datos deberia tener una restriccion de unicidad que no lo habria permitido.");
 		if (ids.size() == 0) return null;
 		Long id = ids.get(0);
 		return id;
 	}
 
-	// cuenta el número total de tags del sistema
+	// cuenta el numero total de tags del sistema
 	@Override
 	public Long countAllTags() {
 		String q = "select count(t.id) from Tag t";
 		Long count = count(q, null);
 		return count;
 	}
-	// recupera todos los tags del sistema con paginación, ordenados por id descendentemente
+	// recupera todos los tags del sistema con paginacion, ordenados por id descendentemente
 	@Override
 	public List<Tag> getAllTags(int firstResult, int maxResults) {
 		logger.debug("Recuperando {} elementos de todos los tags del sistema. Primer elemento: {}", maxResults, firstResult);
@@ -99,7 +99,7 @@ public class TagDaoImpl extends BaseDaoImpl implements TagDao {
 		Tag dbt = getTag(tag.getId());
 		dbt.setName(tag.getName());
 		dbt.setNameUrl(tag.getNameUrl());
-//		flush(); // este flush debería ir en un interceptor de AOP asociado a los servicios o a los actions
+//		flush(); // este flush deberia ir en un interceptor de AOP asociado a los servicios o a los actions
 	}
 
 	// borra un tag de la base de datos
