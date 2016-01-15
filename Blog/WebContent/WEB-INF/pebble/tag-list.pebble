@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+
+	<style>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,footer,header,main,nav{display:block}a{background:transparent}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}body{background-color:#fff;color:#7f8c8d;font-size:15px;font-weight:100;line-height:1.6em;margin:0;padding:0;-webkit-font-smoothing:subpixel-antialiased}body *{max-height:1000000em}h1,h2,li{font-family:Arial,sans-serif}h1{text-align:center}a,a:visited{color:#3498db;text-decoration:none;transition:color ease .7s;-webkit-transition:color ease .7s}a:focus,a:hover{color:#02090e}li{font-size:18px;font-weight:100;line-height:30px}li{padding-left:.8em}h1{color:#151515;font-family:Arial,sans-serif;font-size:36px;font-weight:400;line-height:42px;margin:0;padding:0}#site-head{margin:20px auto;max-width:600px;width:90%}#site-head img{max-width:100%}#blog-logo{display:block;max-width:100px;margin:50px auto 0;text-align:center}#blog-logo div.bloglogo{width:100px;height:100px;border-radius:50%;-webkit-background-size:cover !important;background-size:cover !important;background-position:center center !important;background-color:#fff;background:url(//d9xqzluw8al1.cloudfront.net/hector.png)}h1.blog-title,h2.blog-description{text-align:center}h1.blog-title{font-size:48px;line-height:52px;margin-top:10px;margin-bottom:30px;padding:0}h2.blog-description{border-bottom:1px solid #ecf0f1;border-top:1px solid #ecf0f1;margin-bottom:2em;padding:.5em 1em;line-height:1.2em}h1.blog-title a{color:#151515;transition:color ease .7s;-webkit-transition:color ease .7s}h1.blog-title a:focus,h1.blog-title a:hover{color:#3498db;text-decoration:none}h2{font-family:Arial,sans-serif;margin-top:2em;text-transform:uppercase;font-weight:300}nav{border-bottom:1px solid #ecf0f1;border-top:1px solid #ecf0f1;margin-bottom:2em;text-align:center;margin:20px auto 2em auto;max-width:600px}nav ul{list-style:none;margin:0 auto;padding:0;width:100%;overflow:hidden;text-align:center}nav ul li{display:inline-block;font-family:Arial,sans-serif;font-size:18px;font-weight:300;margin:0;padding:0 .5em;text-align:center;text-transform:uppercase}nav ul li a{display:block;padding:.5em 0}nav.menu{margin-bottom:2.5em}nav.menu li{margin:0 .5em;padding:0}nav.menu li:last-child{margin:0}@media only screen and (min-width:320px) and (max-width:662px){nav.menu li{display:block}}</style>
+
+    <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://netdna.bootstrapcdn.com"/>
+
+   	<link rel="alternate" href="{{stripesUrl("com.hectorlopezfernandez.action.FeedAction")}}" type="application/atom+xml" title="Feed de entradas en formato ATOM"/>
+	<link rel="index" href="{{stripesUrl("com.hectorlopezfernandez.action.IndexAction")}}" title="Inicio"/>
+
+    <title>Etiquetas - {{request.preferences.title}}</title>
+	<link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
+    <meta name="generator" content="APPLICATION_TAG"/>
+</head>
+{# flush head as soon as possible #}{% flush %}
+
+<body>
+{% set indexUrl = stripesUrl("com.hectorlopezfernandez.action.IndexAction") %}
+{% set curriculumUrl = stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"}) %}
+{% set acercadeUrl = stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"}) %}
+	<header id="site-head">
+        <a id="blog-logo" href="{{indexUrl}}"><div class="bloglogo"></div></a>
+        <h1 class="blog-title"><a href="{{indexUrl}}">{{request.preferences.title}}</a></h1>
+        <h2 class="blog-description">{{request.preferences.tagline}}</h2>
+        <nav class="menu" role="navigation">
+		    <ul>
+		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction")}}">Archivo</a></li>
+		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction")}}">Etiquetas</a></li>
+		      <li><a href="{{curriculumUrl}}">Curr&iacute;culum</a></li>
+		      <li><a href="https://github.com/hectorlf" target="_blank">GitHub</a></li>
+		      <li><a href="{{acercadeUrl}}">Acerca de&hellip;</a></li>
+		    </ul>
+		</nav>
+    </header>
+
+	<main role="main">
+		<article>
+	        <header><h1 class="post-title">Etiquetas</h1></header>
+	
+	        <section class="post-content">
+	        	<ul>
+	        	{% for tag in actionBean.tags %}
+	        		<li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction",{"name":tag.nameUrl})}}">{{tag.name}}</a> &raquo; {{tag.count}} entrada{{tag.count != 1 ? "s" : ""}}</li>
+	        	{% endfor %}
+	        	</ul>
+	        </section>
+	
+	        <footer class="post-footer">
+	        </footer>
+	    </article>
+	</main>
+
+{# flush before footer #}{% flush %}
+	<footer class="site-footer">
+    	<div>
+        	<section class="footer-description">
+        		<form role="search" method="get" id="searchform" action="{{stripesUrl("com.hectorlopezfernandez.action.SearchAction")}}">
+					<i class="fa fa-search"></i>
+					<input type="search" id="s" name="q" placeholder="Buscar..." value="{{request.queryText}}" maxlength="50"/>
+				</form>
+			</section>
+            <section class="copyright"><a rel="license" title="Esta obra est&aacute; bajo una licencia Creative Commons" href="http://creativecommons.org/licenses/by/3.0/es/" style="vertical-align:middle;"><img alt="Esta obra est&aacute; bajo una licencia Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by/3.0/es/80x15.png" height="15" width="80"/></a> Licencia Creative Commons &#8226; <a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"policies"})}}">Privacidad y condiciones</a></section>
+            <section>Tema &ldquo;Vapor&rdquo; diseñado por <a href="http://sethlilly.com/">Seth Lilly</a></section>
+            <section class="poweredby">Orgullosamente publicado con <a href="https://github.com/hectorlf/yajbs">APPLICATION_TAG</a></section>
+        </div>
+    </footer>
+
+<script type="text/javascript">
+  (function() {
+    var d=document, s=d.getElementsByTagName("head")[0];
+    // screen.css
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://d9xqzluw8al1.cloudfront.net/screen.min.css"; s.appendChild(g);
+    // font-awesome.css
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"; s.appendChild(g);
+  })();
+</script>
+</body>
+
+</html>

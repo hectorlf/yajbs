@@ -40,6 +40,7 @@ dependencies {
    compile 'org.owasp.antisamy:antisamy'
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
+   compile 'com.hectorlopezfernandez.pebble:stripes-extension:0.6.1'
 
    runtime 'commons-lang:commons-lang'
    runtime 'commons-pool:commons-pool'
