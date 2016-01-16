@@ -18,7 +18,7 @@
    	<link rel="alternate" href="{{stripesUrl("com.hectorlopezfernandez.action.FeedAction")}}" type="application/atom+xml" title="Feed de entradas en formato ATOM"/>
 	<link rel="index" href="{{stripesUrl("com.hectorlopezfernandez.action.IndexAction")}}" title="Inicio"/>
 
-    <title>Etiquetas - {{request.preferences.title}}</title>
+    <title>Etiquetas - {{preferences.title}}</title>
 	<link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
     <meta name="generator" content="APPLICATION_TAG"/>
 </head>
@@ -26,19 +26,17 @@
 
 <body>
 {% set indexUrl = stripesUrl("com.hectorlopezfernandez.action.IndexAction") %}
-{% set curriculumUrl = stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"}) %}
-{% set acercadeUrl = stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"}) %}
 	<header id="site-head">
         <a id="blog-logo" href="{{indexUrl}}"><div class="bloglogo"></div></a>
-        <h1 class="blog-title"><a href="{{indexUrl}}">{{request.preferences.title}}</a></h1>
-        <h2 class="blog-description">{{request.preferences.tagline}}</h2>
+        <h1 class="blog-title"><a href="{{indexUrl}}">{{preferences.title}}</a></h1>
+        <h2 class="blog-description">{{preferences.tagline}}</h2>
         <nav class="menu" role="navigation">
 		    <ul>
 		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction")}}">Archivo</a></li>
 		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction")}}">Etiquetas</a></li>
-		      <li><a href="{{curriculumUrl}}">Curr&iacute;culum</a></li>
+		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"})}}">Curr&iacute;culum</a></li>
 		      <li><a href="https://github.com/hectorlf" target="_blank">GitHub</a></li>
-		      <li><a href="{{acercadeUrl}}">Acerca de&hellip;</a></li>
+		      <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"})}}">Acerca de&hellip;</a></li>
 		    </ul>
 		</nav>
     </header>
@@ -50,7 +48,7 @@
 	        <section class="post-content">
 	        	<ul>
 	        	{% for tag in actionBean.tags %}
-	        		<li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction",{"name":tag.nameUrl})}}">{{tag.name}}</a> &raquo; {{tag.count}} entrada{{tag.count != 1 ? "s" : ""}}</li>
+	        		<li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction",{"name":tag.nameUrl})}}">{{tag.name}}</a> &raquo; {{tag.count}} entrada{{tag.count != 1 ? 's' : ''}}</li>
 	        	{% endfor %}
 	        	</ul>
 	        </section>
@@ -66,7 +64,7 @@
         	<section class="footer-description">
         		<form role="search" method="get" id="searchform" action="{{stripesUrl("com.hectorlopezfernandez.action.SearchAction")}}">
 					<i class="fa fa-search"></i>
-					<input type="search" id="s" name="q" placeholder="Buscar..." value="{{request.queryText}}" maxlength="50"/>
+					<input type="search" id="s" name="q" placeholder="Buscar..." maxlength="50"/>
 				</form>
 			</section>
             <section class="copyright"><a rel="license" title="Esta obra est&aacute; bajo una licencia Creative Commons" href="http://creativecommons.org/licenses/by/3.0/es/" style="vertical-align:middle;"><img alt="Esta obra est&aacute; bajo una licencia Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by/3.0/es/80x15.png" height="15" width="80"/></a> Licencia Creative Commons &#8226; <a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"policies"})}}">Privacidad y condiciones</a></section>
