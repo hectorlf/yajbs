@@ -1,0 +1,3 @@
+{% extends '/WEB-INF/pebble/template.pebble' %}
+
+<c:set var="pageName" value="Inicio"/><c:set var="blogTitle" value="${preferences.title}"/><c:set var="blogTagline" value="${preferences.tagline}"/><c:set var="posts" value="${actionBean.posts}"/><c:set var="metaDescription" value="Un blog sobre Internet, Java, Android, tecnolog�a y consultor�a, aderezado con historias de terror extra�das del curro diario."/>

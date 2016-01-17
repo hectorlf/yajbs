@@ -152,7 +152,7 @@
 
 	<servlet>
 		<servlet-name>PebbleServlet</servlet-name>
-		<servlet-class>com.hectorlopezfernandez.pebblestripes.PebbleServlet</servlet-class>
+		<servlet-class>com.hectorlopezfernandez.integration.CustomPebbleServlet</servlet-class>
 		<load-on-startup>11</load-on-startup>
 	</servlet>
 	<servlet-mapping>

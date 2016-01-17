@@ -31,6 +31,7 @@ public class IndexAction implements ActionBean {
 	// campos que guarda el actionbean
 	
 	private List<Post> posts;
+	private String alt;
 	
 	@DefaultHandler
 	public Resolution execute() {
@@ -38,13 +39,19 @@ public class IndexAction implements ActionBean {
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		posts = postService.getNewestPosts(prefs.getPostsPerIndexPage());
-		return new ForwardResolution("/WEB-INF/jsp/index.jsp");
+		boolean alternateTemplate = Boolean.parseBoolean(alt);
+		if (alternateTemplate) return new ForwardResolution("/WEB-INF/pebble/index.pebble");
+		else return new ForwardResolution("/WEB-INF/jsp/index.jsp");
 	}
 	
 	// Getters y setters
 
 	public List<Post> getPosts() {
 		return posts;
+	}
+
+	public void setAlt(String alt) {
+		this.alt = alt;
 	}
 
 	@Override

@@ -29,6 +29,7 @@ public class ListTagsAction implements ActionBean {
 	// campos que guarda el actionbean
 	
 	private List<Tag> tags;
+	private String alt;
 	
 	@DefaultHandler
 	public Resolution execute() {
@@ -38,8 +39,9 @@ public class ListTagsAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		// se recupera la lista completa de tags
 		tags = tagService.getAllTags();
-		//return new ForwardResolution("/WEB-INF/jsp/tag-list.jsp");
-		return new ForwardResolution("/WEB-INF/pebble/tag-list.pebble");
+		boolean alternateTemplate = Boolean.parseBoolean(alt);
+		if (alternateTemplate) return new ForwardResolution("/WEB-INF/jsp/tag-list.jsp");
+		else return new ForwardResolution("/WEB-INF/pebble/tag-list.pebble");
 	}
 	
 	// Getters y setters
@@ -48,6 +50,9 @@ public class ListTagsAction implements ActionBean {
 		return tags;
 	}
 
+	public void setAlt(String alt) {
+		this.alt = alt;
+	}
 	
 	// contexto y servicios
 
