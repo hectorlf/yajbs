@@ -4,19 +4,26 @@
 {% block head %}
 <head><title>Blog!</title></head>
 {% endblock %}
+{# flush head as soon as possible #}{% flush %}
+
 
 <body>
 {% block header %}
-	<header id="site-head">Blog!</header>
+   <header id="site-head">Blog!</header>
 {% endblock %}
 
+
+{# main page content #}
 {% block main %}
-	<main role="main">Main content of the page</main>
+   <main role="main">Main content of the page</main>
 {% endblock %}
 
+{# flush before footer #}
+{% flush %}
 {% block footer %}
-	<footer>End Blog!</footer>
+   <footer>End Blog!</footer>
 {% endblock %}
+
 
 {% block 'deferred-styles' %}
 <script type="text/javascript">

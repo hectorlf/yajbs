@@ -1,3 +1,39 @@
 {% extends '/WEB-INF/pebble/template.pebble' %}
 
-<c:set var="pageName" value="Inicio"/><c:set var="blogTitle" value="${preferences.title}"/><c:set var="blogTagline" value="${preferences.tagline}"/><c:set var="posts" value="${actionBean.posts}"/><c:set var="metaDescription" value="Un blog sobre Internet, Java, Android, tecnolog�a y consultor�a, aderezado con historias de terror extra�das del curro diario."/>
+{% set pageName = 'Inicio' %}
+{% set metaDescription = 'Un blog sobre Internet, Java, Android, tecnología y consultoría, aderezado con historias de terror extraídas del curro diario.' %}
+
+{% block head %}
+{% include '/WEB-INF/pebble/head.pebble' %}
+{% endblock %}
+
+{% block header %}
+{% include '/WEB-INF/pebble/header.pebble' %}
+{% endblock %}
+
+{% block main %}
+   <main role="main">
+{% for post in actionBean.posts %}
+{% include '/WEB-INF/pebble/post-excerpt.pebble' %}
+{% endfor %}
+   </main>
+{% endblock %}
+
+{% block footer %}
+{% include '/WEB-INF/pebble/footer.pebble' %}
+{% endblock %}
+
+{% block 'syntaxhighlighter-scripts' %}
+<script type="text/javascript">
+  (function() {
+    var d=document, protocol=(("https:" == document.location.protocol) ? "https" : "http"), s=d.getElementsByTagName("head")[0];
+    // syntaxhighlighter.css
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href=protocol+"://d9xqzluw8al1.cloudfront.net/sh/sh.min.css"; s.appendChild(g);
+  })();
+</script>
+<script type="text/javascript" src="https://d9xqzluw8al1.cloudfront.net/sh/shCore.js"></script>
+<script type="text/javascript" src="https://d9xqzluw8al1.cloudfront.net/sh/shBrushJava.js"></script>
+<script type="text/javascript">
+  SyntaxHighlighter.all();
+</script>
+{% endblock %}

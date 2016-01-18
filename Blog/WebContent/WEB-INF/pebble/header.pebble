@@ -1,0 +1,18 @@
+{% set indexUrl = stripesUrl("com.hectorlopezfernandez.action.IndexAction") %}
+   <header id="site-head">
+      <a id="blog-logo" href="{{indexUrl}}"><div class="bloglogo"></div></a>
+      <h1 class="blog-title"><a href="{{indexUrl}}">{{preferences.title}}</a></h1>
+      <h2 class="blog-description">{{preferences.tagline}}</h2>
+      <nav class="menu" role="navigation">
+         <ul>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction")}}">Archivo</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction")}}">Etiquetas</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"})}}">Curr&iacute;culum</a></li>
+            <li><a href="https://github.com/hectorlf" target="_blank">GitHub</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"})}}">Acerca de&hellip;</a></li>
+{% authenticated %}
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.admin.IndexAction")}}">Administraci&oacute;n</a></li>
+{% endAuthenticated %}
+         </ul>
+      </nav>
+   </header>
