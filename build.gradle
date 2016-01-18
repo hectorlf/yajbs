@@ -6,6 +6,7 @@ subprojects {
       options.incremental = true
       sourceCompatibility = '1.7'
       targetCompatibility = '1.7'
+      options.encoding = 'UTF-8'
    }
 
    repositories {
