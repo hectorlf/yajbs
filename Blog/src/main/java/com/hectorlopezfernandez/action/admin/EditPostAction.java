@@ -3,14 +3,6 @@ package com.hectorlopezfernandez.action.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +14,13 @@ import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.AdminPostService;
 import com.hectorlopezfernandez.service.TagService;
 import com.hectorlopezfernandez.service.UserService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/admin/editPost.action")
 public class EditPostAction implements ActionBean {
@@ -52,9 +51,9 @@ public class EditPostAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditPostAction.execute");
 		Post p = postService.getPost(id);
-		title = StringEscapeUtils.unescapeHtml4(p.getTitle());
+		title = p.getTitle();
 		titleUrl = p.getTitleUrl();
-		metaDescription = StringEscapeUtils.unescapeHtml4(p.getMetaDescription());
+		metaDescription = p.getMetaDescription();
 		excerpt = p.getExcerpt();
 		content = p.getContent();
 		commentsAllowed = !p.isCommentsClosed();

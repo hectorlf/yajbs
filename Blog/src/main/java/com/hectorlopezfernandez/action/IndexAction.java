@@ -38,7 +38,7 @@ public class IndexAction implements ActionBean {
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		posts = postService.getNewestPosts(prefs.getPostsPerIndexPage());
-		return new ForwardResolution("/WEB-INF/jsp/index.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/index.pebble");
 	}
 	
 	// Getters y setters

@@ -5,8 +5,10 @@
 
 {% block main %}
    <main role="main">
+
 {% for post in actionBean.posts %}
 {% include '/WEB-INF/pebble/layouts/post-excerpt.pebble' %}
+
 {% endfor %}
    </main>
 {% endblock %}
