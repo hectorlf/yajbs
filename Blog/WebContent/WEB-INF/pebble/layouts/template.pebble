@@ -10,7 +10,8 @@
    <meta name="HandheldFriendly" content="true" />
    <meta name="MobileOptimized" content="320" />
 
-{% include '/WEB-INF/layouts/inlined-styles.pebble' %}
+{% include '/WEB-INF/pebble/layouts/inlined-styles.pebble' %}
+
 
    <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
    <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -77,6 +78,7 @@
   })();
 </script>
 {% block 'syntaxhighlighter-scripts' %}{# optional block for pages with syntax highlighting #}{% endblock %}
+
 </body>
 
 </html>

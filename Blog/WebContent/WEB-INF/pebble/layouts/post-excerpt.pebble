@@ -6,6 +6,7 @@
          </header>
          <section class="post-excerpt">
 {{post.excerpt | raw}}
+
 <p class="readmore"><a href="{{postUrl}}#readmore">Leer el resto de la entrada <i class="fa fa-chevron-circle-right"></i></a></p>
          </section>
       </article>
