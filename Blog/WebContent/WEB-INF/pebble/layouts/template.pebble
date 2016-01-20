@@ -1,0 +1,82 @@
+{% set indexUrl = stripesUrl("com.hectorlopezfernandez.action.IndexAction") %}
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+   <meta name="HandheldFriendly" content="true" />
+   <meta name="MobileOptimized" content="320" />
+
+{% include '/WEB-INF/layouts/inlined-styles.pebble' %}
+
+   <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
+   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+   <link rel="preconnect" href="https://netdna.bootstrapcdn.com"/>
+
+   <link rel="alternate" href="{{stripesUrl("com.hectorlopezfernandez.action.FeedAction")}}" type="application/atom+xml" title="Feed de entradas en formato ATOM"/>
+   <link rel="index" href="{{indexUrl}}" title="Inicio"/>
+
+   <title>{{pageName}} - {{preferences.title}}</title>
+{% if metaDescription is not empty %}
+   <meta name="description" content="{{metaDescription}}" />
+{% endif %}
+   <link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
+   <meta name="generator" content="{{APPLICATION_TAG}}"/>
+</head>
+{# flush head as soon as possible #}{% flush %}
+
+<body>
+   <header id="site-head">
+      <a id="blog-logo" href="{{indexUrl}}"><div class="bloglogo"></div></a>
+      <h1 class="blog-title"><a href="{{indexUrl}}">{{preferences.title}}</a></h1>
+      <h2 class="blog-description">{{preferences.tagline}}</h2>
+      <nav class="menu" role="navigation">
+         <ul>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction")}}">Archivo</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction")}}">Etiquetas</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"})}}">Currículum</a></li>
+            <li><a href="https://github.com/hectorlf" target="_blank">GitHub</a></li>
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"})}}">Acerca de&hellip;</a></li>
+{% authenticated %}
+            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.admin.IndexAction")}}">Administración</a></li>
+{% endAuthenticated %}
+         </ul>
+      </nav>
+   </header>
+
+{# main page content #}
+{% block main %}
+   <main role="main">Main content of the page</main>
+{% endblock %}
+
+{# flush before footer #}{% flush %}
+   <footer class="site-footer">
+      <div>
+         <section class="footer-description">
+            <form role="search" method="get" id="searchform" action="{{stripesUrl("com.hectorlopezfernandez.action.SearchAction")}}">
+            <i class="fa fa-search"></i>
+            <input type="search" id="s" name="q" placeholder="Buscar..." value="{{queryText}}" maxlength="50"/>
+            </form>
+         </section>
+         <section class="copyright"><a rel="license" title="Esta obra est&aacute; bajo una licencia Creative Commons" href="http://creativecommons.org/licenses/by/3.0/es/" style="vertical-align:middle;"><img alt="Esta obra est&aacute; bajo una licencia Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by/3.0/es/80x15.png" height="15" width="80"/></a> Licencia Creative Commons &#8226; <a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"policies"})}}">Privacidad y condiciones</a></section>
+         <section>Tema &ldquo;Vapor&rdquo; diseñado por <a href="http://sethlilly.com/">Seth Lilly</a></section>
+         <section class="poweredby">Orgullosamente publicado con <a href="https://github.com/hectorlf/yajbs">{{APPLICATION_TAG}}</a></section>
+      </div>
+   </footer>
+
+<script type="text/javascript">
+  (function() {
+    var d=document, s=d.getElementsByTagName("head")[0];
+    // screen.css
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://d9xqzluw8al1.cloudfront.net/screen.min.css"; s.appendChild(g);
+    // font-awesome.css
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"; s.appendChild(g);
+  })();
+</script>
+{% block 'syntaxhighlighter-scripts' %}{# optional block for pages with syntax highlighting #}{% endblock %}
+</body>
+
+</html>

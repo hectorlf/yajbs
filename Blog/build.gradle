@@ -18,11 +18,12 @@ dependencies {
     
    providedCompile 'commons-logging:commons-logging:1.2'
    providedCompile 'log4j:log4j:1.2.17'
-   providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+   providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
    providedCompile 'javax.servlet.jsp:jsp-api:2.2'
 
    providedRuntime 'junit:junit:3.8.1'
    providedRuntime 'commons-httpclient:commons-httpclient:3.1'
+   providedRuntime 'javax.servlet:servlet-api:2.5'
 
    compile 'javax.inject:javax.inject'
    compile 'com.google.inject:guice'
@@ -40,6 +41,9 @@ dependencies {
    compile 'org.owasp.antisamy:antisamy'
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
+   compile 'com.hectorlopezfernandez.pebble:stripes-extension:0.7.0'
+   compile 'com.hectorlopezfernandez.pebble:joda-time-extension:1.0.2'
+   compile 'com.hectorlopezfernandez.pebble:shiro-extension:1.0.0'
 
    runtime 'commons-lang:commons-lang'
    runtime 'commons-pool:commons-pool'

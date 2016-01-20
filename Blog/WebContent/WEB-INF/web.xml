@@ -150,6 +150,16 @@
 		<url-pattern>/tags/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>PebbleServlet</servlet-name>
+		<servlet-class>com.hectorlopezfernandez.integration.CustomPebbleServlet</servlet-class>
+		<load-on-startup>11</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PebbleServlet</servlet-name>
+		<url-pattern>*.pebble</url-pattern>
+	</servlet-mapping>
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/BlogDB</res-ref-name>
