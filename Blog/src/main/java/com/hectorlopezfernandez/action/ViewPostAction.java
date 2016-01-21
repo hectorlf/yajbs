@@ -43,7 +43,7 @@ public class ViewPostAction implements ActionBean {
 		post = postService.getDetailedPost(id);
 		// si no existe, 404
 		if (post == null) return new ForwardResolution(Error404Action.class);
-		return new ForwardResolution("/WEB-INF/jsp/post.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/post.pebble");
 	}
 	
 	// Getters y setters

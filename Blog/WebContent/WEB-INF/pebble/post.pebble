@@ -1,0 +1,16 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = actionBean.post.title %}
+{% set metaDescription = actionBean.post.metaDescription %}
+{% set post = actionBean.post %}
+
+{% block main %}
+   <main role="main">
+{% include '/WEB-INF/pebble/layouts/post-detail.pebble' %}
+
+   </main>
+{% endblock %}
+
+{% block 'syntaxhighlighter-scripts' %}
+{% include '/WEB-INF/pebble/layouts/syntaxhighlighter-scripts.pebble' %}
+{% endblock %}

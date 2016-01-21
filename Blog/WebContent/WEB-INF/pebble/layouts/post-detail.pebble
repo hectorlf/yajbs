@@ -1,0 +1,53 @@
+{% set postUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':post.year,'month':post.month|numberformat("00"),'name':post.titleUrl}) %}
+      <article>
+         <header>
+{% if post.tags is not empty %}
+            <div class="post-meta tags">Etiquetado en {% for tag in post.tags %}{% if loop.index > 0 %}, {% endif %}<a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction",{'name':tag.nameUrl})}}" rel="category tag">{{tag.name}}</a>{% endfor %}</div>
+{% endif %}
+            <h1 class="post-title">{{post.title}}</h1>
+            <div class="post-meta"><time datetime="{{post.publicationDate | joda("yyyy-MM-dd")}}">{{post.publicationDate | joda("EEEE, d 'de' MMMM, yyyy","es")}}</time></div>
+         </header>
+
+         <section class="post-content">
+{{post.excerpt | raw}}
+
+<div id="readmore"></div>
+{{post.content | raw}}
+
+         </section>
+
+         <section class="share">
+            <p class="info prompt">Compartir esta entrada</p>
+            <a href="https://twitter.com/share?text={{post.title | escape("url_param")}}&url=https://www.hectorlopezfernandez.com{{postUrl}}" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+               <i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.hectorlopezfernandez.com{{postUrl}}" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+               <i class="fa fa-2x fa-fw fa-facebook-square"></i> <span class="hidden">Facebook</span>
+            </a>
+            <a href="https://plus.google.com/share?url=https://www.hectorlopezfernandez.com{{postUrl}}" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+               <i class="fa fa-2x fa-fw fa-google-plus-square"></i> <span class="hidden">Google+</span>
+            </a>
+         </section>
+
+         <footer class="post-footer">
+{% set author = post.author %}{% include '/WEB-INF/pebble/layouts/author-detail.pebble' %}
+
+         </footer>
+{% if not post.commentsClosed %}
+
+         <div id="disqus_thread"></div>
+         <script>
+         var disqus_config = function () {
+         this.page.url = 'https://www.hectorlopezfernandez.com{{postUrl}}';
+         this.page.identifier = '{{post.id}}';
+         };
+         (function() {
+         var d = document, s = d.createElement('script');
+         s.src = '//hectorlopezfernandez.disqus.com/embed.js';
+         s.setAttribute('data-timestamp', +new Date());
+         (d.head || d.body).appendChild(s);
+         })();
+         </script>
+         <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+{% endif %}
+      </article>
