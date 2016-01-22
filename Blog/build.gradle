@@ -41,9 +41,9 @@ dependencies {
    compile 'org.owasp.antisamy:antisamy'
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
-   compile 'com.hectorlopezfernandez.pebble:stripes-extension:0.7.0'
-   compile 'com.hectorlopezfernandez.pebble:joda-time-extension:1.0.2'
-   compile 'com.hectorlopezfernandez.pebble:shiro-extension:1.0.0'
+   compile 'com.hectorlopezfernandez.pebble:stripes-extension'
+   compile 'com.hectorlopezfernandez.pebble:joda-time-extension'
+   compile 'com.hectorlopezfernandez.pebble:shiro-extension'
 
    runtime 'commons-lang:commons-lang'
    runtime 'commons-pool:commons-pool'
