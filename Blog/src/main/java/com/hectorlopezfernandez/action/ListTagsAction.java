@@ -38,7 +38,7 @@ public class ListTagsAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		// se recupera la lista completa de tags
 		tags = tagService.getAllTags();
-		return new ForwardResolution("/WEB-INF/jsp/tag-list.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/tag-list.pebble");
 	}
 	
 	// Getters y setters

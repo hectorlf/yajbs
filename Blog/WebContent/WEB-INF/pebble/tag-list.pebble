@@ -1,0 +1,22 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = 'Etiquetas' %}
+
+{% block main %}
+   <main role="main">
+      <article>
+         <header><h1 class="post-title">Etiquetas</h1></header>
+
+         <section class="post-content">
+            <ul>
+{% for tag in actionBean.tags %}
+               <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction", {'name':tag.nameUrl})}}">{{tag.name}}</a> &raquo; {{tag.count}} entrada{{tag.count != 1 ? 's' : ''}}</li>
+{% endfor %}
+            </ul>
+         </section>
+
+         <footer class="post-footer">
+         </footer>
+      </article>
+   </main>
+{% endblock %}
