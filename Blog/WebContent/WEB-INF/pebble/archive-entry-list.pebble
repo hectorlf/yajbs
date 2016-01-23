@@ -1,0 +1,26 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = 'Archivo' %}
+
+{% block main %}
+   <main role="main">
+      <article>
+         <header><h1 class="post-title">Archivo</h1></header>
+
+         <section class="post-content">
+            <ul>
+{% for entry in actionBean.entries %}
+{% set monthUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction", {'year':entry.year,'month':entry.month|numberformat("00")}) %}
+{% set yearUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction", {'year':entry.year}) %}
+{% set entryMonth = entry.date | joda("MMMM","es") %}
+{% set entryYear = entry.date | joda("yyyy","es") %}
+               <li><a href="{{monthUrl}}" title="{{entryMonth}}">{{entryMonth | capitalize}}</a> de <a href="{{yearUrl}}" title="{{entryYear}}">{{entryYear}}</a> &raquo; {{entry.count}} entrada{{entry.count != 1 ? 's' : ''}}</li>
+{% endfor %}
+            </ul>
+         </section>
+
+         <footer class="post-footer">
+         </footer>
+      </article>
+   </main>
+{% endblock %}

@@ -38,7 +38,7 @@ public class ListArchiveEntriesAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		// se recupera la lista completa de tags
 		entries = postService.getAllArchiveEntriesWithPublishedPostCount();
-		return new ForwardResolution("/WEB-INF/jsp/archive-entry-list.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/archive-entry-list.pebble");
 	}
 	
 	// Getters y setters
