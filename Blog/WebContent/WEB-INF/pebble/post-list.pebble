@@ -1,0 +1,31 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = 'Entradas archivadas en '~(actionBean.month == null ? actionBean.searchDate | joda("yyyy") : actionBean.searchDate | joda("MMMM 'de' yyyy", "es")) %}
+
+{% block main %}
+   <main role="main">
+
+{% for post in actionBean.posts %}
+{% include '/WEB-INF/pebble/layouts/post-excerpt.pebble' %}
+
+{% else %}
+      <article class="preview">
+         <header>
+            <div class="post-meta">No se ha encontrado ning&uacute;n resultado</div>
+         </header>
+      </article>
+
+{% endfor %}
+
+{% if actionBean.paginationInfo.enabled %}
+{% set previousUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction", (actionBean.month != null ? {'year':post.year,'month':post.month|numberformat("00"),'page': actionBean.paginationInfo.previousPage} : {'year':post.year,'page': actionBean.paginationInfo.previousPage})) %}
+{% set nextUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction", (actionBean.month != null ? {'year':post.year,'month':post.month|numberformat("00"),'page': actionBean.paginationInfo.nextPage} : {'year':post.year,'page': actionBean.paginationInfo.nextPage})) %}
+{% include '/WEB-INF/pebble/layouts/pagination.pebble' %}
+{% endif %}
+
+   </main>
+{% endblock %}
+
+{% block 'syntaxhighlighter-scripts' %}
+{% include '/WEB-INF/pebble/layouts/syntaxhighlighter-scripts.pebble' %}
+{% endblock %}

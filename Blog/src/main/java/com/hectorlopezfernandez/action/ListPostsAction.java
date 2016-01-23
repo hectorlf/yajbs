@@ -60,7 +60,7 @@ public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 		// se realiza la busqueda de posts
 		paginationInfo = postService.computePaginationOfPostsForDate(year, month, page);
 		posts = postService.listPostsForDate(year, month, paginationInfo);
-		return new ForwardResolution("/WEB-INF/jsp/post-list.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/post-list.pebble");
 	}
 
 	@Override
