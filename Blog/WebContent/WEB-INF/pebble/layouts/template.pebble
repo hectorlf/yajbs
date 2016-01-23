@@ -3,6 +3,10 @@
 <html>
 
 <head>
+   <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
+   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+   <link rel="preconnect" href="https://netdna.bootstrapcdn.com"/>
+
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -12,10 +16,6 @@
 
 {% include '/WEB-INF/pebble/layouts/inlined-styles.pebble' %}
 
-
-   <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
-   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-   <link rel="preconnect" href="https://netdna.bootstrapcdn.com"/>
 
    <link rel="alternate" href="{{stripesUrl("com.hectorlopezfernandez.action.FeedAction")}}" type="application/atom+xml" title="Feed de entradas en formato ATOM"/>
    <link rel="index" href="{{indexUrl}}" title="Inicio"/>
