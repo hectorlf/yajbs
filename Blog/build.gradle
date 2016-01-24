@@ -4,7 +4,7 @@ apply plugin: 'eclipse-wtp'
 
 // project defs
 def entitiesBasePackage = 'com.hectorlopezfernandez.model'
-project.version = '0.10.0'
+project.version = '0.10.1'
 
 
 configurations {
