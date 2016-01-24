@@ -44,7 +44,7 @@ public class ViewPageAction implements ActionBean {
 		page = pageService.getPage(id);
 		// si no existe, 404
 		if (page == null) return new ErrorResolution(404);
-		return new ForwardResolution("/WEB-INF/jsp/page.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/page.pebble");
 	}
 	
 	// Getters y setters

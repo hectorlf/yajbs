@@ -1,0 +1,12 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = actionBean.page.title %}
+{% set metaDescription = actionBean.page.metaDescription %}
+{% set page = actionBean.page %}
+
+{% block main %}
+   <main role="main">
+{% include '/WEB-INF/pebble/layouts/page-detail.pebble' %}
+
+   </main>
+{% endblock %}
