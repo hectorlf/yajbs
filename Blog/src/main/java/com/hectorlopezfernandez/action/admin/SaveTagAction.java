@@ -1,13 +1,5 @@
 package com.hectorlopezfernandez.action.admin;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.RedirectResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +7,13 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.TagService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/admin/saveTag.action")
 public class SaveTagAction implements ActionBean {
@@ -37,7 +36,7 @@ public class SaveTagAction implements ActionBean {
 		logger.debug("Entrando a SaveTagAction.execute");
 		Tag t = new Tag();
 		t.setId(id);
-		t.setName(StringEscapeUtils.escapeHtml4(name));
+		t.setName(name);
 		t.setNameUrl(nameUrl);
 		if (id == null) tagService.saveTag(t);
 		else tagService.modifyTag(t);
