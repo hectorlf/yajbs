@@ -1,13 +1,5 @@
 package com.hectorlopezfernandez.action.admin;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +7,13 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.service.PageService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/admin/editPage.action")
 public class EditPageAction implements ActionBean {
@@ -37,9 +36,9 @@ public class EditPageAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditPageAction.execute");
 		Page p = pageService.getPage(id);
-		title = StringEscapeUtils.unescapeHtml4(p.getTitle());
+		title = p.getTitle();
 		titleUrl = p.getTitleUrl();
-		metaDescription = StringEscapeUtils.unescapeHtml4(p.getMetaDescription());
+		metaDescription = p.getMetaDescription();
 		content = p.getContent();
 		return new ForwardResolution("/WEB-INF/jsp/admin/page-form.jsp");
 	}

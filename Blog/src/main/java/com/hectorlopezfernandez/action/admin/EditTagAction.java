@@ -1,13 +1,5 @@
 package com.hectorlopezfernandez.action.admin;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +7,13 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.TagService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/admin/editTag.action")
 public class EditTagAction implements ActionBean {
@@ -35,7 +34,7 @@ public class EditTagAction implements ActionBean {
 	public Resolution execute() {
 		logger.debug("Entrando a EditTagAction.execute");
 		Tag t = tagService.getTag(id);
-		name = StringEscapeUtils.unescapeHtml4(t.getName());
+		name = t.getName();
 		nameUrl = t.getNameUrl();
 		return new ForwardResolution("/WEB-INF/jsp/admin/tag-form.jsp");
 	}
