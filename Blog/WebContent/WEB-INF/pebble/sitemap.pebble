@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://www.hectorlopezfernandez.com{{stripesUrl("com.hectorlopezfernandez.action.IndexAction")}}</loc>
+      <changefreq>daily</changefreq>
+   </url>
+{% for post in actionBean.posts %}
+   <url>
+      <loc>https://www.hectorlopezfernandez.com{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':post.year,'month':post.month|numberformat("00"),'name':post.titleUrl})}}</loc>
+      <lastmod>{{post.lastModificationDate | joda("yyyy-MM-dd")}}</lastmod>
+      <changefreq>yearly</changefreq>
+   </url>
+{% endfor %}
+{% for page in actionBean.pages %}
+   <url>
+      <loc>https://www.hectorlopezfernandez.com{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{'name':page.titleUrl})}}</loc>
+      <lastmod>{{page.lastModificationDate | joda("yyyy-MM-dd")}}</lastmod>
+      <changefreq>yearly</changefreq>
+   </url>
+{% endfor %}
+</urlset>

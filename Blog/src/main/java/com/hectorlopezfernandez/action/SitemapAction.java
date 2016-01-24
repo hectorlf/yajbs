@@ -43,7 +43,9 @@ public class SitemapAction implements ActionBean {
 		ctx.setAttribute("preferences", prefs);
 		posts = postService.getPostsForSitemap();
 		pages = pageService.getPagesForSitemap();
-		return new ForwardResolution("/WEB-INF/jsp/sitemap.jsp");
+		// se establece el content type
+		ctx.getResponse().setContentType("text/xml");
+		return new ForwardResolution("/WEB-INF/pebble/sitemap.pebble");
 	}
 	
 	// Getters y setters
