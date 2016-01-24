@@ -1,0 +1,40 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = 'Resultados para la búsqueda: ' ~ (actionBean.q | abbreviate(30)) %}
+
+{% block main %}
+   <main role="main">
+
+{% if actionBean.q is empty %}
+      <article class="preview">
+         <header>
+            <div class="post-meta">Deberías introducir un texto para la búsqueda. No esperes que te devuelva toda la base de datos&hellip;</div>
+         </header>
+      </article>
+{% else %}
+{% for result in actionBean.results %}
+{% set urlClass = (result.type == 'Post' ? "com.hectorlopezfernandez.action.ArchiveAction" : "com.hectorlopezfernandez.action.PagesAction")%}
+{% set urlParams = (result.type == 'Post' ? {'year':result.year,'month':result.month|numberformat("00"),'name':result.titleUrl} : {'name':result.titleUrl}) %}
+{% set resultUrl = stripesUrl(urlClass, urlParams) %}
+      <article class="preview">
+         <header>
+            <h1 class="post-title"><a href="{{resultUrl}}">{{result.title}}</a></h1>
+            <div class="post-meta">categoría: {{result.type == 'Post' ? 'entrada' : 'página'}} &#8226; publicada el <time datetime="{{result.publicationDate | joda("yyyy-MM-dd")}}">{{result.publicationDate | joda("d 'de' MMMM 'de' yyyy","es")}}</time></div>
+         </header>
+         <section class="post-excerpt">
+            <p>{{result.content | raw}}</p>
+            <p class="readmore"><a href="{{resultUrl}}">Ir al contenido <i class="fa fa-chevron-circle-right"></i></a></p>
+         </section>
+      </article>
+
+{% else %}
+      <article class="preview">
+         <header>
+            <div class="post-meta">No se han encontrado coincidencias para esa búsqueda</div>
+         </header>
+      </article>
+{% endfor %}
+{% endif %}
+
+   </main>
+{% endblock %}

@@ -3,16 +3,6 @@ package com.hectorlopezfernandez.action;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
-
-import org.owasp.reform.Reform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +13,15 @@ import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.SearchService;
-import com.hectorlopezfernandez.utils.StringLengthLimiterTag;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 @UrlBinding("/search.action")
 public class SearchAction implements ActionBean, ValidationErrorHandler {
@@ -38,7 +36,6 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 	
 	private String q;
 	private Integer page;
-	private String parsedQueryText;
 	private List<SearchResult> results;
 	private PaginationInfo paginationInfo;
 	
@@ -53,13 +50,11 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 		if (q == null || q.trim().length() == 0) {
 			results = Collections.emptyList();
 		} else {
-			// se prepara el texto de salida
-			q = q.trim();
-			parsedQueryText = Reform.HtmlEncode(StringLengthLimiterTag.limitLength(q, 40));
 			// se buscan las coincidencias y se recupera el listado de elementos coincidentes
+			q = q.trim();
 			results = searchService.search(q);
 		}
-		return new ForwardResolution("/WEB-INF/jsp/search-results.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/search-results.pebble");
 	}
 
 	@Override
@@ -81,10 +76,6 @@ public class SearchAction implements ActionBean, ValidationErrorHandler {
 
 	public void setQ(String q) {
 		this.q = q;
-	}
-
-	public String getParsedQueryText() {
-		return parsedQueryText;
 	}
 
 	public List<SearchResult> getResults() {

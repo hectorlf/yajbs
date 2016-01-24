@@ -264,11 +264,12 @@ public class SearchServiceImpl implements SearchService {
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.POST_TYPE);
 		((StringField)document.getField(TITLE_FIELD_NAME)).setStringValue(post.getTitle());
 		((StringField)document.getField(TITLE_URL_FIELD_NAME)).setStringValue(post.getTitleUrl());
-		String title = StringEscapeUtils.unescapeHtml4(post.getTitle());
+		String title = post.getTitle();
 		String excerpt = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getExcerpt()));
 		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(post.getContent()));
 		StringBuilder completeText = new StringBuilder(2 + title.length() + excerpt.length() + content.length());
     	completeText.append(title).append(" ").append(excerpt).append(" ").append(content);
+    	logger.debug("Texto completo a indexar: {}", completeText);
     	((Field)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
     	((StringField)document.getField(PUBLICATION_DATE_AS_LONG_FIELD_NAME)).setStringValue(String.valueOf(post.getPublicationDateAsLong()));
 	}
@@ -281,10 +282,11 @@ public class SearchServiceImpl implements SearchService {
 		((StringField)document.getField(TYPE_FIELD_NAME)).setStringValue(SearchResult.PAGE_TYPE);
 		((StringField)document.getField(TITLE_FIELD_NAME)).setStringValue(page.getTitle());
 		((StringField)document.getField(TITLE_URL_FIELD_NAME)).setStringValue(page.getTitleUrl());
-		String title = StringEscapeUtils.unescapeHtml4(page.getTitle());
+		String title = page.getTitle();
 		String content = StringEscapeUtils.unescapeHtml4(HTMLUtils.parseTextForLucene(page.getContent()));
 		StringBuilder completeText = new StringBuilder(1 + title.length() + content.length());
     	completeText.append(title).append(" ").append(content);
+    	logger.debug("Texto completo a indexar: {}", completeText);
     	((Field)document.getField(INDEXED_FIELD_NAME)).setStringValue(completeText.toString());
     	((StringField)document.getField(PUBLICATION_DATE_AS_LONG_FIELD_NAME)).setStringValue(String.valueOf(page.getPublicationDateAsLong()));
 	}
