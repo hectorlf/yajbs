@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+   <title>{{preferences.title}}</title>
+   <link rel="self" href="https://www.hectorlopezfernandez.com{{stripesUrl("com.hectorlopezfernandez.action.FeedAction")}}"/>
+   <updated>{{actionBean.lastModificationDate | joda("yyyy-MM-dd'T'HH:mm:ssZZ")}}</updated>
+   <id>http://www.hectorlopezfernandez.com/</id>
+
+{% for post in actionBean.posts %}
+{% set postUrl = stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':post.year,'month':post.month|numberformat("00"),'name':post.titleUrl}) %}
+   <entry>
+      <title type="text">{{post.title}}</title>
+      <link rel="alternate" href="https://www.hectorlopezfernandez.com{{postUrl}}"/>
+      <id>http://www.hectorlopezfernandez.com{{postUrl}}</id>
+      <updated>{{post.publicationDate | joda("yyyy-MM-dd'T'HH:mm:ssZZ")}}</updated>
+      <summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">{{post.excerpt | raw}}</div></summary>
+      <author><name>{{post.authorName}}</name></author>
+   </entry>
+{% endfor %}
+</feed>

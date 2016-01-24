@@ -48,7 +48,9 @@ public class FeedAction implements ActionBean {
 				if (lastModificationDate.isBefore(sp.getPublicationDate())) lastModificationDate = sp.getPublicationDate();
 			}
 		}
-		return new ForwardResolution("/WEB-INF/jsp/feed.jsp");
+		// se establece el content type
+		ctx.getResponse().setContentType("application/atom+xml");
+		return new ForwardResolution("/WEB-INF/pebble/feed.pebble");
 	}
 	
 	// Getters y setters
