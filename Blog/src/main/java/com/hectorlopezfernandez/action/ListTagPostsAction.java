@@ -65,7 +65,7 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 			tagName = Reform.HtmlEncode(StringUtils.abbreviate(name, 20));
 			posts = Collections.emptyList();
 		}
-		return new ForwardResolution("/WEB-INF/jsp/tag-posts-list.jsp");
+		return new ForwardResolution("/WEB-INF/pebble/tag-posts-list.pebble");
 	}
 
 	@Override

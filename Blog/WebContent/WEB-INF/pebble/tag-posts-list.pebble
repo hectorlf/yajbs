@@ -1,0 +1,31 @@
+{% extends '/WEB-INF/pebble/layouts/template.pebble' %}
+
+{% set pageName = 'Entradas etiquetadas en ' ~ actionBean.tagName %}
+
+{% block main %}
+   <main role="main">
+
+{% for post in actionBean.posts %}
+{% include '/WEB-INF/pebble/layouts/post-excerpt.pebble' %}
+
+{% else %}
+      <article class="preview">
+         <header>
+            <div class="post-meta">No se ha encontrado ningún resultado</div>
+         </header>
+      </article>
+
+{% endfor %}
+
+{% if actionBean.paginationInfo.enabled %}
+{% set previousUrl = stripesUrl("com.hectorlopezfernandez.action.TagsAction", {'name': actionBean.name,'page': actionBean.paginationInfo.previousPage}) %}
+{% set nextUrl = stripesUrl("com.hectorlopezfernandez.action.TagsAction", {'name': actionBean.name,'page': actionBean.paginationInfo.nextPage}) %}
+{% include '/WEB-INF/pebble/layouts/pagination.pebble' %}
+{% endif %}
+
+   </main>
+{% endblock %}
+
+{% block 'syntaxhighlighter-scripts' %}
+{% include '/WEB-INF/pebble/layouts/syntaxhighlighter-scripts.pebble' %}
+{% endblock %}
