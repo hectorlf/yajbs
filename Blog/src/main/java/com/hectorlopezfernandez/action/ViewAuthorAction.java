@@ -2,15 +2,6 @@ package com.hectorlopezfernandez.action;
 
 import java.util.List;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +14,16 @@ import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.UserService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 @UrlBinding("/viewAuthor.action")
 public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
@@ -46,13 +47,13 @@ public class ViewAuthorAction implements ActionBean, ValidationErrorHandler {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ViewAuthorAction.execute");
-		if (id == null) return new ForwardResolution(Error404Action.class);
+		if (id == null) return new ErrorResolution(404);
 		// se cargan las preferencias
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se carga el autor
 		author = userService.getAuthorById(id);
-		if (author == null) return new ForwardResolution(Error404Action.class);
+		if (author == null) return new ErrorResolution(404);
 		// se cargan los posts relacionados, si hay
 		paginationInfo = postService.computePaginationOfPostsForAuthor(id, page);
 		posts = postService.listPostsForAuthor(id, paginationInfo);

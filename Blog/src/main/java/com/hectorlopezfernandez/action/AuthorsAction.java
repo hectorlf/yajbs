@@ -2,17 +2,18 @@ package com.hectorlopezfernandez.action;
 
 import javax.inject.Inject;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.service.UserService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
 
 //@UrlBinding("/authors/{name}/{overhead}")
 public class AuthorsAction implements ActionBean {
@@ -33,12 +34,12 @@ public class AuthorsAction implements ActionBean {
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
 		// si overhead contiene algo, la url no puede ser valida y se manda un 404
-		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
+		if (overhead != null && overhead.length() > 0) return new ErrorResolution(404);
 		// si no hay nombre de autor, se muestra la lista de autores del sistema
 		if (name == null || name.length() == 0) return new ForwardResolution(ListAuthorsAction.class);
 		// se busca el id del autor por nombre y, si no existe, se envia un 404
 		Long id = userService.findAuthorId(name);
-		if (id == null) return new ForwardResolution(Error404Action.class);
+		if (id == null) return new ErrorResolution(404);
 		// se envia al detalle del autor
 		ForwardResolution fr = new ForwardResolution(ViewAuthorAction.class);
 		fr.addParameter(ViewAuthorAction.PARAM_ID, id);

@@ -2,14 +2,6 @@ package com.hectorlopezfernandez.action;
 
 import java.util.List;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +13,15 @@ import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 
@@ -45,14 +46,14 @@ public class ListPostsAction implements ActionBean, ValidationErrorHandler {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ListPostsAction.execute");
-		if (year == null) return new ForwardResolution(Error404Action.class);
+		if (year == null) return new ErrorResolution(404);
 		try {
 			// se intenta convertir la fecha a DateTime. Si no existe la fecha, 404.
 			int y = year.intValue();
 			int m = month == null ? 1 : month.intValue();
 			searchDate = new DateTime(y, m, 1, 0, 0);
 		} catch(Exception e) {
-			return new ForwardResolution(Error404Action.class);
+			return new ErrorResolution(404);
 		}
 		// se recuperan las preferencias
 		Preferences prefs = blogService.getPreferences();

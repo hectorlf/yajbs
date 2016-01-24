@@ -1,12 +1,5 @@
 package com.hectorlopezfernandez.action;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +9,14 @@ import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PageService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/viewPage.action")
 public class ViewPageAction implements ActionBean {
@@ -35,14 +36,14 @@ public class ViewPageAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ViewPageAction.execute");
-		if (id == null) return new ForwardResolution(Error404Action.class);
+		if (id == null) return new ErrorResolution(404);
 		// se cargan las preferencias
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se carga la pagina a mostrar
 		page = pageService.getPage(id);
 		// si no existe, 404
-		if (page == null) return new ForwardResolution(Error404Action.class);
+		if (page == null) return new ErrorResolution(404);
 		return new ForwardResolution("/WEB-INF/jsp/page.jsp");
 	}
 	

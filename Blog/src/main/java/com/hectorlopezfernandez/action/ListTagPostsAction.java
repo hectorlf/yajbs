@@ -3,14 +3,6 @@ package com.hectorlopezfernandez.action;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
-
 import org.apache.commons.lang.StringUtils;
 import org.owasp.reform.Reform;
 import org.slf4j.Logger;
@@ -25,6 +17,15 @@ import com.hectorlopezfernandez.model.Tag;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
 import com.hectorlopezfernandez.service.TagService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 
@@ -47,7 +48,7 @@ public class ListTagPostsAction implements ActionBean, ValidationErrorHandler {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ListTagPostsAction.execute");
-		if (name == null || name.length() == 0) return new ForwardResolution(Error404Action.class);
+		if (name == null || name.length() == 0) return new ErrorResolution(404);
 		// se cargan las preferencias
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);

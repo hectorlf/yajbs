@@ -1,16 +1,17 @@
 package com.hectorlopezfernandez.action;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/tags/{name}/{overhead}")
 public class TagsAction implements ActionBean {
@@ -30,7 +31,7 @@ public class TagsAction implements ActionBean {
 		logger.debug("name: {}", name);
 		logger.debug("overhead: {}", overhead);
 		// si overhead contiene algo, la url no puede ser valida y se manda un 404
-		if (overhead != null && overhead.length() > 0) return new ForwardResolution(Error404Action.class);
+		if (overhead != null && overhead.length() > 0) return new ErrorResolution(404);
 		// si no se ha indicado un nombre de tag, se manda al listado
 		if (name == null || name.length() == 0) return new ForwardResolution(ListTagsAction.class);
 		// se listan los post con el tag indicado, si existe algo

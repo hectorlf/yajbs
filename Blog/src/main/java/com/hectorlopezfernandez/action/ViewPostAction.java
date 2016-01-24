@@ -1,12 +1,5 @@
 package com.hectorlopezfernandez.action;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +9,14 @@ import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Preferences;
 import com.hectorlopezfernandez.service.BlogService;
 import com.hectorlopezfernandez.service.PostService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ErrorResolution;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/viewPost.action")
 public class ViewPostAction implements ActionBean {
@@ -35,14 +36,14 @@ public class ViewPostAction implements ActionBean {
 	@DefaultHandler
 	public Resolution execute() {
 		logger.debug("Entrando a ViewPostAction.execute");
-		if (id == null) return new ForwardResolution(Error404Action.class);
+		if (id == null) return new ErrorResolution(404);
 		// se cargan las preferencias
 		Preferences prefs = blogService.getPreferences();
 		ctx.setAttribute("preferences", prefs);
 		// se carga la pagina a mostrar
 		post = postService.getDetailedPost(id);
 		// si no existe, 404
-		if (post == null) return new ForwardResolution(Error404Action.class);
+		if (post == null) return new ErrorResolution(404);
 		return new ForwardResolution("/WEB-INF/pebble/post.pebble");
 	}
 	

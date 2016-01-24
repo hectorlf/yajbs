@@ -21,7 +21,7 @@
 <body>
 	<header id="site-head" style="padding-top:60px">
         <h1 class="blog-title"><a href="<c:url value="/"/>">404 Page not found</a></h1>
-        <h2 class="blog-description">Don&apos;t know what you got, till it&apos;s gone</h2>
+        <h2 class="blog-description">Don't know what you got, till it's gone</h2>
     </header>
 </body>
 
