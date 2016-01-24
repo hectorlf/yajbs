@@ -1,13 +1,5 @@
 package com.hectorlopezfernandez.action.admin;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.RedirectResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +7,13 @@ import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.model.Page;
 import com.hectorlopezfernandez.service.PageService;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/admin/savePage.action")
 public class SavePageAction implements ActionBean {
@@ -40,8 +39,8 @@ public class SavePageAction implements ActionBean {
 		Page p = new Page();
 		p.setContent(content);
 		p.setId(id);
-		p.setMetaDescription(StringEscapeUtils.escapeHtml4(metaDescription));
-		p.setTitle(StringEscapeUtils.escapeHtml4(title));
+		p.setMetaDescription(metaDescription);
+		p.setTitle(title);
 		p.setTitleUrl(titleUrl);
 		if (id == null) pageService.savePage(p);
 		else pageService.modifyPage(p);
