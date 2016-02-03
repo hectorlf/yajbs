@@ -36,7 +36,7 @@ subprojects {
          substitute module('org.apache.lucene:lucene-analyzers-common') with module('org.apache.lucene:lucene-analyzers-common:5.4.1')
          substitute module('org.apache.lucene:lucene-queryparser') with module('org.apache.lucene:lucene-queryparser:5.4.1')
          substitute module('org.apache.lucene:lucene-highlighter') with module('org.apache.lucene:lucene-highlighter:5.4.1')
-         substitute module('joda-time:joda-time') with module('joda-time:joda-time:2.9.1')
+         substitute module('joda-time:joda-time') with module('joda-time:joda-time:2.9.2')
          substitute module('joda-time:joda-time-jsptags') with module('joda-time:joda-time-jsptags:1.1.1')
          substitute module('org.apache.shiro:shiro-web') with module('org.apache.shiro:shiro-web:1.2.4')
          substitute module('net.sourceforge.nekohtml:nekohtml') with module('net.sourceforge.nekohtml:nekohtml:1.9.21')
