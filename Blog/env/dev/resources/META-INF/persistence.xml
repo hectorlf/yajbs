@@ -22,7 +22,7 @@
 		<!-- Configuracion especifica para openjpa -->
         <properties>
             <property name="openjpa.jdbc.DBDictionary" value="mysql"/>
-            <property name="openjpa.Log" value="commons"/>
+            <property name="openjpa.Log" value="SQL=TRACE"/>
 <!-- - ->
             <property name="openjpa.DataCache" value="true(CacheSize=100, SoftReferenceSize=0)"/>
             <property name="openjpa.QueryCache" value="true(CacheSize=50, SoftReferenceSize=0)"/>
