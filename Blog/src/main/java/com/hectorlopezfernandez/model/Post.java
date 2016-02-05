@@ -86,6 +86,10 @@ public class Post extends PersistentObject {
 	@JoinTable(name="posts_tags",joinColumns=@JoinColumn(name="post_id", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="tag_id", referencedColumnName="id"))
 	private Collection<Tag> tags;
 
+	@ManyToMany
+	@JoinTable(name="posts_related_posts",joinColumns=@JoinColumn(name="post_id", referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="related_post_id", referencedColumnName="id"))
+	private Collection<Post> relatedPosts;
+
 	// getters y setters sinteticos
 
 	public void setCreationDateAsLong(long creationDateAsLong) {
@@ -228,6 +232,13 @@ public class Post extends PersistentObject {
 	}
 	public void setFeedContent(String feedContent) {
 		this.feedContent = feedContent;
+	}
+
+	public Collection<Post> getRelatedPosts() {
+		return relatedPosts;
+	}
+	public void setRelatedPosts(Collection<Post> relatedPosts) {
+		this.relatedPosts = relatedPosts;
 	}
 
 }

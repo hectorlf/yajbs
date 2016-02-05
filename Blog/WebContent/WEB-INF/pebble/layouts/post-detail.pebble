@@ -16,6 +16,10 @@
 
          </section>
 
+{% if post.relatedPosts is not empty %}
+         <div class="post-meta tags">Entradas relacionadas: {% for relatedPost in post.relatedPosts %}{% if loop.index > 0 %} &#8226; {% endif %}<a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':relatedPost.year,'month':relatedPost.month|numberformat("00"),'name':relatedPost.titleUrl})}}" rel="next">{{relatedPost.title}}</a>{% endfor %}</div>
+
+{% endif %}
          <section class="share">
             <p class="info prompt">Compartir esta entrada</p>
             <a href="https://twitter.com/share?text={{post.title | escape("url_param")}}&url=https://www.hectorlopezfernandez.com{{postUrl}}" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
