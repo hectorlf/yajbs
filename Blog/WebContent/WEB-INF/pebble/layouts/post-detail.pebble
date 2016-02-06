@@ -17,7 +17,7 @@
          </section>
 
 {% if post.relatedPosts is not empty %}
-         <div class="post-meta tags">Entradas relacionadas: {% for relatedPost in post.relatedPosts %}{% if loop.index > 0 %} &#8226; {% endif %}<a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':relatedPost.year,'month':relatedPost.month|numberformat("00"),'name':relatedPost.titleUrl})}}" rel="next">{{relatedPost.title}}</a>{% endfor %}</div>
+         <div class="post-meta tags">Entradas relacionadas: {% for relatedPost in post.relatedPosts %}{% if relatedPost.published %}{% if atLeastOnePublished %} &#8226; {% endif %}<a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction",{'year':relatedPost.year,'month':relatedPost.month|numberformat("00"),'name':relatedPost.titleUrl})}}" rel="next">{{relatedPost.title}}</a>{% set atLeastOnePublished = true %}{% endif %}{% endfor %}</div>
 
 {% endif %}
          <section class="share">
