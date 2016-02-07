@@ -58,6 +58,10 @@
 						<label>Comentarios</label><div class="clear"></div>
 						<div style="margin-left:6px;"><stripes:checkbox name="commentsAllowed" checked="${actionBean.commentsAllowed}"/>Comentarios abiertos</div>
 					</fieldset>
+					<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
+						<label>Entradas relacionadas</label>
+						<stripes:text name="concatenatedRelatedPosts" style="width:92%;" value="${actionBean.concatenatedRelatedPosts}"/>
+					</fieldset>
 					<div class="clear"></div>
 			</div>
 			<footer>

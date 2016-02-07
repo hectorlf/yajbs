@@ -21,10 +21,10 @@ public interface AdminPostService {
 	public List<Post> getAllPosts(PaginationInfo pi);
 	
 	// persiste un nuevo post
-	public void savePost(Post p, Long authorId, Set<Long> tagIds);
+	public void savePost(Post p, Long authorId, Set<Long> tagIds, Set<Long> relatedPostIds);
 	
 	// modifica un post existente
-	public void modifyPost(Post p, Long authorId, Set<Long> tagIds);
+	public void modifyPost(Post p, Long authorId, Set<Long> tagIds, Set<Long> relatedPostIds);
 
 	// borra un post
 	public void deletePost(Long id);

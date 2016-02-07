@@ -73,7 +73,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 	}
 
 	@Override
-	public void savePost(Post post, Long authorId, Set<Long> tagIds) {
+	public void savePost(Post post, Long authorId, Set<Long> tagIds, Set<Long> relatedPostIds) {
 		if (post == null) throw new IllegalArgumentException("El post a guardar no puede ser nulo.");
 		if (post.getId() != null) throw new IllegalArgumentException("El id de un post nuevo debe ser nulo, y este no lo es: " + post.getId().toString());
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
@@ -96,11 +96,18 @@ public class AdminPostServiceImpl implements AdminPostService {
 			}
 			post.setTags(tags);
 		}
+		if (relatedPostIds != null && relatedPostIds.size() > 0) {
+			List<Post> relatedPosts = new ArrayList<Post>(relatedPostIds.size());
+			for (Long relatedPostId : relatedPostIds) {
+				relatedPosts.add(postDao.getPost(relatedPostId));
+			}
+			post.setRelatedPosts(relatedPosts);
+		}
 		postDao.savePost(post);
 	}
 
 	@Override
-	public void modifyPost(Post post, Long authorId, Set<Long> tagIds) {
+	public void modifyPost(Post post, Long authorId, Set<Long> tagIds, Set<Long> relatedPostIds) {
 		if (post == null) throw new IllegalArgumentException("El post a modificar no puede ser nulo.");
 		if (post.getId() == null) throw new IllegalArgumentException("El id de un post modificado no puede ser nulo.");
 		if (authorId == null) throw new IllegalArgumentException("El id del Author asociado al post no puede ser nulo.");
@@ -116,6 +123,13 @@ public class AdminPostServiceImpl implements AdminPostService {
 				tags.add(tagDao.getTag(tagId));
 			}
 			post.setTags(tags);
+		}
+		if (relatedPostIds != null && relatedPostIds.size() > 0) {
+			List<Post> relatedPosts = new ArrayList<Post>(relatedPostIds.size());
+			for (Long relatedPostId : relatedPostIds) {
+				relatedPosts.add(postDao.getPost(relatedPostId));
+			}
+			post.setRelatedPosts(relatedPosts);
 		}
 		postDao.modifyPost(post);
 		// se indexa el post modificado, si esta publicado

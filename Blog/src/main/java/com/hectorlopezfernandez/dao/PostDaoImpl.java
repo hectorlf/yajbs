@@ -92,6 +92,7 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		dbp.setMetaDescription(post.getMetaDescription());
 		dbp.setTitle(post.getTitle());
 		dbp.setTitleUrl(post.getTitleUrl());
+
 		// los tags tienen un procesado especial, ya que hay que eliminar e insertar en la coleccion segun el caso
 		List<Tag> emptyList = Collections.emptyList();
 		if (post.getTags() == null) post.setTags(emptyList);
@@ -115,6 +116,31 @@ public class PostDaoImpl extends BaseDaoImpl implements PostDao {
 		while (newTagsIterator.hasNext()) {
 			Tag t = newTagsIterator.next();
 			if (!oldTagsIds.contains(t.getId())) dbp.getTags().add(t);
+		}
+		
+		// los posts relacionados tienen un procesado especial, ya que hay que eliminar e insertar en la coleccion segun el caso
+		List<Post> emptyPostList = Collections.emptyList();
+		if (post.getRelatedPosts() == null) post.setRelatedPosts(emptyPostList);
+		if (dbp.getRelatedPosts() == null) dbp.setRelatedPosts(emptyPostList);;
+		Set<Long> newRelatedPostsIds = new HashSet<Long>(post.getRelatedPosts().size());
+		for (Post relatedPost : post.getRelatedPosts()) {
+			newRelatedPostsIds.add(relatedPost.getId());
+		}
+		Set<Long> oldRelatedPostsIds = new HashSet<Long>(dbp.getRelatedPosts().size());
+		for (Post relatedPost : dbp.getRelatedPosts()) {
+			oldRelatedPostsIds.add(relatedPost.getId());
+		}
+		// primero se eliminan los que ya no van a estar
+		Iterator<Post> oldRelatedPostsIterator = dbp.getRelatedPosts().iterator();
+		while (oldRelatedPostsIterator.hasNext()) {
+			Post p = oldRelatedPostsIterator.next();
+			if (!newRelatedPostsIds.contains(p.getId())) oldRelatedPostsIterator.remove();
+		}
+		// por ultimo se aniaden los nuevos
+		Iterator<Post> newRelatedPostsIterator = post.getRelatedPosts().iterator();
+		while (newRelatedPostsIterator.hasNext()) {
+			Post p = newRelatedPostsIterator.next();
+			if (!oldRelatedPostsIds.contains(p.getId())) dbp.getRelatedPosts().add(p);
 		}
 //		flush(); // este flush deberia ir en un interceptor de AOP asociado a los servicios o a los actions
 	}

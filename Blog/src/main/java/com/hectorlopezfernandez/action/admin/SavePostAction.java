@@ -1,5 +1,7 @@
 package com.hectorlopezfernandez.action.admin;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ public class SavePostAction implements ActionBean {
 	private boolean commentsAllowed;
 	private Long authorId;
 	private Set<Long> tagIds;
+	private String concatenatedRelatedPosts; 
 
 	
 	@DefaultHandler
@@ -53,13 +56,24 @@ public class SavePostAction implements ActionBean {
 		p.setMetaDescription(metaDescription);
 		p.setTitle(title);
 		p.setTitleUrl(titleUrl);
-		if (id == null) postService.savePost(p, authorId, tagIds);
-		else postService.modifyPost(p, authorId, tagIds);
+		Set<Long> postIds = idStringToLongSet(concatenatedRelatedPosts);
+		if (id == null) postService.savePost(p, authorId, tagIds, postIds);
+		else postService.modifyPost(p, authorId, tagIds, postIds);
 		// TODO encontrar otra forma de actualizar la cuenta de posts etiquetados en un tag
 		tagDao.updateTagRefCounts();
 		return new RedirectResolution(ListPostsAction.class);
 	}
-	
+
+	private Set<Long> idStringToLongSet(String idString) {
+		if (idString == null || idString.trim().isEmpty()) return Collections.emptySet();
+		String[] ids = idString.split(",");
+		Set<Long> postIds = new HashSet<Long>();
+		for (String id : ids) {
+			postIds.add(Long.valueOf(id));
+		}
+		return postIds;
+	}
+
 	// Getters y setters
 
 	@Override
@@ -116,6 +130,10 @@ public class SavePostAction implements ActionBean {
 	}
 	public Set<Long> getTagIds() {
 		return tagIds;
+	}
+
+	public void setConcatenatedRelatedPosts(String concatenatedRelatedPosts) {
+		this.concatenatedRelatedPosts = concatenatedRelatedPosts;
 	}
 
 }

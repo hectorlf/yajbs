@@ -96,5 +96,6 @@ public class NewPostAction implements ActionBean {
 	public String getHeaderImageUrl() { return null; }
 	public String getSideImageUrl() { return null; }
 	public List<Long> getSelectedTagsIds() { return Collections.emptyList(); }
+	public String getConcatenatedRelatedPosts() { return null; }
 
 }

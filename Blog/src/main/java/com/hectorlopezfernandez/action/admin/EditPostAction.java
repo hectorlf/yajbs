@@ -45,6 +45,7 @@ public class EditPostAction implements ActionBean {
 	private List<Long> selectedTagsIds; // currently selected tags, if any
 	private List<Author> authors;
 	private List<Tag> tags;
+	private String concatenatedRelatedPosts;
 	private boolean editing = true; // es modificacion
 	
 	@DefaultHandler
@@ -64,6 +65,14 @@ public class EditPostAction implements ActionBean {
 				selectedTagsIds.add(t.getId());
 			}
 		}
+		StringBuilder postIds = new StringBuilder();
+		if (p.getRelatedPosts() != null && p.getRelatedPosts().size() > 0) {
+			for (Post relatedPost : p.getRelatedPosts()) {
+				if (postIds.length() > 0) postIds.append(",");
+				postIds.append(relatedPost.getId());
+			}
+		}
+		concatenatedRelatedPosts = postIds.toString();
 		authors = userService.getAllAuthors();
 		tags = tagService.getAllTags();
 		return new ForwardResolution("/WEB-INF/jsp/admin/post-form.jsp");
@@ -141,6 +150,10 @@ public class EditPostAction implements ActionBean {
 
 	public List<Long> getSelectedTagsIds() {
 		return selectedTagsIds;
+	}
+
+	public String getConcatenatedRelatedPosts() {
+		return concatenatedRelatedPosts;
 	}
 
 }
