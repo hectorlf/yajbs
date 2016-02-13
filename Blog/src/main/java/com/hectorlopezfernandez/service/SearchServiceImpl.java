@@ -107,7 +107,9 @@ public class SearchServiceImpl implements SearchService {
 	        results = new ArrayList<SearchResult>(hits.length);
 	        for (int i = 0; i < hits.length; i++) {
 	        	Document doc = searcher.doc(hits[i].doc);
-	        	logger.debug("Encontrado documento de tipo {} con titulo '{}'", doc.get(TYPE_FIELD_NAME), doc.get(TITLE_FIELD_NAME));
+	        	if (logger.isDebugEnabled()) {
+	        		logger.debug("Encontrado documento de tipo {} con titulo '{}'", doc.get(TYPE_FIELD_NAME), doc.get(TITLE_FIELD_NAME));
+	        	}
 	        	// se usa como contenido el resultado del resaltador de lucene
 	        	SearchResult sr = createSearchResultFromDocumentAndFormattedPassage(doc, passages[i]);
 	        	results.add(sr);
@@ -127,6 +129,50 @@ public class SearchServiceImpl implements SearchService {
 		DateTime pubDate = new DateTime(Long.valueOf(document.get(PUBLICATION_DATE_AS_LONG_FIELD_NAME)));
 		SearchResult sr = new SearchResult(document.get(TYPE_FIELD_NAME), document.get(TITLE_FIELD_NAME), document.get(TITLE_URL_FIELD_NAME), passage, pubDate);
 		return sr;
+	}
+
+	@Override
+	public List<SearchResult> autocomplete(String queryString) {
+		logger.debug("Buscando en el indice con el texto de consulta: {}", queryString);
+		// no buscamos con una cadena en blanco
+		if (queryString == null || queryString.trim().length() == 0) return Collections.emptyList();
+		// se abre el ramdirectory
+		IndexReader reader = null;
+		List<SearchResult> results = Collections.emptyList();
+		try {
+			// se construye el reader
+			reader = DirectoryReader.open(directory);
+			// se construyen los objetos de lucene
+	        IndexSearcher searcher = new IndexSearcher(reader);
+	        QueryParser parser = new QueryParser(INDEXED_FIELD_NAME, analyzer);
+	        Query query = parser.parse(queryString);
+	        // se buscan los mejores MAX_RESULTADOS_BUSQUEDA resultados
+	        TopDocs searchResults = searcher.search(query, MAX_RESULTADOS_BUSQUEDA);
+	        logger.debug("La busqueda de lucene ha encontrado {} documentos coincidentes.", searchResults.totalHits);
+	        ScoreDoc[] hits = searchResults.scoreDocs;
+	        if (hits == null || hits.length == 0) return Collections.emptyList();
+	        // se generan los pasajes de texto formateados
+	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
+	        // se construyen los resultados de busqueda
+	        results = new ArrayList<SearchResult>(hits.length);
+	        for (int i = 0; i < hits.length; i++) {
+	        	Document doc = searcher.doc(hits[i].doc);
+	        	if (logger.isDebugEnabled()) {
+	        		logger.debug("Encontrado documento de tipo {} con titulo '{}'", doc.get(TYPE_FIELD_NAME), doc.get(TITLE_FIELD_NAME));
+	        	}
+	        	// se usa como contenido el resultado del resaltador de lucene
+	        	SearchResult sr = createSearchResultFromDocumentAndFormattedPassage(doc, passages[i]);
+	        	results.add(sr);
+	        }
+		} catch(IOException ioe) {
+			logger.error("Ha ocurrido una IOException accediendo al Directory de Lucene. RARO, RARO. -> {}", ioe.getMessage());
+		} catch(ParseException pe) {
+			logger.warn("Ha ocurrido una ParseException al procesar el texto de busqueda. Esto no deberia pasar. -> {}", pe.getMessage());
+		} finally {
+			// se cierra el reader
+			try { reader.close(); } catch(Exception e) { /* NO MANEJADO, NO HAY NADA QUE HACER */ }
+		}
+		return results;
 	}
 
 	@Override

@@ -15,6 +15,10 @@ public interface SearchService {
 	public List<SearchResult> search(String query);
 
 	
+	// autocompletado
+	public List<SearchResult> autocomplete(String query);
+
+	
 	// aniade un post al indice de busquedas
 	public void addPostToIndex(Post post);
 	// borra un post del indice de busquedas
