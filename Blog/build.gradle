@@ -41,6 +41,7 @@ dependencies {
    compile 'org.owasp.antisamy:antisamy'
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
+   compile 'com.fasterxml.jackson.core:jackson-databind'
    compile 'com.hectorlopezfernandez.pebble:stripes-extension'
    compile 'com.hectorlopezfernandez.pebble:joda-time-extension'
    compile 'com.hectorlopezfernandez.pebble:shiro-extension'

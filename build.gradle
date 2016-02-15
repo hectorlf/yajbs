@@ -49,6 +49,7 @@ subprojects {
          substitute module('commons-pool:commons-pool') with module('commons-pool:commons-pool:1.6')
          substitute module('commons-beanutils:commons-beanutils') with module('commons-beanutils:commons-beanutils:1.9.2')
          substitute module('commons-collections:commons-collections') with module('commons-collections:commons-collections:3.2.2')
+         substitute module('com.fasterxml.jackson.core:jackson-databind') with module('com.fasterxml.jackson.core:jackson-databind:2.7.1-1')
          substitute module('com.hectorlopezfernandez.pebble:stripes-extension') with module('com.hectorlopezfernandez.pebble:stripes-extension:0.7.1')
          substitute module('com.hectorlopezfernandez.pebble:joda-time-extension') with module('com.hectorlopezfernandez.pebble:joda-time-extension:1.0.2')
          substitute module('com.hectorlopezfernandez.pebble:shiro-extension') with module('com.hectorlopezfernandez.pebble:shiro-extension:1.0.0')
