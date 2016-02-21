@@ -1,6 +1,16 @@
+buildscript {
+   repositories {
+      mavenCentral()
+   }
+   dependencies {
+      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0"
+   }
+}
+
 subprojects {
 
    apply plugin: 'java'
+   apply plugin: 'kotlin'
 
    tasks.withType(JavaCompile) {
       options.incremental = true
