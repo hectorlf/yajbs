@@ -15,7 +15,7 @@ configurations {
 
 dependencies {
    // some common dependencies are configured in the root build.gradle
-    
+
    providedCompile 'commons-logging:commons-logging:1.2'
    providedCompile 'log4j:log4j:1.2.17'
    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
@@ -24,7 +24,9 @@ dependencies {
    compile 'javax.inject:javax.inject'
    compile 'com.google.inject:guice'
    compile 'net.sourceforge.stripes:stripes'
-   compile 'org.apache.openjpa:openjpa'
+   compile('org.apache.openjpa:openjpa') {
+      exclude group: 'junit'
+   }
    compile 'org.apache.lucene:lucene-core'
    compile 'org.apache.lucene:lucene-analyzers-common'
    compile 'org.apache.lucene:lucene-queryparser'
@@ -34,11 +36,15 @@ dependencies {
    compile 'org.apache.commons:commons-lang3'
    compile 'org.apache.shiro:shiro-web'
    compile 'net.sourceforge.nekohtml:nekohtml'
-   compile 'org.owasp.antisamy:antisamy'
+   compile('org.owasp.antisamy:antisamy') {
+      exclude group: 'commons-httpclient'
+   }
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
    compile 'com.fasterxml.jackson.core:jackson-databind'
-   compile 'com.hectorlopezfernandez.pebble:stripes-extension'
+   compile('com.hectorlopezfernandez.pebble:stripes-extension') {
+      exclude group: 'javax.servlet', module: 'servlet-api'
+   }
    compile 'com.hectorlopezfernandez.pebble:joda-time-extension'
    compile 'com.hectorlopezfernandez.pebble:shiro-extension'
 
