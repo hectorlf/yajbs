@@ -27,6 +27,7 @@
 				<thead>
 					<tr>
 	   					<th></th>
+	   					<th>Id</th>
 	    				<th>T&iacute;tulo</th>
 	    				<th>URL relativa</th>
 	    				<th>Fecha publicaci&oacute;n</th>
@@ -37,6 +38,7 @@
 <c:forEach items="${actionBean.pages}" var="page">
 					<tr>
 	   					<td><input type="checkbox"></td>
+	   					<td>${page.id}</td>
 	    				<td>${page.title}</td>
 	    				<td>${page.titleUrl}</td>
 	    				<td><joda:format value="${page.publicationDate}" style="SS" locale="es_ES"/></td>

@@ -27,9 +27,9 @@
 				<thead>
 					<tr>
 	   					<th></th>
+	   					<th>Id</th>
 	    				<th>T&iacute;tulo</th>
 	    				<th>URL relativa</th>
-	    				<th>Resumen</th>
 	    				<th>Etiquetas</th>
 	    				<th>Publicado</th>
 	    				<th>Fecha publicaci&oacute;n</th>
@@ -41,9 +41,9 @@
 <c:forEach items="${actionBean.posts}" var="post">
 					<tr>
 	   					<td><input type="checkbox"></td>
+	    				<td>${post.id}</td>
 	    				<td>${post.title}</td>
 	    				<td>${post.titleUrl}</td>
-	    				<td>${h:escape(post.excerpt)}</td>
 	    				<td><c:forEach items="${post.tags}" var="tag" varStatus="tagStats"><c:if test="${tagStats.count > 1}">, </c:if>${tag.name}</c:forEach></td>
 	    				<td>${post.published}</td>
 	    				<td><joda:format value="${post.publicationDate}" style="SS" locale="es_ES"/></td>
