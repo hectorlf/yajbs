@@ -1,9 +1,9 @@
-<%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>	<aside id="sidebar" class="column">
+<%@taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+	<aside id="sidebar" class="column">
 		<h3>Entradas</h3>
 		<ul class="toggle">
 			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPostsAction">Listado de entradas</stripes:link></li>
 			<li class="icn_new_article"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewPostAction">Nueva entrada</stripes:link></li>
-			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
 		</ul>
 		<h3>Etiquetas</h3>
 		<ul class="toggle">
@@ -14,7 +14,6 @@
 		<ul class="toggle">
 			<li class="icn_categories"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ListPagesAction">Listado de p&aacute;ginas</stripes:link></li>
 			<li class="icn_new_article"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.NewPageAction">Nueva p&aacute;gina</stripes:link></li>
-			<li class="icn_edit_article"><a href="#">Edit Articles</a></li>
 		</ul>
 		<h3>Users</h3>
 		<ul class="toggle">
@@ -31,6 +30,7 @@
 		</ul>
 		<h3>Administraci&oacute;n</h3>
 		<ul class="toggle">
+			<li class="icn_settings"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.PreferencesAction">Preferencias</stripes:link></li>
 			<li class="icn_settings"><stripes:link beanclass="com.hectorlopezfernandez.action.admin.ConfigAction">Configuraci&oacute;n y cach&eacute;</stripes:link></li>
 			<li class="icn_security"><a href="#">Security</a></li>
 			<li class="icn_jump_back"><stripes:link beanclass="com.hectorlopezfernandez.action.LogoutAction">Logout</stripes:link></li>
