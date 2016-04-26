@@ -3,7 +3,7 @@ buildscript {
       mavenCentral()
    }
    dependencies {
-      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0"
+      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.1-2"
    }
 }
 
@@ -86,5 +86,5 @@ subprojects {
 // Gradle wrapper task
 // Only used when in need to reinstall the wrapper
 task wrapper(type: Wrapper) {
-   gradleVersion = '2.11'
+   gradleVersion = '2.13'
 }
