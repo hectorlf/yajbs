@@ -24,9 +24,7 @@ dependencies {
    compile 'javax.inject:javax.inject'
    compile 'com.google.inject:guice'
    compile 'net.sourceforge.stripes:stripes'
-   compile('org.apache.openjpa:openjpa') {
-      exclude group: 'junit'
-   }
+   compile('org.apache.openjpa:openjpa') { exclude group: 'junit' }
    compile 'org.apache.lucene:lucene-core'
    compile 'org.apache.lucene:lucene-analyzers-common'
    compile 'org.apache.lucene:lucene-queryparser'
@@ -36,15 +34,11 @@ dependencies {
    compile 'org.apache.commons:commons-lang3'
    compile 'org.apache.shiro:shiro-web'
    compile 'net.sourceforge.nekohtml:nekohtml'
-   compile('org.owasp.antisamy:antisamy') {
-      exclude group: 'commons-httpclient'
-   }
+   compile('org.owasp.antisamy:antisamy') { exclude group: 'commons-httpclient' }
    compile 'com.google.guava:guava'
    compile 'org.apache.taglibs:taglibs-standard-spec'
    compile 'com.fasterxml.jackson.core:jackson-databind'
-   compile('com.hectorlopezfernandez.pebble:stripes-extension') {
-      exclude group: 'javax.servlet', module: 'servlet-api'
-   }
+   compile('com.hectorlopezfernandez.pebble:stripes-extension') { exclude group: 'javax.servlet', module: 'servlet-api' }
    compile 'com.hectorlopezfernandez.pebble:joda-time-extension'
    compile 'com.hectorlopezfernandez.pebble:shiro-extension'
 
@@ -66,7 +60,7 @@ dependencies {
    jettyRuntimeClasspath 'mysql:mysql-connector-java:5.1.38'
    
    testCompile 'junit:junit:4.12'
-   testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.1-2'
+   testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.2'
 }
 
 compileJava {
