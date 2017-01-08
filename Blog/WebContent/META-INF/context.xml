@@ -22,10 +22,10 @@
 
 	<Resource name="jdbc/BlogDB" auth="Container" type="javax.sql.DataSource"
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
-		maxActive="50" minIdle="5" maxIdle="10" maxWait="10000" 
+		maxActive="10" minIdle="5" maxIdle="10" maxWait="10000" 
 		username="blog" password="blog" driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/blog_db" defaultAutoCommit="false"
-		validationQuery="select 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="10000"
+		validationQuery="select 1" testWhileIdle="true" timeBetweenEvictionRunsMillis="60000"
 		validationInterval="14400000" />
 
 </Context>

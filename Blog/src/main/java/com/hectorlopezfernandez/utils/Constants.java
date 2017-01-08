@@ -9,13 +9,14 @@ public final class Constants {
 	public static final String JPA_ENTITY_MANAGER_REQUEST_ATTRIBUTE_NAME = "request_context_jpa_entity_manager";
 	public static final String JPA_TRANSACTION_MANAGER_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_jpa_transaction_manager_filter";
 	public static final String LUCENE_DIRECTORY_CONTEXT_ATTRIBUTE_NAME = "servlet_context_lucene_directory";
-	public static final String LUCENE_DIRECTORY_FILE_PATH = "/var/lib/tomcat8/caches/lucene";
 	public static final String USER_SESSION_FILTER_TOKEN_REQUEST_ATTRIBUTE_NAME = "request_context_user_session_filter_toker";
 	public static final String LOGGED_USER_REQUEST_ATTRIBUTE_NAME = "request_context_logged_user";
 	public static final String STRIPES_FLASH_SCOPE_MARKER_REQUEST_ATTRIBUTE_NAME = "request_context_flash_scope_in_use";
 	public static final String LOCALE_COOKIE_NAME = "user_locale";
 	public static final String DEFAULT_LOCALE_SELECTED = "request_context_default_locale_selected";
-	
+
+	public static final String LUCENE_DIRECTORY_FILE_PATH = "/var/lib/jetty9/caches/lucene";
+
 	// constantes sobre la aplicacion
 	public static final String APPLICATION_TAG = "Yet Another Java Blogging System";
 
