@@ -57,10 +57,10 @@ dependencies {
    jettyRunner 'org.eclipse.jetty:jetty-start:9.2.10.v20150310'
    jettyRunner 'org.springframework:springloaded:1.2.5.RELEASE'
    jettyRuntimeClasspath 'org.apache.commons:commons-dbcp2:2.1.1'
-   jettyRuntimeClasspath 'mysql:mysql-connector-java:5.1.38'
+   jettyRuntimeClasspath 'mysql:mysql-connector-java:5.1.40'
    
    testCompile 'junit:junit:4.12'
-   testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.2'
+   testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.6'
 }
 
 compileJava {
