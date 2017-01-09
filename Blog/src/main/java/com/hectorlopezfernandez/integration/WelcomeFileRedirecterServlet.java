@@ -2,19 +2,21 @@ package com.hectorlopezfernandez.integration;
 
 import java.io.IOException;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @WebServlet(urlPatterns={"/index.html"},loadOnStartup=1)
-public class WelcomeFileRedirecterServlet implements Servlet {
+public class WelcomeFileRedirecterServlet extends HttpServlet {
+
+	private static final long serialVersionUID = -6799179764980001539L;
 
 	private final static Logger logger = LoggerFactory.getLogger(WelcomeFileRedirecterServlet.class);
 
