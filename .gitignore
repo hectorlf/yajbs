@@ -1,3 +1,7 @@
 /.git
 /.gradle
 /lib
+/build
+/.settings
+.project
+.classpath
