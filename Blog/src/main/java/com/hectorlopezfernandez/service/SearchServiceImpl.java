@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
@@ -27,7 +27,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.postingshighlight.PostingsHighlighter;
+import org.apache.lucene.search.uhighlight.UnifiedHighlighter;
 import org.apache.lucene.store.Directory;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -49,7 +49,6 @@ public class SearchServiceImpl implements SearchService {
 	private final static int MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO = 4;
 
 	private final static Analyzer analyzer = new SpanishAnalyzer();
-	private final static PostingsHighlighter highlighter = new PostingsHighlighter();
 
 	private final static String ID_FIELD_NAME = "id";
 	private final static String TYPE_FIELD_NAME = "type";
@@ -102,7 +101,8 @@ public class SearchServiceImpl implements SearchService {
 	        ScoreDoc[] hits = searchResults.scoreDocs;
 	        if (hits == null || hits.length == 0) return Collections.emptyList();
 	        // se generan los pasajes de texto formateados
-	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
+	        UnifiedHighlighter highlighter = new UnifiedHighlighter(searcher, analyzer);
+	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
 	        // se construyen los resultados de busqueda
 	        results = new ArrayList<SearchResult>(hits.length);
 	        for (int i = 0; i < hits.length; i++) {
@@ -152,7 +152,8 @@ public class SearchServiceImpl implements SearchService {
 	        ScoreDoc[] hits = searchResults.scoreDocs;
 	        if (hits == null || hits.length == 0) return Collections.emptyList();
 	        // se generan los pasajes de texto formateados
-	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searcher, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
+	        UnifiedHighlighter highlighter = new UnifiedHighlighter(searcher, analyzer);
+	        String[] passages = highlighter.highlight(INDEXED_FIELD_NAME, query, searchResults, MAX_PARRAFOS_RESALTADOS_POR_DOCUMENTO);
 	        // se construyen los resultados de busqueda
 	        results = new ArrayList<SearchResult>(hits.length);
 	        for (int i = 0; i < hits.length; i++) {

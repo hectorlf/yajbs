@@ -4,7 +4,7 @@ apply plugin: 'eclipse-wtp'
 
 // project defs
 def entitiesBasePackage = 'com.hectorlopezfernandez.model'
-project.version = '0.10.4'
+project.version = '0.10.5'
 
 
 configurations {
@@ -31,7 +31,7 @@ dependencies {
    compile 'org.apache.lucene:lucene-highlighter'
    compile 'joda-time:joda-time'
    compile 'joda-time:joda-time-jsptags'
-   compile 'org.apache.commons:commons-lang3'
+   compile 'org.apache.commons:commons-text'
    compile 'org.apache.shiro:shiro-web'
    compile 'net.sourceforge.nekohtml:nekohtml'
    compile('org.owasp.antisamy:antisamy') { exclude group: 'commons-httpclient' }
