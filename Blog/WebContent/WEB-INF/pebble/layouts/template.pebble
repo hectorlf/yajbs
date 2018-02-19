@@ -3,7 +3,7 @@
 <html>
 
 <head>
-   <link rel="preconnect" href="https://d9xqzluw8al1.cloudfront.net"/>
+   <link rel="preconnect" href="https://storage.googleapis.com"/>
    <link rel="preconnect" href="https://fonts.googleapis.com"/>
    <link rel="preconnect" href="https://netdna.bootstrapcdn.com"/>
 
@@ -24,7 +24,7 @@
 {% if metaDescription is not empty %}
    <meta name="description" content="{{metaDescription}}" />
 {% endif %}
-   <link rel="shortcut icon" href="https://d9xqzluw8al1.cloudfront.net/favicon.gif" type="image/gif"/>
+   <link rel="shortcut icon" href="/favicon.gif" type="image/gif"/>
    <meta name="generator" content="{{APPLICATION_TAG}}"/>
 </head>
 {# flush head as soon as possible #}{% flush %}
@@ -38,7 +38,7 @@
          <ul>
             <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.ArchiveAction")}}">Archivo</a></li>
             <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.TagsAction")}}">Etiquetas</a></li>
-            <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"curriculum"})}}">Currículum</a></li>
+            <li><a href="https://www.linkedin.com/in/hectorlopezfernandez" target="_blank">LinkedIn</a></li>
             <li><a href="https://github.com/hectorlf" target="_blank">GitHub</a></li>
             <li><a href="{{stripesUrl("com.hectorlopezfernandez.action.PagesAction",{"name":"about"})}}">Acerca de&hellip;</a></li>
 {% authenticated %}
@@ -72,7 +72,7 @@
   (function() {
     var d=document, s=d.getElementsByTagName("head")[0];
     // screen.css
-    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://d9xqzluw8al1.cloudfront.net/screen.min.css"; s.appendChild(g);
+    var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://storage.googleapis.com/resources.hectorlopezfernandez.com/screen.min.css"; s.appendChild(g);
     // font-awesome.css
     var g=d.createElement("link"); g.type="text/css"; g.rel="stylesheet"; g.href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"; s.appendChild(g);
   })();

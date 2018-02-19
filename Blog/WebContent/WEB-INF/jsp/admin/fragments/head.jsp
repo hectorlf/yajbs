@@ -10,17 +10,17 @@
 	<!--[if lt IE 9]>
 	<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<link rel="stylesheet" href="https://d9xqzluw8al1.cloudfront.net/admin/css/layout.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="https://d9xqzluw8al1.cloudfront.net/admin/css/jquery-charCount.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/css/layout.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/css/jquery-charCount.css" type="text/css" media="screen" />
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js" type="text/javascript"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-	<script src="https://d9xqzluw8al1.cloudfront.net/admin/js/hideshow.js" type="text/javascript"></script>
-	<script src="https://d9xqzluw8al1.cloudfront.net/admin/js/jquery-charCount.min.js" type="text/javascript"></script>
+	<script src="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/js/hideshow.js" type="text/javascript"></script>
+	<script src="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/js/jquery-charCount.min.js" type="text/javascript"></script>
 	<!-- markitup editor -->
-	<link href="https://d9xqzluw8al1.cloudfront.net/admin/markitup/skins/markitup/style.css" rel="stylesheet" type="text/css"/>
-	<link href="https://d9xqzluw8al1.cloudfront.net/admin/markitup/sets/html/style.css" rel="stylesheet" type="text/css"/>
-	<script src="https://d9xqzluw8al1.cloudfront.net/admin/markitup/jquery.markitup.js" type="text/javascript"></script>
-	<script src="https://d9xqzluw8al1.cloudfront.net/admin/markitup/sets/html/set.js" type="text/javascript"></script>
+	<link href="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/markitup/skins/markitup/style.css" rel="stylesheet" type="text/css"/>
+	<link href="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/markitup/sets/html/style.css" rel="stylesheet" type="text/css"/>
+	<script src="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/markitup/jquery.markitup.js" type="text/javascript"></script>
+	<script src="https://storage.googleapis.com/resources.hectorlopezfernandez.com/admin/markitup/sets/html/set.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//When page loads...

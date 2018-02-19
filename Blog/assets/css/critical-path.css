@@ -161,7 +161,7 @@ h1 {
   background-size: cover !important;
   background-position: center center !important;
   background-color: #ffffff;
-  background:url(//d9xqzluw8al1.cloudfront.net/hector.png);
+  background:url(//storage.googleapis.com/resources.hectorlopezfernandez.com/hector.png);
 }
 h1.blog-title,
 h2.blog-description {
@@ -243,4 +243,14 @@ nav.menu li:last-child {
   nav.menu li {
     display: block;
   }
+}
+
+/*=== Article column ===*/
+article,
+article.preview,
+a.archive-link,
+.article-nav {
+  margin: 20px auto;
+  max-width: 600px;
+  width: 90%;
 }
