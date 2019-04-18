@@ -26,6 +26,8 @@
 {% endif %}
    <link rel="shortcut icon" href="/favicon.gif" type="image/gif"/>
    <meta name="generator" content="{{APPLICATION_TAG}}"/>
+
+{% include '/WEB-INF/pebble/layouts/google-ads.pebble' %}
 </head>
 {# flush head as soon as possible #}{% flush %}
 
