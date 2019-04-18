@@ -90,7 +90,7 @@ task processReleaseResources(type: Copy, dependsOn: processResources) {
 
 task copyNonPersistentClasses(type: Copy, dependsOn: compileJava) {
    from "$buildDir/compiled-classes"
-   into sourceSets.main.output.classesDir
+   into sourceSets.main.java.outputDir
    exclude '**/' + entitiesBasePackage.replaceAll('\\.','/') + '/**'
    includeEmptyDirs = false
 }
@@ -108,13 +108,13 @@ task weaveJpaEntities(type: JavaExec) {
       args '-tcl'
       args 'false'
       args '-d'
-      args sourceSets.main.output.classesDir.absolutePath
+      args sourceSets.main.java.outputDir
       args '-p'
       args fileTree(processResources.destinationDir).matching({pattern -> pattern.include('**/META-INF/persistence.xml')}).singleFile.absolutePath
    }
 
    inputs.files fileTree(copyPersistentClasses.destinationDir),fileTree(processResources.destinationDir).matching({pattern -> pattern.include('**/META-INF/persistence.xml')})
-   outputs.dir sourceSets.main.output.classesDir
+   outputs.dir sourceSets.main.java.outputDir
 }
 weaveJpaEntities.dependsOn copyPersistentClasses,processDevelopmentResources,processReleaseResources
 
@@ -143,7 +143,7 @@ task deployOnLocalJetty(type: JavaExec) {
       fileDetails -> args '--jar'; args fileDetails.file.absolutePath
    })
    args '--classes'
-   args sourceSets.main.output.classesDir
+   args sourceSets.main.java.outputDir
    args '--classes'
    args sourceSets.main.output.resourcesDir
    args '--stop-port'
