@@ -1,11 +1,15 @@
 package com.hectorlopezfernandez.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import com.hectorlopezfernandez.model.ArchiveEntry;
 import com.hectorlopezfernandez.model.Author;
 import com.hectorlopezfernandez.model.Post;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.utils.Constants;
 import com.hectorlopezfernandez.utils.HTMLUtils;
 
 public class AdminPostServiceImpl implements AdminPostService {
@@ -198,9 +203,59 @@ public class AdminPostServiceImpl implements AdminPostService {
 			p.setFeedContent(feedText);
 		}
 	}
-	
-	
-	
+
+
 	/** ARCHIVE ENTRIES **/
+
+	
+	/** EXPORT **/
+
+	@Override
+	public void exportPosts() {
+		File exportOutputDir = new File(Constants.EXPORT_DIRECTORY_FILE_PATH);
+		if (!exportOutputDir.isDirectory()) {
+			logger.error("El directorio de destino para los exports no existe");
+		}
+		File exportOutput = new File(exportOutputDir, "posts.xml");
+		if (!exportOutput.exists()) {
+			try {
+				boolean created = exportOutput.createNewFile();
+				if (!created) throw new IOException("createNewFile returned false");
+			} catch (Exception e) {
+				logger.error("El archivo de exportacion no pudo ser creado", e);
+			}
+		}
+		if (!exportOutput.canWrite()) {
+			logger.error("No se puede escribir en el archivo " + Constants.EXPORT_DIRECTORY_FILE_PATH + File.pathSeparator + "posts.xml");
+			return;
+		}
+		try {
+			FileWriter writer = new FileWriter(exportOutput);
+			writer.append("<Posts>").append("\n");
+			List<Post> posts = postDao.getAllPosts(PaginationInfo.DISABLED);
+			for (Post p : posts) {
+				writer.append("<Post>").append("\n");
+				writer.append("<Id>").append(p.getId().toString()).append("</Id>").append("\n");
+				writer.append("<CreationDate>").append(String.valueOf(p.getCreationDateAsLong())).append("</CreationDate>").append("\n");
+				writer.append("<LastModificationDate>").append(String.valueOf(p.getLastModificationDateAsLong())).append("</LastModificationDate>").append("\n");
+				writer.append("<PublicationDate>").append(String.valueOf(p.getPublicationDateAsLong())).append("</PublicationDate>").append("\n");
+				writer.append("<Content>").append(StringEscapeUtils.escapeXml(p.getContent())).append("</Content>").append("\n");
+				writer.append("<Excerpt>").append(StringEscapeUtils.escapeXml(p.getExcerpt())).append("</Excerpt>").append("\n");
+				writer.append("<MetaDescription>").append(StringEscapeUtils.escapeXml(p.getMetaDescription())).append("</MetaDescription>").append("\n");
+				writer.append("<Tags>").append("\n");
+				for (Tag t : p.getTags()) {
+					writer.append("<Tag>").append(t.getId().toString()).append("</Tag>").append("\n");
+				}
+				writer.append("</Tags>").append("\n");
+				writer.append("<Title>").append(StringEscapeUtils.escapeXml(p.getTitle())).append("</Title>").append("\n");
+				writer.append("<Slug>").append(StringEscapeUtils.escapeXml(p.getTitleUrl())).append("</Slug>").append("\n");
+				writer.append("</Post>").append("\n");
+			}
+			writer.append("</Posts>").append("\n");
+			writer.close();
+		} catch (Exception e) {
+			logger.error("Ocurrio un error al exportar los posts", e);
+		}
+	}
 
 }

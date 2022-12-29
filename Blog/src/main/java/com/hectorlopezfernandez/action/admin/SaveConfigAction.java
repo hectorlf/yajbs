@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.hectorlopezfernandez.integration.BlogActionBeanContext;
 import com.hectorlopezfernandez.service.AdminPostService;
+import com.hectorlopezfernandez.service.PageService;
 import com.hectorlopezfernandez.service.SearchService;
+import com.hectorlopezfernandez.service.TagService;
 
 @UrlBinding("/admin/saveConfig.action")
 public class SaveConfigAction implements ActionBean {
@@ -28,6 +30,10 @@ public class SaveConfigAction implements ActionBean {
 
 	@Inject
 	private AdminPostService adminPostService;
+	@Inject
+	private PageService pageService;
+	@Inject
+	private TagService tagService;
 
 	// campos que guarda el actionbean
 	
@@ -43,6 +49,15 @@ public class SaveConfigAction implements ActionBean {
 	public Resolution reprocessFeeds() {
 		logger.debug("Entrando a SaveConfigAction.reprocessFeeds");
 		adminPostService.reprocessFeeds();
+		return new RedirectResolution(ConfigAction.class);
+	}
+
+	@HandlesEvent("exportData")
+	public Resolution exportData() {
+		logger.debug("Entrando a SaveConfigAction.exportData");
+		adminPostService.exportPosts();
+		pageService.exportPages();
+		tagService.exportTags();
 		return new RedirectResolution(ConfigAction.class);
 	}
 

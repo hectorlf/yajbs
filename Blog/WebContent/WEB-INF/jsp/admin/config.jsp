@@ -30,9 +30,9 @@
 				<div class="clear"></div>
 			</div>
 		</article>
-		
+
 		<div class="spacer"></div>
-		
+
 		<article class="module width_full">
 			<header><h3>Feeds de entradas</h3></header>
 			<div class="module_content">
@@ -44,7 +44,21 @@
 				<div class="clear"></div>
 			</div>
 		</article>
-		
+
+		<div class="spacer"></div>
+
+		<article class="module width_full">
+			<header><h3>Exportar contenido como XML</h3></header>
+			<div class="module_content">
+				<article>
+				<stripes:form beanclass="com.hectorlopezfernandez.action.admin.SaveConfigAction">
+					<stripes:submit name="exportData" class="alt_btn">Exportar</stripes:submit>
+				</stripes:form>
+				</article>
+				<div class="clear"></div>
+			</div>
+		</article>
+
 		<div class="spacer"></div>
 	</section>
 

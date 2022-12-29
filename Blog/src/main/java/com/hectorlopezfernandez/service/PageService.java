@@ -35,4 +35,9 @@ public interface PageService {
 	// recupera los datos necesarios para el sitemap
 	public List<SimplifiedPage> getPagesForSitemap();
 
+	
+	/** EXPORT **/
+	
+	public void exportPages();
+
 }

@@ -42,5 +42,9 @@ public interface AdminPostService {
 	
 	
 	/** ARCHIVE ENTRIES **/
+
+	/** EXPORT **/
 	
+	public void exportPosts();
+
 }

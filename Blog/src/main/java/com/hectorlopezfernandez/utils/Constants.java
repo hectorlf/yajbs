@@ -16,6 +16,7 @@ public final class Constants {
 	public static final String DEFAULT_LOCALE_SELECTED = "request_context_default_locale_selected";
 
 	public static final String LUCENE_DIRECTORY_FILE_PATH = "/var/lib/jetty9/caches/lucene";
+	public static final String EXPORT_DIRECTORY_FILE_PATH = "/var/lib/jetty9/export";
 
 	// constantes sobre la aplicacion
 	public static final String APPLICATION_TAG = "Yet Another Java Blogging System";

@@ -1,16 +1,21 @@
 package com.hectorlopezfernandez.service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hectorlopezfernandez.dao.TagDao;
 import com.hectorlopezfernandez.dto.PaginationInfo;
 import com.hectorlopezfernandez.model.Tag;
+import com.hectorlopezfernandez.utils.Constants;
 
 public class TagServiceImpl implements TagService {
 
@@ -99,6 +104,46 @@ public class TagServiceImpl implements TagService {
 		if (id == null) throw new IllegalArgumentException("El id del tag a borrar no puede ser nulo.");
 		logger.debug("Borrando tag con id: {}", id);
 		tagDao.deleteTag(id);
+	}
+
+
+	/** EXPORT **/
+
+	@Override
+	public void exportTags() {
+		File exportOutputDir = new File(Constants.EXPORT_DIRECTORY_FILE_PATH);
+		if (!exportOutputDir.isDirectory()) {
+			logger.error("El directorio de destino para los exports no existe");
+		}
+		File exportOutput = new File(exportOutputDir, "tags.xml");
+		if (!exportOutput.exists()) {
+			try {
+				boolean created = exportOutput.createNewFile();
+				if (!created) throw new IOException("createNewFile returned false");
+			} catch (Exception e) {
+				logger.error("El archivo de exportacion no pudo ser creado", e);
+			}
+		}
+		if (!exportOutput.canWrite()) {
+			logger.error("No se puede escribir en el archivo " + Constants.EXPORT_DIRECTORY_FILE_PATH + File.pathSeparator + "tags.xml");
+			return;
+		}
+		try {
+			FileWriter writer = new FileWriter(exportOutput);
+			writer.append("<Tags>").append("\n");
+			List<Tag> tags = tagDao.getAllTags();
+			for (Tag t : tags) {
+				writer.append("<Tag>").append("\n");
+				writer.append("<Id>").append(t.getId().toString()).append("</Id>").append("\n");
+				writer.append("<Slug>").append(StringEscapeUtils.escapeXml(t.getNameUrl())).append("</Slug>").append("\n");
+				writer.append("<Name>").append(StringEscapeUtils.escapeXml(t.getName())).append("</LastModificationDate>").append("\n");
+				writer.append("</Tag>").append("\n");
+			}
+			writer.append("</Tags>").append("\n");
+			writer.close();
+		} catch (Exception e) {
+			logger.error("Ocurrio un error al exportar los tags", e);
+		}
 	}
 
 }

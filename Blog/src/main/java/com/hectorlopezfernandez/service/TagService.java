@@ -33,4 +33,9 @@ public interface TagService {
 	// borra un tag
 	public void deleteTag(Long id);
 
+	
+	/** EXPORT **/
+	
+	public void exportTags();
+
 }
